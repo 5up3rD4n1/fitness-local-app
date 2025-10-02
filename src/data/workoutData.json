@@ -1,0 +1,401 @@
+{
+  "routines": [
+    {
+      "id": "5cfe6e4c-cfae-46aa-a161-85beca498638",
+      "name": "Day 1: Glutes & Legs",
+      "day": 1,
+      "exercises": [
+        "5b24d119-2127-4e18-a669-5b3b1591bd4b",
+        "3d9acd3a-353e-4fbf-b4c7-5b86eb0b25e1",
+        "c9ea883a-3912-4b7b-875f-d9170325dc13",
+        "70596d95-2df4-476e-94d9-34f8060bcda7",
+        "3f939a98-ca3f-4b97-8f7b-c00ccac76c47",
+        "7d87cbdb-2500-441b-a4eb-0b4927432de7",
+        "da49d067-5178-4fbc-9fc3-94115fb7e543"
+      ]
+    },
+    {
+      "id": "6efafd91-9b35-41e3-b49e-97b125923581",
+      "name": "Day 2: Back & Biceps",
+      "day": 2,
+      "exercises": [
+        "9cb47e1a-4b24-41fe-bbde-84b69f01d483",
+        "97b6857f-2390-4914-a006-ae205b9d6bde",
+        "21d8805c-61bf-423e-b1ca-b1cc0415f201",
+        "2206fa86-f270-4f33-8aef-5b33eafb945a",
+        "3043c8b0-82a9-48f9-8319-768a04839178",
+        "c40d11c4-c961-4958-9559-6f9e2b9173bd",
+        "4615d5e9-dd5e-4fd6-b762-a8dc42422f63"
+      ]
+    },
+    {
+      "id": "168bc931-fd68-4900-91d6-8a46e323434a",
+      "name": "Day 3: Legs & Glutes",
+      "day": 3,
+      "exercises": [
+        "282b349f-31c8-4afd-8cef-6f2db981fa5a",
+        "96e2be3f-4061-4b69-823a-8fb6e2fb369b",
+        "49ff455b-f751-4206-8d3e-e0a3f852c600",
+        "16f03007-6535-469c-a386-454f2eb0c5a9",
+        "5adb5c1c-5810-4db2-ba29-ff52dc555dd4",
+        "77be2544-c1b8-43b1-a23f-6a35e7fcb0c4",
+        "ee5213d8-6e89-41a0-882e-3460f0621474"
+      ]
+    },
+    {
+      "id": "045a10c5-b97a-4d40-83c7-302d7edf7a5b",
+      "name": "Day 4: Chest & Triceps",
+      "day": 4,
+      "exercises": [
+        "4e2780dd-1591-4611-8eac-f4631a36c262",
+        "6c12b4d2-9e44-41f2-974e-cf64c7cb50f5",
+        "784c9602-ada2-4ff6-92b3-92b70fa23b8a",
+        "4f27ba77-732b-4b5c-b8fe-95fb3a838b35",
+        "85bd4020-185a-46ab-9295-1727bf97e883",
+        "63fc04f8-5340-42b1-9372-9a28f979315a",
+        "5667c97b-c7f1-440d-b180-be13586c25d0"
+      ]
+    },
+    {
+      "id": "da2188de-24bf-4446-bef0-fa309df52c4d",
+      "name": "Day 5: Shoulders & Abs",
+      "day": 5,
+      "exercises": [
+        "f7a7df99-47d3-4b79-85a6-db48aa07a03a",
+        "4586b8a2-b0aa-4cd1-9b7f-e10ebd255bf1",
+        "a9ef05d7-6042-4c32-bdcf-54053ae49ec9",
+        "4d4f4b20-22c9-4d8d-81ef-787e64b7497f",
+        "c9250df4-2bdf-4f6d-a65f-361c093adb2e",
+        "87f6040b-5554-4633-9bf8-de812a0dce54",
+        "c9ab2fa8-b9ed-431c-a0a6-35b3e10f2c99",
+        "a462a6eb-a073-4bfb-bb5c-9ac81ffe6d86"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "5b24d119-2127-4e18-a669-5b3b1591bd4b",
+      "name": "Hip thrust en máquina o con barra",
+      "sets": 4,
+      "reps": "12",
+      "restTime": "2min",
+      "videoUrl": "https://youtu.be/tV-mQaEtWbM",
+      "day": 1
+    },
+    {
+      "id": "3d9acd3a-353e-4fbf-b4c7-5b86eb0b25e1",
+      "name": "Peso muerto rumano con mancuernas",
+      "sets": 4,
+      "reps": "10",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/IiEp_Ydp7D0",
+      "day": 1
+    },
+    {
+      "id": "c9ea883a-3912-4b7b-875f-d9170325dc13",
+      "name": "Prensa declinada",
+      "sets": 4,
+      "reps": "12",
+      "restTime": "2min",
+      "videoUrl": "https://youtu.be/wCP_yojH31E",
+      "day": 1
+    },
+    {
+      "id": "70596d95-2df4-476e-94d9-34f8060bcda7",
+      "name": "Curl femoral",
+      "sets": 3,
+      "reps": "15",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/MAT1m23sc-E",
+      "day": 1
+    },
+    {
+      "id": "3f939a98-ca3f-4b97-8f7b-c00ccac76c47",
+      "name": "Abducción en máquina",
+      "sets": 4,
+      "reps": "20",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/YmeJZh1-LGM",
+      "day": 1
+    },
+    {
+      "id": "7d87cbdb-2500-441b-a4eb-0b4927432de7",
+      "name": "Patada de glúteo en polea baja",
+      "sets": 3,
+      "reps": "15",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/frL1ODvCZWM",
+      "day": 1
+    },
+    {
+      "id": "da49d067-5178-4fbc-9fc3-94115fb7e543",
+      "name": "Cardio hiit en caminadora",
+      "sets": 8,
+      "reps": "1m rápido",
+      "restTime": "30s desp",
+      "videoUrl": "",
+      "day": 1
+    },
+    {
+      "id": "9cb47e1a-4b24-41fe-bbde-84b69f01d483",
+      "name": "Jalón en polea (agarre neutro)",
+      "sets": 4,
+      "reps": "8-10",
+      "restTime": "2min",
+      "videoUrl": "https://youtu.be/VUJYixXx5I8",
+      "day": 2
+    },
+    {
+      "id": "97b6857f-2390-4914-a006-ae205b9d6bde",
+      "name": "Remo en máquina hammer (neutro)",
+      "sets": 4,
+      "reps": "12",
+      "restTime": "2min",
+      "videoUrl": "https://youtu.be/pNwf41RJcLM",
+      "day": 2
+    },
+    {
+      "id": "21d8805c-61bf-423e-b1ca-b1cc0415f201",
+      "name": "Pull over en polea con cuerda",
+      "sets": 4,
+      "reps": "15",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/-UrSFw0QPHs",
+      "day": 2
+    },
+    {
+      "id": "2206fa86-f270-4f33-8aef-5b33eafb945a",
+      "name": "Remo unilateral con mancuerna",
+      "sets": 4,
+      "reps": "12 x lado",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/-85km4WXzr4",
+      "day": 2
+    },
+    {
+      "id": "3043c8b0-82a9-48f9-8319-768a04839178",
+      "name": "Curl de bíceps martillo",
+      "sets": 3,
+      "reps": "12",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/RoIH2uva2z4",
+      "day": 2
+    },
+    {
+      "id": "c40d11c4-c961-4958-9559-6f9e2b9173bd",
+      "name": "Curl biceps en polea baja con cuerda",
+      "sets": 3,
+      "reps": "12",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/IkM-oRjbOmE",
+      "day": 2
+    },
+    {
+      "id": "4615d5e9-dd5e-4fd6-b762-a8dc42422f63",
+      "name": "25min en bici a ritmo moderado",
+      "sets": 0,
+      "reps": "",
+      "restTime": "",
+      "videoUrl": "",
+      "day": 2
+    },
+    {
+      "id": "282b349f-31c8-4afd-8cef-6f2db981fa5a",
+      "name": "Sentadilla en multipower",
+      "sets": 4,
+      "reps": "10",
+      "restTime": "2min",
+      "videoUrl": "https://youtu.be/4r9o_rqFZX4",
+      "day": 3
+    },
+    {
+      "id": "96e2be3f-4061-4b69-823a-8fb6e2fb369b",
+      "name": "Desplantes caminando con manc",
+      "sets": 4,
+      "reps": "12 x lado",
+      "restTime": "2min",
+      "videoUrl": "https://youtu.be/-iGRWD09Jn8",
+      "day": 3
+    },
+    {
+      "id": "49ff455b-f751-4206-8d3e-e0a3f852c600",
+      "name": "Extensión de cuádriceps en máquina",
+      "sets": 4,
+      "reps": "15",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/6RPUwWATZo0",
+      "day": 3
+    },
+    {
+      "id": "16f03007-6535-469c-a386-454f2eb0c5a9",
+      "name": "Hip thrust con pausa arriba",
+      "sets": 4,
+      "reps": "12",
+      "restTime": "2min",
+      "videoUrl": "https://youtu.be/6dzANQKnYLk",
+      "day": 3
+    },
+    {
+      "id": "5adb5c1c-5810-4db2-ba29-ff52dc555dd4",
+      "name": "Step ups en banco con mancuerna",
+      "sets": 4,
+      "reps": "12 x lado",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/twzEjgIhrvU",
+      "day": 3
+    },
+    {
+      "id": "77be2544-c1b8-43b1-a23f-6a35e7fcb0c4",
+      "name": "Aducción en máquina",
+      "sets": 4,
+      "reps": "20",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/O7co9-r7a6M",
+      "day": 3
+    },
+    {
+      "id": "ee5213d8-6e89-41a0-882e-3460f0621474",
+      "name": "15min en elíptica 40s rápido/80s lento",
+      "sets": 0,
+      "reps": "",
+      "restTime": "",
+      "videoUrl": "",
+      "day": 3
+    },
+    {
+      "id": "4e2780dd-1591-4611-8eac-f4631a36c262",
+      "name": "Press inclinado con máquina",
+      "sets": 4,
+      "reps": "12",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/1rNGeJTlqng",
+      "day": 4
+    },
+    {
+      "id": "6c12b4d2-9e44-41f2-974e-cf64c7cb50f5",
+      "name": "Press Plano con máquina",
+      "sets": 4,
+      "reps": "12",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/xxVztNVtoSE",
+      "day": 4
+    },
+    {
+      "id": "784c9602-ada2-4ff6-92b3-92b70fa23b8a",
+      "name": "Press declinado con máquina",
+      "sets": 4,
+      "reps": "12",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/Hyhm-WOAa48",
+      "day": 4
+    },
+    {
+      "id": "4f27ba77-732b-4b5c-b8fe-95fb3a838b35",
+      "name": "Aperturas con mancuerna",
+      "sets": 3,
+      "reps": "10",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/rkyLYz33ClQ",
+      "day": 4
+    },
+    {
+      "id": "85bd4020-185a-46ab-9295-1727bf97e883",
+      "name": "Extensión de tríceps con cuerda",
+      "sets": 3,
+      "reps": "12",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/uZg6VtRhwQY",
+      "day": 4
+    },
+    {
+      "id": "63fc04f8-5340-42b1-9372-9a28f979315a",
+      "name": "Fondos asistidos",
+      "sets": 3,
+      "reps": "12",
+      "restTime": "1min",
+      "videoUrl": "https://youtu.be/4mPcl4nExsU",
+      "day": 4
+    },
+    {
+      "id": "5667c97b-c7f1-440d-b180-be13586c25d0",
+      "name": "Circuito de 100 saltos de cuerda y 100 jumping jacks",
+      "sets": 3,
+      "reps": "",
+      "restTime": "",
+      "videoUrl": "",
+      "day": 4
+    },
+    {
+      "id": "f7a7df99-47d3-4b79-85a6-db48aa07a03a",
+      "name": "Press de hombro con manc neutra",
+      "sets": 4,
+      "reps": "12",
+      "restTime": "1m",
+      "videoUrl": "https://youtu.be/xClA-zswSX0",
+      "day": 5
+    },
+    {
+      "id": "4586b8a2-b0aa-4cd1-9b7f-e10ebd255bf1",
+      "name": "Elevación lateral con mancuernas",
+      "sets": 4,
+      "reps": "15",
+      "restTime": "1m",
+      "videoUrl": "https://youtu.be/SDwdFoNY780",
+      "day": 5
+    },
+    {
+      "id": "a9ef05d7-6042-4c32-bdcf-54053ae49ec9",
+      "name": "Face pull en polea con cuerda",
+      "sets": 4,
+      "reps": "15",
+      "restTime": "1m",
+      "videoUrl": "https://youtu.be/UaZPhyztYNU",
+      "day": 5
+    },
+    {
+      "id": "4d4f4b20-22c9-4d8d-81ef-787e64b7497f",
+      "name": "Elevación frontal con disco",
+      "sets": 4,
+      "reps": "12",
+      "restTime": "1m",
+      "videoUrl": "https://youtu.be/s-IHAo3OE7A",
+      "day": 5
+    },
+    {
+      "id": "c9250df4-2bdf-4f6d-a65f-361c093adb2e",
+      "name": "Elevación de piernas para abdomen",
+      "sets": 4,
+      "reps": "20",
+      "restTime": "1m",
+      "videoUrl": "https://youtube.com/shorts/6NA99YASwd8?si=jcLv699jl3ceQ8mE",
+      "day": 5
+    },
+    {
+      "id": "87f6040b-5554-4633-9bf8-de812a0dce54",
+      "name": "Bicicleta para abdomen",
+      "sets": 4,
+      "reps": "20",
+      "restTime": "1m",
+      "videoUrl": "https://youtube.com/shorts/TvILqQEdf00?si=6CNheDFzofKftsFo",
+      "day": 5
+    },
+    {
+      "id": "c9ab2fa8-b9ed-431c-a0a6-35b3e10f2c99",
+      "name": "Plancha abdominal",
+      "sets": 4,
+      "reps": "1min",
+      "restTime": "1m",
+      "videoUrl": "",
+      "day": 5
+    },
+    {
+      "id": "a462a6eb-a073-4bfb-bb5c-9ac81ffe6d86",
+      "name": "20m caminadora inclinación 10%",
+      "sets": 0,
+      "reps": "",
+      "restTime": "",
+      "videoUrl": "",
+      "day": 5
+    }
+  ]
+}

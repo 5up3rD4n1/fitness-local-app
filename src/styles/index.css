@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-bg: #122118;
+  --color-secondary-bg: #1b3124;
+  --color-border-primary: #264532;
+  --color-border-secondary: #366348;
+  --color-accent: #38e07b;
+  --color-text-secondary: #96c5a9;
+
+  --font-family-lexend: Lexend, sans-serif;
+  --font-family-noto: "Noto Sans", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-primary-bg);
+    color: white;
+    font-family: var(--font-family-lexend);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-primary-bg);
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover {
+    opacity: 0.9;
+  }
+
+  .btn-secondary {
+    background-color: var(--color-secondary-bg);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    transition: colors 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background-color: color-mix(in srgb, var(--color-secondary-bg) 80%, transparent);
+  }
+
+  .card {
+    background-color: var(--color-secondary-bg);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border-primary);
+  }
+
+  .accordion-item {
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border-secondary);
+    background-color: var(--color-primary-bg);
+    padding: 0.5rem 1rem;
+    transition: all 0.2s;
+  }
+
+  .accordion-item.active {
+    background-color: var(--color-secondary-bg);
+    border-color: var(--color-accent);
+  }
+
+  .nav-item {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    transition: colors 0.2s;
+  }
+
+  .nav-item.active {
+    color: white;
+  }
+
+  .nav-item:not(.active) {
+    color: var(--color-text-secondary);
+  }
+}
+
+/* Custom scrollbar */
+@layer utilities {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--color-primary-bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-border-primary);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-border-secondary);
+  }
+}
