@@ -15,6 +15,6 @@ export default defineConfig({
       external: ['/sw.js', '/register-sw.js', '/manifest.json']
     },
   },
-  base: './',
+  base: '/fitness-local-app/',
   publicDir: 'public',
 });
