@@ -47,6 +47,12 @@ export class LocalStorageService {
     this.saveWorkoutHistory(history);
   }
 
+  static deleteWorkoutSession(sessionId: string): void {
+    const history = this.getWorkoutHistory();
+    const filteredHistory = history.filter((session) => session.id !== sessionId);
+    this.saveWorkoutHistory(filteredHistory);
+  }
+
   // Current Session
   static getCurrentSession(): WorkoutSession | null {
     if (!this.isClient) return null;

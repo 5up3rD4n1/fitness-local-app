@@ -33,7 +33,7 @@ function AppContent() {
       <div className="flex-1 overflow-y-auto">
         {renderScreen()}
       </div>
-      <Navigation />
+      {currentScreen !== 'workout' && <Navigation />}
     </div>
   );
 }

@@ -312,7 +312,7 @@ const ProgressScreen: React.FC = () => {
         <section className="p-4">
           <h3 className="text-white text-lg font-bold mb-4">Achievements</h3>
           <div className="grid grid-cols-2 gap-3">
-            <div className={`card ${stats.totalWorkouts >= 1 ? 'border-accent bg-accent bg-opacity-10' : ''}`}>
+            <div className={`card ${stats.totalWorkouts >= 1 ? 'border-accent' : 'border-border-primary'}`}>
               <div className="flex items-center gap-2 mb-2">
                 <svg className={`h-5 w-5 ${stats.totalWorkouts >= 1 ? 'text-accent' : 'text-text-secondary'}`} fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5V3.5C15 2.7 14.3 2 13.5 2H10.5C9.7 2 9 2.7 9 3.5V5.5L3 7V9H21Z" />
@@ -321,10 +321,12 @@ const ProgressScreen: React.FC = () => {
                   First Workout
                 </span>
               </div>
-              <p className="text-xs text-text-secondary">Complete your first workout session</p>
+              <p className={`text-xs ${stats.totalWorkouts >= 1 ? 'text-white' : 'text-text-secondary'}`}>
+                Complete your first workout session
+              </p>
             </div>
 
-            <div className={`card ${stats.currentStreak >= 3 ? 'border-accent bg-accent bg-opacity-10' : ''}`}>
+            <div className={`card ${stats.currentStreak >= 3 ? 'border-accent' : 'border-border-primary'}`}>
               <div className="flex items-center gap-2 mb-2">
                 <svg className={`h-5 w-5 ${stats.currentStreak >= 3 ? 'text-accent' : 'text-text-secondary'}`} fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12.5 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12.5 2z" />
@@ -333,10 +335,12 @@ const ProgressScreen: React.FC = () => {
                   3-Day Streak
                 </span>
               </div>
-              <p className="text-xs text-text-secondary">Maintain a 3-day workout streak</p>
+              <p className={`text-xs ${stats.currentStreak >= 3 ? 'text-white' : 'text-text-secondary'}`}>
+                Maintain a 3-day workout streak
+              </p>
             </div>
 
-            <div className={`card ${stats.totalWorkouts >= 10 ? 'border-accent bg-accent bg-opacity-10' : ''}`}>
+            <div className={`card ${stats.totalWorkouts >= 10 ? 'border-accent' : 'border-border-primary'}`}>
               <div className="flex items-center gap-2 mb-2">
                 <svg className={`h-5 w-5 ${stats.totalWorkouts >= 10 ? 'text-accent' : 'text-text-secondary'}`} fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -345,10 +349,12 @@ const ProgressScreen: React.FC = () => {
                   10 Workouts
                 </span>
               </div>
-              <p className="text-xs text-text-secondary">Complete 10 total workouts</p>
+              <p className={`text-xs ${stats.totalWorkouts >= 10 ? 'text-white' : 'text-text-secondary'}`}>
+                Complete 10 total workouts
+              </p>
             </div>
 
-            <div className={`card ${stats.currentStreak >= 7 ? 'border-accent bg-accent bg-opacity-10' : ''}`}>
+            <div className={`card ${stats.currentStreak >= 7 ? 'border-accent' : 'border-border-primary'}`}>
               <div className="flex items-center gap-2 mb-2">
                 <svg className={`h-5 w-5 ${stats.currentStreak >= 7 ? 'text-accent' : 'text-text-secondary'}`} fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -357,7 +363,9 @@ const ProgressScreen: React.FC = () => {
                   Week Warrior
                 </span>
               </div>
-              <p className="text-xs text-text-secondary">Maintain a 7-day workout streak</p>
+              <p className={`text-xs ${stats.currentStreak >= 7 ? 'text-white' : 'text-text-secondary'}`}>
+                Maintain a 7-day workout streak
+              </p>
             </div>
           </div>
         </section>

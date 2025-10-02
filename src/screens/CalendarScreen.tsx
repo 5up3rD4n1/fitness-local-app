@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../contexts/AppContext';
 import { LocalStorageService } from '../utils/localStorage';
+import ConfirmDialog from '../components/ConfirmDialog';
 
 interface CalendarDay {
   date: Date;
@@ -12,9 +13,14 @@ interface CalendarDay {
 }
 
 const CalendarScreen: React.FC = () => {
-  const { routines, exercises, startWorkout } = useApp();
+  const { routines, exercises, viewWorkout, startWorkout } = useApp();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    isOpen: boolean;
+    workoutId: string | null;
+  }>({ isOpen: false, workoutId: null });
 
   const workoutHistory = LocalStorageService.getWorkoutHistory();
 
@@ -85,14 +91,26 @@ const CalendarScreen: React.FC = () => {
     ? exercises.filter(exercise => selectedRoutine.exercises.includes(exercise.id))
     : [];
 
-  // Check if selected date has a completed workout
-  const selectedDateWorkout = workoutHistory.find(session => {
+  // Get all completed workouts for the selected date
+  const selectedDateWorkouts = workoutHistory.filter(session => {
     const sessionDate = new Date(session.date);
     sessionDate.setHours(0, 0, 0, 0);
     const selected = new Date(selectedDate);
     selected.setHours(0, 0, 0, 0);
     return sessionDate.getTime() === selected.getTime() && session.completed;
   });
+
+  const formatTime = (date: Date | string) => {
+    const d = new Date(date);
+    return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  };
+
+  const formatDuration = (milliseconds: number) => {
+    const minutes = Math.floor(milliseconds / (1000 * 60));
+    const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+    if (minutes === 0) return `${seconds}s`;
+    return seconds > 0 ? `${minutes}m ${seconds}s` : `${minutes}m`;
+  };
 
   const navigateMonth = (direction: 'prev' | 'next') => {
     const newDate = new Date(currentDate);
@@ -127,7 +145,23 @@ const CalendarScreen: React.FC = () => {
     today.setHours(0, 0, 0, 0);
     const selected = new Date(selectedDate);
     selected.setHours(0, 0, 0, 0);
-    return selected.getTime() === today.getTime() && !selectedDateWorkout;
+    return selected.getTime() === today.getTime();
+  };
+
+  const handleDeleteWorkout = (workoutId: string) => {
+    setDeleteConfirm({ isOpen: true, workoutId });
+  };
+
+  const confirmDelete = () => {
+    if (deleteConfirm.workoutId) {
+      LocalStorageService.deleteWorkoutSession(deleteConfirm.workoutId);
+      setRefreshKey(prev => prev + 1);
+    }
+    setDeleteConfirm({ isOpen: false, workoutId: null });
+  };
+
+  const cancelDelete = () => {
+    setDeleteConfirm({ isOpen: false, workoutId: null });
   };
 
   return (
@@ -226,34 +260,85 @@ const CalendarScreen: React.FC = () => {
             {formatDate(selectedDate)}
           </h3>
 
-          {selectedDateWorkout ? (
-            // Show completed workout details
-            <div className="card">
-              <div className="flex items-center gap-2 mb-3">
-                <svg className="h-5 w-5 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                </svg>
-                <span className="text-accent font-medium">Workout Completed</span>
-              </div>
+          {selectedDateWorkouts.length > 0 ? (
+            // Show all completed workouts for this date
+            <div className="space-y-3">
+              {selectedDateWorkouts.map((workout, index) => {
+                const workoutRoutine = routines.find(r => r.id === workout.routineId);
+                const workoutExercises = workoutRoutine
+                  ? exercises.filter(exercise => workoutRoutine.exercises.includes(exercise.id))
+                  : [];
 
-              <p className="text-white font-medium mb-2">{selectedRoutine?.name}</p>
+                const startTime = workout.startedAt ? new Date(workout.startedAt) : null;
+                const endTime = workout.completedAt ? new Date(workout.completedAt) : null;
 
-              <div className="flex items-center gap-4 text-text-secondary text-sm mb-3">
-                <span>Duration: {Math.floor((selectedDateWorkout.duration || 0) / (1000 * 60))} min</span>
-                <span>Exercises: {selectedExercises.length}</span>
-              </div>
+                return (
+                  <div key={index} className="card relative">
+                    <button
+                      onClick={() => handleDeleteWorkout(workout.id)}
+                      className="absolute top-3 right-3 flex items-center justify-center w-8 h-8 rounded-full bg-secondary-bg hover:bg-border-secondary transition-colors"
+                      title="Delete workout"
+                    >
+                      <svg className="h-4 w-4 text-text-secondary hover:text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                      </svg>
+                    </button>
 
-              <div className="space-y-2">
-                <h4 className="text-text-secondary text-sm font-medium">Exercises completed:</h4>
-                {selectedExercises.map((exercise) => (
-                  <div key={exercise.id} className="flex items-center gap-2">
-                    <svg className="h-4 w-4 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                    </svg>
-                    <span className="text-text-secondary text-sm">{exercise.name}</span>
+                    <div className="flex items-center gap-2 mb-3">
+                      <svg className="h-5 w-5 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                      </svg>
+                      <span className="text-accent font-medium">Workout Completed</span>
+                    </div>
+
+                    <p className="text-white font-medium mb-2">{workoutRoutine?.name || 'Workout'}</p>
+
+                    <div className="space-y-1 text-text-secondary text-sm mb-3">
+                      {startTime && (
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">Start:</span>
+                          <span>{formatTime(startTime)}</span>
+                        </div>
+                      )}
+                      {endTime && (
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">End:</span>
+                          <span>{formatTime(endTime)}</span>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">Duration:</span>
+                        <span>{formatDuration(workout.duration || 0)}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">Exercises:</span>
+                        <span>{workoutExercises.length}</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h4 className="text-text-secondary text-sm font-medium">Exercises completed:</h4>
+                      {workoutExercises.map((exercise) => (
+                        <div key={exercise.id} className="flex items-center gap-2">
+                          <svg className="h-4 w-4 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                          </svg>
+                          <span className="text-text-secondary text-sm">{exercise.name}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
+
+              {canStartWorkout() && selectedRoutine && (
+                <button
+                  onClick={() => viewWorkout(selectedRoutine.id)}
+                  className="w-full btn-primary"
+                >
+                  Start Another Workout
+                </button>
+              )}
             </div>
           ) : selectedRoutine ? (
             // Show scheduled workout
@@ -282,7 +367,7 @@ const CalendarScreen: React.FC = () => {
 
               {canStartWorkout() && (
                 <button
-                  onClick={() => startWorkout(selectedRoutine.id)}
+                  onClick={() => viewWorkout(selectedRoutine.id)}
                   className="w-full btn-primary"
                 >
                   Start Today's Workout
@@ -312,6 +397,17 @@ const CalendarScreen: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={deleteConfirm.isOpen}
+        title="Delete Workout?"
+        message="Are you sure you want to delete this workout? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };

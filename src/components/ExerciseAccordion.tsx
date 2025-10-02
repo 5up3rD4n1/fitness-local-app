@@ -3,15 +3,21 @@ import { useApp } from '../contexts/AppContext';
 import { Exercise } from '../types';
 import SetTracker from './SetTracker';
 import VideoPreview from './VideoPreview';
+import ConfirmDialog from './ConfirmDialog';
 
 interface ExerciseAccordionProps {
   exercises: Exercise[];
+  routineId?: string;
   className?: string;
 }
 
-const ExerciseAccordion: React.FC<ExerciseAccordionProps> = ({ exercises, className = '' }) => {
-  const { currentSession, currentExerciseIndex, selectExercise, completeSet } = useApp();
+const ExerciseAccordion: React.FC<ExerciseAccordionProps> = ({ exercises, routineId, className = '' }) => {
+  const { currentSession, currentExerciseIndex, selectExercise, startWorkout, completeSet, cancelWorkout } = useApp();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(currentExerciseIndex);
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    exercise: Exercise | null;
+  }>({ isOpen: false, exercise: null });
 
   // Sync expanded state with currentExerciseIndex changes (from navigation)
   useEffect(() => {
@@ -21,16 +27,19 @@ const ExerciseAccordion: React.FC<ExerciseAccordionProps> = ({ exercises, classN
   const getExerciseProgress = (exercise: Exercise) => {
     if (!currentSession) return { completed: 0, total: exercise.sets };
 
+    // For exercises with 0 sets, treat them as having 1 set for tracking
+    const effectiveSets = exercise.sets === 0 ? 1 : exercise.sets;
+
     const completed = currentSession.setsProgress.filter(
       (progress) => progress.exerciseId === exercise.id && progress.completed
     ).length;
 
-    return { completed, total: exercise.sets };
+    return { completed, total: effectiveSets };
   };
 
   const isExerciseComplete = (exercise: Exercise) => {
     const progress = getExerciseProgress(exercise);
-    return progress.completed === progress.total && progress.total > 0;
+    return progress.completed === progress.total;
   };
 
   const toggleExercise = (index: number) => {
@@ -45,8 +54,55 @@ const ExerciseAccordion: React.FC<ExerciseAccordionProps> = ({ exercises, classN
   };
 
   const completeExercise = (exercise: Exercise) => {
+    // Check if there's a different active workout with a started timer
+    if (
+      currentSession &&
+      !currentSession.completed &&
+      currentSession.startedAt &&
+      routineId &&
+      currentSession.routineId !== routineId
+    ) {
+      setConfirmDialog({ isOpen: true, exercise });
+      return;
+    }
+
+    // If no session or wrong session, create one
+    if (!currentSession || currentSession.completed || currentSession.routineId !== routineId) {
+      if (routineId) {
+        startWorkout(routineId);
+        setTimeout(() => {
+          completeSetsForExercise(exercise);
+        }, 50);
+      }
+      return;
+    }
+
+    completeSetsForExercise(exercise);
+  };
+
+  const handleConfirmSwitch = () => {
+    if (confirmDialog.exercise && routineId) {
+      cancelWorkout();
+      setTimeout(() => {
+        startWorkout(routineId);
+        setTimeout(() => {
+          completeSetsForExercise(confirmDialog.exercise!);
+        }, 50);
+      }, 50);
+    }
+    setConfirmDialog({ isOpen: false, exercise: null });
+  };
+
+  const handleCancelSwitch = () => {
+    setConfirmDialog({ isOpen: false, exercise: null });
+  };
+
+  const completeSetsForExercise = (exercise: Exercise) => {
+    // For exercises with 0 sets, treat them as having 1 set
+    const effectiveSets = exercise.sets === 0 ? 1 : exercise.sets;
+
     // Complete all remaining sets
-    for (let i = 1; i <= exercise.sets; i++) {
+    for (let i = 1; i <= effectiveSets; i++) {
       const isCompleted = currentSession?.setsProgress.some(
         (p) => p.exerciseId === exercise.id && p.setNumber === i && p.completed
       );
@@ -88,9 +144,9 @@ const ExerciseAccordion: React.FC<ExerciseAccordionProps> = ({ exercises, classN
                     {exercise.name}
                   </h3>
                   <div className="flex items-center gap-4 text-sm text-text-secondary">
-                    <span>{exercise.sets} sets</span>
+                    {exercise.sets > 0 && <span>{exercise.sets} sets</span>}
                     <span>{exercise.reps} reps</span>
-                    <span>{exercise.restTime}</span>
+                    <span>{exercise.restTime || '1min'}</span>
                   </div>
                 </div>
               </div>
@@ -146,10 +202,10 @@ const ExerciseAccordion: React.FC<ExerciseAccordionProps> = ({ exercises, classN
                   <h4 className="text-sm font-medium text-text-secondary mb-2">
                     Track Your Sets
                   </h4>
-                  <SetTracker exercise={exercise} />
+                  <SetTracker exercise={exercise} routineId={routineId} />
 
-                  {/* Complete Exercise Button */}
-                  {!isComplete && (
+                  {/* Complete Exercise Button - only show for exercises with sets */}
+                  {!isComplete && exercise.sets > 0 && (
                     <button
                       onClick={() => completeExercise(exercise)}
                       className="w-full mt-3 btn-primary flex items-center justify-center gap-2"
@@ -159,14 +215,6 @@ const ExerciseAccordion: React.FC<ExerciseAccordionProps> = ({ exercises, classN
                       </svg>
                       Complete Exercise
                     </button>
-                  )}
-                  {isComplete && (
-                    <div className="mt-3 flex items-center justify-center gap-2 text-accent font-medium">
-                      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                      </svg>
-                      Exercise Completed!
-                    </div>
                   )}
                 </div>
 
@@ -178,8 +226,8 @@ const ExerciseAccordion: React.FC<ExerciseAccordionProps> = ({ exercises, classN
                   <ul className="text-sm text-text-secondary space-y-1">
                     <li>• Focus on proper form over speed</li>
                     <li>• Breathe consistently throughout the movement</li>
-                    <li>• Rest {exercise.restTime} between sets</li>
-                    {exercise.restTime.includes('min') && (
+                    <li>• Rest {exercise.restTime || '1min'} between sets</li>
+                    {(exercise.restTime || '1min').includes('min') && (
                       <li>• Use the timer to track your rest periods</li>
                     )}
                   </ul>
@@ -200,6 +248,17 @@ const ExerciseAccordion: React.FC<ExerciseAccordionProps> = ({ exercises, classN
           </div>
         </div>
       )}
+
+      {/* Confirm Dialog */}
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        title="Switch Workout?"
+        message="Starting a new workout will cancel your current workout. Progress will be lost."
+        confirmText="Switch Workout"
+        cancelText="Go Back"
+        onConfirm={handleConfirmSwitch}
+        onCancel={handleCancelSwitch}
+      />
     </div>
   );
 };

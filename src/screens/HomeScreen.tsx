@@ -3,7 +3,7 @@ import { useApp } from '../contexts/AppContext';
 import { LocalStorageService } from '../utils/localStorage';
 
 const HomeScreen: React.FC = () => {
-  const { routines, startWorkout, currentSession, exercises, navigateTo } = useApp();
+  const { routines, viewWorkout, currentSession, exercises, navigateTo } = useApp();
   const [currentDate] = useState(new Date());
 
   const stats = LocalStorageService.getStats();
@@ -72,17 +72,17 @@ const HomeScreen: React.FC = () => {
       </div>
 
       <div className="flex-1 overflow-y-auto pb-4">
-        {/* Current Workout - if active */}
-        {currentSession && (
+        {/* Current Workout - only show if actually started */}
+        {currentSession && !currentSession.completed && currentSession.startedAt && (
           <section>
             <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
               Active Workout
             </h2>
             <div className="px-4 pb-4">
-              <div className="rounded-xl bg-accent bg-opacity-20 border border-accent p-4">
+              <div className="rounded-xl bg-secondary-bg border border-accent p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div>
-                    <p className="text-accent font-bold text-lg">
+                    <p className="text-white font-bold text-lg">
                       {routines.find(r => r.id === currentSession.routineId)?.name}
                     </p>
                     <p className="text-text-secondary text-sm">Workout in progress</p>
@@ -106,6 +106,21 @@ const HomeScreen: React.FC = () => {
           </h2>
           {routines.map((routine) => {
             const exerciseCount = exercises.filter(e => routine.exercises.includes(e.id)).length;
+            const isActiveRoutine = currentSession && !currentSession.completed && currentSession.routineId === routine.id;
+            const hasActiveStartedWorkout = currentSession && !currentSession.completed && currentSession.startedAt;
+
+            const handleWorkoutClick = (routineId: string) => {
+              // Always set the current routine first, then navigate
+              viewWorkout(routineId);
+            };
+
+            const getButtonText = () => {
+              if (isActiveRoutine && hasActiveStartedWorkout) {
+                return 'Continue';
+              }
+              return 'View';
+            };
+
             return (
               <div key={routine.id} className="flex items-center gap-4 bg-primary-bg px-4 min-h-[72px] py-2 border-b border-border-primary hover:bg-secondary-bg transition-colors">
                 <div className="text-white flex items-center justify-center rounded-lg bg-border-primary shrink-0 size-12">
@@ -122,10 +137,10 @@ const HomeScreen: React.FC = () => {
                   </p>
                 </div>
                 <button
-                  onClick={() => startWorkout(routine.id)}
+                  onClick={() => handleWorkoutClick(routine.id)}
                   className="px-4 py-2 rounded-xl bg-border-primary text-white text-sm font-medium hover:bg-border-secondary transition-colors shrink-0"
                 >
-                  Start
+                  {getButtonText()}
                 </button>
               </div>
             );

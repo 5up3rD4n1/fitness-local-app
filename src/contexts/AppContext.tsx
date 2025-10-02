@@ -16,6 +16,7 @@ interface AppContextType extends AppState {
   routines: Routine[];
   exercises: Exercise[];
   currentScreen: Screen;
+  viewWorkout: (_routineId: string) => void;
   startWorkout: (_routineId: string) => void;
   beginWorkoutTimer: () => void;
   completeSet: (_exerciseId: string, _setNumber: number) => void;
@@ -32,6 +33,7 @@ interface AppContextType extends AppState {
 
 type AppAction =
   | { type: 'INITIALIZE'; payload: Partial<AppState> }
+  | { type: 'VIEW_WORKOUT'; payload: { routineId: string } }
   | { type: 'START_WORKOUT'; payload: { routineId: string } }
   | { type: 'BEGIN_WORKOUT_TIMER' }
   | { type: 'COMPLETE_SET'; payload: { exerciseId: string; setNumber: number } }
@@ -62,6 +64,19 @@ function appReducer(state: typeof initialState, action: AppAction): typeof initi
         ...state,
         ...action.payload,
         isLoading: false,
+      };
+    }
+
+    case 'VIEW_WORKOUT': {
+      // Just view the workout without creating a session
+      const routine = workoutData.routines.find((r) => r.id === action.payload.routineId);
+      if (!routine) return state;
+
+      return {
+        ...state,
+        currentRoutine: routine,
+        currentExerciseIndex: 0,
+        currentScreen: 'workout',
       };
     }
 
@@ -122,9 +137,11 @@ function appReducer(state: typeof initialState, action: AppAction): typeof initi
         newProgress,
       ];
 
+      // Auto-start workout if not already started
       const updatedSession = {
         ...state.currentSession,
         setsProgress: updatedSetsProgress,
+        startedAt: state.currentSession.startedAt || new Date(),
       };
 
       LocalStorageService.saveCurrentSession(updatedSession);
@@ -158,11 +175,22 @@ function appReducer(state: typeof initialState, action: AppAction): typeof initi
     case 'COMPLETE_WORKOUT': {
       if (!state.currentSession) return state;
 
+      // Ensure startedAt is properly set (should have been set by auto-start or manual start)
+      // If somehow it's not set, use current time minus 1 second as fallback
+      const startedAt = state.currentSession.startedAt
+        ? (typeof state.currentSession.startedAt === 'string'
+            ? new Date(state.currentSession.startedAt).getTime()
+            : new Date(state.currentSession.startedAt).getTime())
+        : Date.now() - 1000; // Fallback: 1 second ago
+
+      const completedAt = Date.now();
+      const duration = Math.max(0, completedAt - startedAt); // Ensure non-negative
+
       const completedSession = {
         ...state.currentSession,
         completedAt: new Date(),
         completed: true,
-        duration: Date.now() - new Date(state.currentSession.startedAt || Date.now()).getTime(),
+        duration,
       };
 
       LocalStorageService.addWorkoutSession(completedSession);
@@ -293,6 +321,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     routines: workoutData.routines as Routine[],
     exercises: workoutData.exercises as Exercise[],
     currentScreen: state.currentScreen,
+
+    viewWorkout: (routineId: string) => {
+      dispatch({ type: 'VIEW_WORKOUT', payload: { routineId } });
+    },
 
     startWorkout: (routineId: string) => {
       dispatch({ type: 'START_WORKOUT', payload: { routineId } });
