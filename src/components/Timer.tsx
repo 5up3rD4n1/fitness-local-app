@@ -20,6 +20,12 @@ const Timer: React.FC<TimerProps> = ({
   const [isCompleted, setIsCompleted] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Update timeLeft when initialTime changes
+  useEffect(() => {
+    setTimeLeft(initialTime);
+    setIsCompleted(false);
+  }, [initialTime]);
+
   useEffect(() => {
     if (isRunning && timeLeft > 0) {
       intervalRef.current = setInterval(() => {
