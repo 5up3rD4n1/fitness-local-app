@@ -1,0 +1,1064 @@
+{
+  "$schema": "internal://design-research/qualitative-ui-ux-analysis",
+  "meta": {
+    "title": "Reverse-engineering professional fitness app UI/UX",
+    "purpose": "Qualitative teardown of 11 top-tier fitness apps to understand WHY they are designed the way they are, and to extract concrete patterns this project can adopt to look and feel professional.",
+    "source": "Mobbin (mobbin.com) — Health & Fitness category, iOS screen libraries, browsed 2026-05-25.",
+    "analyst": "Claude (browser-driven visual analysis of Mobbin screenshots).",
+    "important_caveats": [
+      "All hex values are APPROXIMATE — sampled visually from Mobbin screenshots (compressed JPEG), not from source code or design files. Treat them as 'in this neighborhood', then verify against the real app or an eyedropper before committing.",
+      "Typeface names are inferred from letterforms + public brand knowledge, not confirmed from font files.",
+      "This is design/pattern analysis (factual, transformative). No copyrighted copy, imagery, or assets are reproduced — only structural and stylistic observations."
+    ],
+    "how_to_use": "Read 'crossCuttingPrinciples' first (the reusable WHY). Then scan 'apps' for archetypes closest to your target feel. Finish with 'synthesisForThisProject' for an actionable plan mapped to your actual codebase."
+  },
+
+  "subjectApp": {
+    "name": "fitness-local-app",
+    "what": "Offline-first single-HTML React workout tracker. Static routines + exercises, run-and-log only (no authoring). Persists to localStorage.",
+    "currentDesignDNA": {
+      "theme": "dark",
+      "background": "#122118 (very dark green)",
+      "secondaryBackground": "#1b3124",
+      "borders": ["#264532", "#366348"],
+      "accent": "#38e07b (neon mint-green)",
+      "textSecondary": "#96c5a9",
+      "fonts": { "headings": "Lexend", "body": "Noto Sans" }
+    },
+    "keyDomainObjects": [
+      "Routine.exercises = string[] of exercise IDs",
+      "Exercise.reps & restTime are STRINGS (e.g. '8-12', '60s'); sets is a number",
+      "Completion derived from WorkoutSession.setsProgress[] keyed by (exerciseId, setNumber) — never a flag on the exercise",
+      "Screens: home | workout | calendar | progress (state-machine nav, bottom tab bar hidden on workout screen)",
+      "Reusable Timer.tsx (circular SVG countdown), VideoPreview.tsx (YouTube thumbnail -> lazy iframe), ExerciseAccordion.tsx (one-open-at-a-time)"
+    ],
+    "strategicReadout": "Your existing dark + neon-green direction already sits in the SAME design quadrant as the most premium apps analyzed (Apple Fitness, WHOOP, Ladder, Centr, Peloton). You are not mis-aimed — you are under-executed. The gap is typographic confidence, disciplined accent usage, data visualization, completion feedback, and motion — not the palette."
+  },
+
+  "methodology": {
+    "selectionCriteria": "Chosen to maximize coverage of (a) the dark + single-accent archetype you're already pursuing, (b) the set/rep logging archetype that matches your data model, and (c) deliberate contrast cases (light, illustrated, editorial) so the 'why' behind each choice is visible.",
+    "perAppLensChecklist": [
+      "color & palette logic",
+      "type system & casing",
+      "spacing/density & corner radius",
+      "navigation model & action placement",
+      "iconography",
+      "button system & states",
+      "signature interactions & motion",
+      "WHY it works",
+      "what to steal"
+    ]
+  },
+
+  "crossCuttingPrinciples": [
+    {
+      "id": "dark-plus-one-electric-accent",
+      "principle": "Near-black background + a single high-chroma accent.",
+      "seenIn": [
+        "Fitbod (coral-red)",
+        "WHOOP (mint-green)",
+        "Apple Fitness (volt-green)",
+        "Ladder (volt-yellow)",
+        "Centr (chartreuse)",
+        "Peloton (coral-red)",
+        "Tonal in-app (magenta)"
+      ],
+      "why": "Dark UIs read as premium/athletic, reduce glare in gyms, save OLED battery, and make a single saturated accent POP as 'the thing to look at / do'. The accent does the wayfinding so the rest of the UI can stay quiet. This is the dominant winning formula in the category — and it is exactly your #122118 + #38e07b.",
+      "applyToYou": "Validate and double down. Keep #38e07b scarce: reserve it for the primary action, active nav, and completion. Let #122118 / #1b3124 / #264532 carry 90% of the surface area."
+    },
+    {
+      "id": "color-as-meaning-not-decoration",
+      "principle": "Accent and color are spent on ACTION and DATA, almost never on decoration.",
+      "seenIn": [
+        "Hevy (green = completed set, amber = warmup, blue = primary)",
+        "WHOOP (green=recovery, blue=strain, red=high strain)",
+        "Apple Fitness (tri-color rings each a metric)",
+        "Gentler Streak (green→red intensity zones)"
+      ],
+      "why": "When color is reserved for state and metrics, users learn to read the UI at a glance: green means done/good, red means hard/stop, accent means 'tap me'. Decorative color destroys that contract.",
+      "applyToYou": "Introduce a small SEMANTIC palette beyond the green: a warmup/in-progress amber, a destructive red, a muted 'not started' gray-green. Drive completed setsProgress[] rows to a green tint + check."
+    },
+    {
+      "id": "oversized-type-as-motivation",
+      "principle": "Big, bold, confident typography — especially for numbers and verbs.",
+      "seenIn": [
+        "WHOOP (huge 68%, 15.2)",
+        "Apple Fitness (giant timer + Move goal)",
+        "Centr & Ladder (all-caps condensed headlines)",
+        "Hevy (large rest-timer countdown)"
+      ],
+      "why": "Fitness is emotional and glanceable: you read it mid-set, sweaty, from arm's length. Oversized metrics feel like an achievement and are legible at a glance. Heavy display type signals energy and authority.",
+      "applyToYou": "Make streak counts, weekly volume, and the rest-timer count oversized. Push Lexend to heavier weights / tighter tracking for headings; consider a condensed face for big numerics."
+    },
+    {
+      "id": "one-unmistakable-primary-action",
+      "principle": "Exactly one obvious primary action per screen, usually a filled accent pill.",
+      "seenIn": [
+        "Fitbod ('Start Workout' floating pill)",
+        "Apple Fitness ('Create Plan')",
+        "Hevy ('Finish')",
+        "Peloton ('NEXT')",
+        "Centr ('GET STARTED')"
+      ],
+      "why": "Removes decision friction. The colored pill is a learned 'do the main thing' affordance. Secondary actions are demoted to text/ghost buttons so they never compete.",
+      "applyToYou": "Your workout screen should have ONE green pill ('Start Workout' / 'Next exercise' / 'Finish'). Demote everything else to ghost/text. Keep it thumb-reachable (bottom)."
+    },
+    {
+      "id": "completion-dopamine-loops",
+      "principle": "Make finishing a set/workout feel rewarding with immediate visual reward.",
+      "seenIn": [
+        "Hevy (row turns green + check; 'Nice work!' confetti)",
+        "Apple Fitness (ring closes)",
+        "WHOOP (ring fills)"
+      ],
+      "why": "Habit formation is the core retention driver for fitness apps. A satisfying micro-reward on each completed set, and a celebration on workout finish, builds the loop.",
+      "applyToYou": "You already model completion via setsProgress[]. Pay it off visually: animate the row to green + check on tap; show a completion/streak celebration on COMPLETE_WORKOUT (you have a fitness-motion + fitness-haptics-sound skill — use them)."
+    },
+    {
+      "id": "metadata-middot-row",
+      "principle": "Compact exercise metadata as a middot-separated row.",
+      "seenIn": [
+        "Fitbod ('4 sets · 7 reps · 20 lb')",
+        "Hevy (SET / PREVIOUS / KG / REPS table)",
+        "NTC ('6 min, Beginner')"
+      ],
+      "why": "Dense but scannable; communicates the full prescription in one line without a heavy table. The middot is a cheap, elegant separator.",
+      "applyToYou": "Your Exercise has sets:number, reps:string ('8-12'), restTime:string ('60s'). Render exactly as 'Dumbbell Squat — 3 sets · 8–12 reps · 60s rest'. This is almost a 1:1 copy of Fitbod's pattern."
+    },
+    {
+      "id": "rest-timer-as-event",
+      "principle": "The rest timer is a prominent, dedicated moment — not a tiny label.",
+      "seenIn": [
+        "Hevy (big 02:29 overlay with −15 / +15 / Skip)",
+        "Fitbod (workout previews / timing)",
+        "Apple Fitness (full-screen mono timer)"
+      ],
+      "why": "Rest is part of the workout. A large countdown with quick adjust (+/−15s) and Skip respects the user's flow and removes fiddly interactions between sets.",
+      "applyToYou": "You already have Timer.tsx (circular SVG). Elevate it to a focused rest view with big numerals, a circular progress fill in #38e07b, and −15 / +15 / Skip controls. Auto-trigger it from restTime after a set is checked."
+    },
+    {
+      "id": "tab-bar-3-to-5",
+      "principle": "Bottom tab bar with 3–5 destinations, icon + tiny label, active tinted with the accent.",
+      "seenIn": [
+        "Fitbod (Workout/Recovery/Log)",
+        "Apple Fitness (Summary/Fitness+/Workout/Sharing)",
+        "NTC (Home/Workouts/Activity/Programs)",
+        "Tonal (Home/Activity/Explore/Coach/Settings)"
+      ],
+      "why": "Persistent, predictable, thumb-reachable. Active state in the accent reinforces 'where am I'. Hiding it during the workout (which you already do) keeps focus.",
+      "applyToYou": "Your home/calendar/progress fit a 3–4 tab bar; active item in #38e07b. You already hide it on the workout screen — correct call, matches Fitbod/Hevy active-session behavior."
+    },
+    {
+      "id": "personalization-quiz-onboarding",
+      "principle": "Onboarding is a personalization quiz, not a feature tour.",
+      "seenIn": [
+        "Fitbod (8-step: experience, goal, equipment, schedule)",
+        "Centr (FitQuiz + goals)",
+        "Ladder (style/length/coach filters)",
+        "WHOOP (goals/activities)"
+      ],
+      "why": "Asking questions (a) makes the product feel tailored, (b) invests the user (sunk-cost commitment), and (c) justifies the value before the paywall. Selection cards with checkmarks make it tactile.",
+      "applyToYou": "You're static-data and no-auth, so skip heavy onboarding — but a tiny one-time 'pick your default rest time / units / which routine to start' uses the same selection-card pattern and personalizes immediately."
+    },
+    {
+      "id": "imagery-vs-illustration-tone",
+      "principle": "Photography/video = aspiration & intensity; illustration/mascot = approachability & gentleness.",
+      "seenIn": [
+        "Photo: NTC, Strava, Centr, Peloton, Fitbod onboarding",
+        "Illustration/mascot: Gentler Streak"
+      ],
+      "why": "Imagery sets emotional tone before a word is read. Hard, cinematic photography says 'serious training'; soft pastel mascots say 'no pressure, be kind to yourself'. Pick deliberately based on brand promise.",
+      "applyToYou": "You can't ship heavy photo assets in a single-HTML offline build, and you already use YouTube thumbnails (VideoPreview). Lean into that: treat exercise video thumbnails as your imagery layer; keep chrome illustration-light and let the green + type carry the brand."
+    },
+    {
+      "id": "ergonomics-large-targets-rounded",
+      "principle": "Generous padding, large tap targets, big corner radii.",
+      "seenIn": ["All 11, strongly in Gentler Streak / Apple / Hevy"],
+      "why": "Used in motion, one-handed, mid-set, sometimes sweaty. Big rounded cards and ≥44px targets reduce mis-taps and feel modern/friendly.",
+      "applyToYou": "Audit tap targets to ≥44px. Use consistent radii (you have .card / .btn-primary tokens already) — standardize on a generous radius (≈16–20px cards, full-pill buttons)."
+    }
+  ],
+
+  "apps": [
+    {
+      "id": "fitbod",
+      "name": "Fitbod",
+      "tagline": "Home & gym strength training (AI-generated workouts)",
+      "relevanceToThisProject": "VERY HIGH — closest match: dark theme, single accent, exercise list with sets/reps/weight, rest, start-workout pill.",
+      "designArchetype": "Dark, data-driven strength logger with a warm coral accent.",
+      "theme": "dark",
+      "colorSystem": {
+        "background": "~#0E0E12 (near-black, faint cool tint)",
+        "surfaces": "~#1A1A20 cards / grouped rows",
+        "primaryAccent": "~#EE4E66 (coral / salmon-red)",
+        "secondaryAccents": [
+          "green checkmark badges on selection cards",
+          "muted gray pills ('YOUR GYM')"
+        ],
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "~#8E8E93 (iOS system gray)",
+        "paletteLogic": "Dark canvas keeps focus on body-map data and exercise photos; the single coral accent marks every primary/affirmative action (Start Workout, Add an exercise, Skip, Next). Coral (vs typical red) feels energetic but not alarming."
+      },
+      "typography": {
+        "displayTypeface": "Bold condensed-ish sans, slightly italicized in onboarding headlines",
+        "bodyTypeface": "System sans (SF Pro-like)",
+        "headlineStyle": "Heavy, large, occasionally italic for momentum",
+        "casing": "Sentence case body; small UPPERCASE labels ('SUPERSET', '4 ROUNDS')",
+        "hierarchy": "Exercise title ~17px semibold white > meta row ~13px gray; section labels uppercase micro"
+      },
+      "layoutAndSpacing": {
+        "density": "Medium-dense list",
+        "cornerRadius": "Rounded thumbnails (~10px) and pills",
+        "cardTreatment": "Exercise rows: ~52px rounded thumbnail (photo + small muscle diagram overlay) + title + middot meta + '...' menu",
+        "gridSystem": "Single-column scroll; 2-col selection grids in onboarding (equipment) with corner checkmark badges"
+      },
+      "navigationAndPlacement": {
+        "model": "Bottom tab bar",
+        "tabBar": ["Workout", "Recovery", "Log"],
+        "headerPattern": "'YOUR GYM' context pill + regenerate (shuffle) icon top-left + '...' top-right",
+        "primaryActionPlacement": "Floating coral 'Start Workout' pill, bottom-right, with play glyph"
+      },
+      "iconography": {
+        "style": "Thin line icons + small photographic exercise thumbnails",
+        "notes": "Muscle-freshness body maps with % are a signature data motif"
+      },
+      "buttons": {
+        "primary": "Filled coral pill, white text",
+        "secondary": "Ghost / text ('Got it', 'Edit Muscle Groups')",
+        "states": "Disabled = darkened coral (low contrast)"
+      },
+      "interactionsAndMotion": {
+        "signatureInteractions": [
+          "Swipe-left on an exercise to Replace/Delete",
+          "Tap exercise to view video instructions",
+          "Regenerate workout via shuffle",
+          "Muscle-freshness % updates as you log"
+        ],
+        "feedback": "Coachmark cards explain new affordances inline",
+        "transitions": "Standard iOS push/sheet"
+      },
+      "whyItWorks": [
+        "The body-map freshness % turns an invisible algorithm into a visible, trustworthy reason to do today's workout — it sells the AI.",
+        "Every screen funnels to one coral action; the dark field makes that pill unmissable.",
+        "Sets·reps·weight in a middot row is dense yet scannable, so a full session fits without a heavy table."
+      ],
+      "stealThisForThisProject": [
+        "Exercise row layout (thumbnail + bold title + middot meta + overflow menu) — near 1:1 with your model.",
+        "Floating single primary pill bottom-right.",
+        "Superset/round grouping with an uppercase micro-label and a loop icon (if you ever group exercises)."
+      ]
+    },
+
+    {
+      "id": "whoop",
+      "name": "WHOOP",
+      "tagline": "Recovery, strain & sleep tracking",
+      "relevanceToThisProject": "HIGH — the gold standard for dark data-viz; directly informs your Progress screen.",
+      "designArchetype": "Pure-black, instrument-panel data visualization.",
+      "theme": "dark",
+      "colorSystem": {
+        "background": "#000000 (true black, OLED)",
+        "surfaces": "~#121417 subtle cards",
+        "primaryAccent": "~#00E0A0 / #00F19F (mint-green = Recovery / affirmative)",
+        "secondaryAccents": [
+          "~#0093E7 strain blue",
+          "red/orange for high strain",
+          "periwinkle for sleep"
+        ],
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "~#7A7F87 gray",
+        "paletteLogic": "Color is 100% semantic: each metric owns a hue (green recovery, blue strain). Black maximizes contrast and makes the colored rings glow like gauges. Green doubles as the CTA color."
+      },
+      "typography": {
+        "displayTypeface": "Clean grotesque sans",
+        "bodyTypeface": "Same family, lighter weights",
+        "headlineStyle": "Big numerics centered in rings (68%, 15.2)",
+        "casing": "UPPERCASE letter-spaced section/labels ('SETUP YOUR PROFILE · STEP 1/6')",
+        "hierarchy": "Giant ring number > metric label > supporting gray text"
+      },
+      "layoutAndSpacing": {
+        "density": "Airy around hero rings; dense in detail charts",
+        "cornerRadius": "Rounded cards; circular gauges dominate",
+        "cardTreatment": "Thick circular progress rings with the W logo centered; bar charts for time-of-day",
+        "gridSystem": "Single column; tabbed detail (OVERVIEW / SLEEP / RECOVERY / STRAIN)"
+      },
+      "navigationAndPlacement": {
+        "model": "Top date scrubber (< TODAY >) + segmented detail tabs",
+        "tabBar": ["OVERVIEW", "SLEEP", "RECOVERY", "STRAIN"],
+        "headerPattern": "Avatar + date nav + share",
+        "primaryActionPlacement": "Green outline buttons ('GET STARTED', 'PAIR MY DEVICE', 'NEXT')"
+      },
+      "iconography": {
+        "style": "Minimal; small activity glyphs in colored chips (run/cycle in blue squares)",
+        "notes": "Data IS the iconography"
+      },
+      "buttons": {
+        "primary": "Green OUTLINE pill (hollow) on black",
+        "secondary": "Text",
+        "states": "Outline -> filled on emphasis"
+      },
+      "interactionsAndMotion": {
+        "signatureInteractions": [
+          "Rings animate/fill on load",
+          "Scrub days",
+          "Drill from overview ring into the metric's tab"
+        ],
+        "feedback": "Color-coded zones instantly legible",
+        "transitions": "Smooth ring fills and number count-ups"
+      },
+      "whyItWorks": [
+        "By giving each metric a fixed color, WHOOP makes a dense dashboard readable in under a second.",
+        "True black + glowing rings reads as 'precision instrument', justifying the premium subscription.",
+        "Hollow green buttons keep the CTA present without stealing attention from the data."
+      ],
+      "stealThisForThisProject": [
+        "A circular progress ring for streak / weekly-goal on your Progress screen, filled in #38e07b with a big centered number.",
+        "Tabbed detail under a single hero metric (e.g., This Week / This Month / All Time).",
+        "Outline-accent buttons as a tasteful secondary button style on your dark canvas."
+      ]
+    },
+
+    {
+      "id": "nike-training-club",
+      "name": "Nike Training Club",
+      "tagline": "Guided workouts & training programs",
+      "relevanceToThisProject": "MEDIUM-HIGH — best-in-class content/video browsing; informs VideoPreview & workout-detail.",
+      "designArchetype": "Light, editorial, photography-forward content library.",
+      "theme": "light",
+      "colorSystem": {
+        "background": "#FFFFFF",
+        "surfaces": "Photo cards do the work; minimal gray dividers",
+        "primaryAccent": "Essentially monochrome — black #111 actions; brand volt (#D7FF00) used sparingly",
+        "textPrimary": "~#111111",
+        "textSecondary": "Mid gray",
+        "paletteLogic": "Near-zero UI color so full-bleed athlete photography provides all the energy and color. The black/white chrome reads as confident and editorial (Nike brand discipline)."
+      },
+      "typography": {
+        "displayTypeface": "Helvetica-style neo-grotesque (Nike's Trade Gothic / Helvetica Now lineage)",
+        "bodyTypeface": "Same family",
+        "headlineStyle": "Big bold black titles ('Workouts'); titles overlaid on photos in white bold",
+        "casing": "Sentence/Title case; some compact uppercase tags",
+        "hierarchy": "Screen title (XL bold) > section header (bold) > card title (overlaid) > meta ('6 min, Beginner')"
+      },
+      "layoutAndSpacing": {
+        "density": "Spacious, magazine-like",
+        "cornerRadius": "Rounded photo cards (~12px)",
+        "cardTreatment": "Large full-bleed photo cards; title overlaid bottom-left in white; bookmark icon top-right; metadata under/over",
+        "gridSystem": "Horizontal carousels per section ('New Workouts', 'Perfect For Home')"
+      },
+      "navigationAndPlacement": {
+        "model": "Bottom tab bar + top content tabs",
+        "tabBar": ["Home", "Workouts", "Activity", "Programs"],
+        "headerPattern": "Big title + secondary tabs ('For You / Browse / Expert Tips / Trainers')",
+        "primaryActionPlacement": "Black 'Start Workout' pill on detail; mute toggle alongside"
+      },
+      "iconography": {
+        "style": "Minimal black line icons (bookmark, mail, tab glyphs)",
+        "notes": "Icon-tagged metadata rows on detail (clock=duration, body=focus, dumbbell=equipment, note=music)"
+      },
+      "buttons": {
+        "primary": "Black pill, white text",
+        "secondary": "Text / icon button",
+        "states": "High-contrast, simple"
+      },
+      "interactionsAndMotion": {
+        "signatureInteractions": [
+          "Horizontal carousel browse",
+          "Bookmark for later",
+          "Workout detail = full-bleed hero + tagged metadata + Start"
+        ],
+        "feedback": "Bookmark fill",
+        "transitions": "Card -> full-screen detail"
+      },
+      "whyItWorks": [
+        "Letting photography carry color while chrome stays black/white is the cheapest path to a 'premium brand' feel — and is reproducible by anyone with good imagery.",
+        "Icon-tagged metadata rows on the detail screen communicate duration/equipment/focus instantly before committing.",
+        "Editorial sectioning ('Perfect For Home') frames content as curated, not a dump."
+      ],
+      "stealThisForThisProject": [
+        "Workout-detail layout: hero (your YouTube thumbnail), title, then icon-tagged metadata rows (duration · sets · equipment · focus).",
+        "Bookmark/'save' affordance on exercises if you add favorites.",
+        "Section headers to frame routines ('Today', 'This week's plan')."
+      ]
+    },
+
+    {
+      "id": "peloton",
+      "name": "Peloton",
+      "tagline": "Classes across disciplines (Strength+, etc.)",
+      "relevanceToThisProject": "MEDIUM — dark, energetic, instructor/video-class model; tag pills & class cards.",
+      "designArchetype": "Dark, energetic, instructor-led class catalog.",
+      "theme": "dark",
+      "colorSystem": {
+        "background": "~#141416 / #0E0E0E",
+        "surfaces": "~#2A2A30 bluish-charcoal cards",
+        "primaryAccent": "~#F0463C coral-red (brand red ~#DF1E2E)",
+        "secondaryAccents": [
+          "muted slate ~#4A4A55 selectable pills",
+          "green/red progress segments"
+        ],
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "Cool gray",
+        "paletteLogic": "Dark, high-energy red used for every CTA and play affordance; slate pills for inert choices so red always means 'go'."
+      },
+      "typography": {
+        "displayTypeface": "Strong grotesque",
+        "bodyTypeface": "System sans",
+        "headlineStyle": "Bold section/headlines",
+        "casing": "Sentence case + UPPERCASE instructor/discipline labels ('CALLIE GULLICKSON · STRETCHING')",
+        "hierarchy": "Class title > instructor/discipline caption > tag pills"
+      },
+      "layoutAndSpacing": {
+        "density": "Medium; carousel-heavy home",
+        "cornerRadius": "Rounded cards (~12px) and pills",
+        "cardTreatment": "Class card: video thumbnail + circular red play + title + instructor + small tag pills (equipment, music) + Bookmark",
+        "gridSystem": "Vertical sections of horizontal carousels"
+      },
+      "navigationAndPlacement": {
+        "model": "Bottom tabs + search/calendar in header",
+        "tabBar": ["Home", "varies by plan"],
+        "headerPattern": "Search + saved + schedule icons; 'Recommended For You' carousels",
+        "primaryActionPlacement": "Red 'NEXT' / 'DONE' full-width during setup; red play on cards"
+      },
+      "iconography": {
+        "style": "Filled/line mix; circular play button is the hero glyph",
+        "notes": "Award/badge and music-note glyphs reinforce content metadata"
+      },
+      "buttons": {
+        "primary": "Coral-red pill, white text (full-width in flows)",
+        "secondary": "Slate pill / ghost",
+        "states": "Selected slate pill highlights"
+      },
+      "interactionsAndMotion": {
+        "signatureInteractions": [
+          "Tap red play to launch class",
+          "Bookmark for later",
+          "Getting-started checklist with segmented progress"
+        ],
+        "feedback": "Segmented progress bar fills (red) as setup steps complete",
+        "transitions": "Card -> player"
+      },
+      "whyItWorks": [
+        "Instructor faces + names build parasocial motivation; the class card front-loads who/what/how-long.",
+        "Tag pills (equipment, music genre) let users filter by mood/context fast.",
+        "A segmented getting-started checklist gamifies setup and reduces drop-off."
+      ],
+      "stealThisForThisProject": [
+        "Circular accent play button as the universal 'start/preview' affordance (your VideoPreview).",
+        "Small tag pills under an item (e.g., muscle group, equipment).",
+        "Segmented progress for any multi-step flow."
+      ]
+    },
+
+    {
+      "id": "gentler-streak",
+      "name": "Gentler Streak",
+      "tagline": "Self-compassionate fitness companion (Apple Design Award)",
+      "relevanceToThisProject": "MEDIUM — the deliberate CONTRAST case: warmth, friendliness, anti-burnout tone.",
+      "designArchetype": "Soft, pastel, illustrated wellness companion.",
+      "theme": "light (soft gradients)",
+      "colorSystem": {
+        "background": "Pastel sky-to-white gradients (~#BFE3F5 → #FFFFFF, warm peach accents)",
+        "surfaces": "White rounded cards, soft shadows",
+        "primaryAccent": "~#F58A56 coral-orange",
+        "secondaryAccents": [
+          "mascot orange ~#E8623C",
+          "intensity gradient green ~#4CD081 → red ~#E5544B"
+        ],
+        "textPrimary": "~#2A2A2A",
+        "textSecondary": "Warm gray",
+        "paletteLogic": "Soft, low-saturation palette deliberately avoids the 'hard data' look — it signals kindness/no-pressure. The one strong gradient (green→red) is reserved to teach the activity-intensity 'zone' concept."
+      },
+      "typography": {
+        "displayTypeface": "Rounded humanist sans",
+        "bodyTypeface": "Same, friendly",
+        "headlineStyle": "Medium-weight, warm copy ('You're almost in.', 'Be Mindful With Your Approach')",
+        "casing": "Sentence case throughout (no shouting)",
+        "hierarchy": "Friendly headline > supportive paragraph"
+      },
+      "layoutAndSpacing": {
+        "density": "Airy, generous",
+        "cornerRadius": "Very large radii; pill everything",
+        "cardTreatment": "Soft white cards with mascot illustrations; gentle elevation",
+        "gridSystem": "Single column, lots of whitespace"
+      },
+      "navigationAndPlacement": {
+        "model": "Bottom tabs + native pickers",
+        "tabBar": ["Activity-centric"],
+        "headerPattern": "Friendly greeting ('Hi Alex,')",
+        "primaryActionPlacement": "Coral-orange pill ('Got it', 'Go for it'); black pill ('OK') for neutral confirms"
+      },
+      "iconography": {
+        "style": "Custom rounded; expressive mascot character",
+        "notes": "Mascot expresses states (happy/strained) — emotional feedback"
+      },
+      "buttons": {
+        "primary": "Coral-orange pill",
+        "secondary": "Black pill / ghost",
+        "states": "Segmented control with black selected pill"
+      },
+      "interactionsAndMotion": {
+        "signatureInteractions": [
+          "Activity Path / intensity zones (green→red) guide effort",
+          "Mascot reactions",
+          "Gentle nudges instead of streak-shaming"
+        ],
+        "feedback": "Warm, encouraging microcopy + mascot",
+        "transitions": "Soft, springy"
+      },
+      "whyItWorks": [
+        "It owns a clear emotional position (anti-burnout) and every choice — pastels, mascot, gentle copy — reinforces it. Differentiation by FEELING, not features.",
+        "The green→red intensity gradient teaches a complex idea (optimal effort) with one visual.",
+        "Won an Apple Design Award precisely because tone, color, type, and motion are coherent."
+      ],
+      "stealThisForThisProject": [
+        "Microcopy tone: even a hardcore tracker benefits from one warm line on empty/completion states.",
+        "A green→amber→red gradient bar to visualize effort/intensity or weekly load.",
+        "If you ever want broader appeal, a tiny mascot or warm illustration on the empty state softens a dark UI."
+      ]
+    },
+
+    {
+      "id": "apple-fitness",
+      "name": "Apple Fitness / Fitness+",
+      "tagline": "Activity rings + guided workouts (system benchmark)",
+      "relevanceToThisProject": "HIGH — the canonical OLED-dark + volt-accent + ring system; closest to your palette logic.",
+      "designArchetype": "OLED-black system design with tri-color rings and a volt accent.",
+      "theme": "dark (with light variants)",
+      "colorSystem": {
+        "background": "#000000",
+        "surfaces": "~#1C1C1E grouped cards (iOS systemGray6 dark)",
+        "primaryAccent": "~#C4F000 / volt-green CTAs",
+        "secondaryAccents": [
+          "Move ring ~#FA114F pink-red",
+          "Exercise ring ~#92E82A green",
+          "Stand ring ~#1EE5C9 cyan"
+        ],
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "~#98989F",
+        "paletteLogic": "Black canvas + system grays; the tri-color rings are the brand and each is a metric; volt-green is reserved for the primary action so it never collides with ring colors."
+      },
+      "typography": {
+        "displayTypeface": "SF Pro (Display/Rounded for numerics)",
+        "bodyTypeface": "SF Pro Text",
+        "headlineStyle": "Large bold titles ('Summary'); giant monospaced-feel timer",
+        "casing": "Sentence case; iOS conventions",
+        "hierarchy": "Title XL bold > card header > metric value (huge) > caption"
+      },
+      "layoutAndSpacing": {
+        "density": "Comfortable, HIG-standard",
+        "cornerRadius": "~12–16px continuous-corner cards",
+        "cardTreatment": "Grouped rounded cards; rings as hero; activity-type selection grid with colored selected borders",
+        "gridSystem": "Single column cards; 3-col activity grid"
+      },
+      "navigationAndPlacement": {
+        "model": "Bottom tab bar",
+        "tabBar": ["Summary", "Fitness+", "Workout", "Sharing"],
+        "headerPattern": "Big title + avatar; date context",
+        "primaryActionPlacement": "Full-width volt-green pill ('Create Plan', 'Let's Go')"
+      },
+      "iconography": {
+        "style": "SF Symbols (consistent weight, scalable)",
+        "notes": "Circular +/− steppers for goal setting; ring glyph everywhere"
+      },
+      "buttons": {
+        "primary": "Volt-green filled pill, dark text",
+        "secondary": "Gray filled / plain text",
+        "states": "Segmented control ('Lightly / Moderately / Highly'); circular red +/− steppers"
+      },
+      "interactionsAndMotion": {
+        "signatureInteractions": [
+          "Rings close with spring + haptic",
+          "Plan builder (add activity per day)",
+          "Goal stepper +/−"
+        ],
+        "feedback": "Haptics on increments and ring close; celebratory ring-close animation",
+        "transitions": "Fluid, springy, HIG-native"
+      },
+      "whyItWorks": [
+        "The 3-ring model turned abstract activity into an addictive, glanceable, emotional daily goal — arguably the most successful fitness viz ever.",
+        "Volt-green CTA on black is maximally legible and energetic without clashing with the metric colors.",
+        "Rigorous use of SF Pro + SF Symbols + system spacing = instant trust and zero learning curve."
+      ],
+      "stealThisForThisProject": [
+        "Reserve your green strictly for primary action + active state; give metrics their own distinct colors (don't make everything green).",
+        "Circular +/− steppers and segmented controls for any numeric/option input (default rest time, units).",
+        "Spring + haptic on completion (you have a fitness-haptics-sound skill — wire it to set completion)."
+      ]
+    },
+
+    {
+      "id": "strava",
+      "name": "Strava",
+      "tagline": "Track active life; social + maps",
+      "relevanceToThisProject": "MEDIUM — bold single-brand-color on light; social/activity feed & stats patterns.",
+      "designArchetype": "Bright-orange, light-theme, social activity tracker.",
+      "theme": "light",
+      "colorSystem": {
+        "background": "#FFFFFF",
+        "surfaces": "Light gray cards / map tiles",
+        "primaryAccent": "#FC4C02 (Strava orange)",
+        "secondaryAccents": ["map route orange", "kudos/social affordances"],
+        "textPrimary": "~#242428",
+        "textSecondary": "Mid gray",
+        "paletteLogic": "One unmistakable brand orange on white — every CTA and the route lines are orange, making the brand and the primary action identical. Light theme suits outdoor daytime use & maps."
+      },
+      "typography": {
+        "displayTypeface": "Bold grotesque (brand 'Maison'-like)",
+        "bodyTypeface": "System sans",
+        "headlineStyle": "Bold marketing headlines in onboarding; data-bold stat numerals",
+        "casing": "Sentence case; stat labels small caps/gray",
+        "hierarchy": "Stat value bold > unit/label gray; activity title > metadata"
+      },
+      "layoutAndSpacing": {
+        "density": "Data-dense activity cards; airy onboarding",
+        "cornerRadius": "Moderately rounded",
+        "cardTreatment": "Activity card = map snapshot + stat grid (distance/pace/time) + social row (kudos/comments)",
+        "gridSystem": "Feed of cards; icon+label selection lists (sports)"
+      },
+      "navigationAndPlacement": {
+        "model": "Bottom tabs (feed/maps/record/groups/you)",
+        "tabBar": ["Home/Feed", "Maps", "Record", "Groups", "You"],
+        "headerPattern": "Photographic onboarding carousel with page dots",
+        "primaryActionPlacement": "Orange 'Join for free' / 'Sign Up'; central Record action"
+      },
+      "iconography": {
+        "style": "Line icons tinted orange (sports list, social actions)",
+        "notes": "Route map IS a core visual; kudos (thumbs) is iconic"
+      },
+      "buttons": {
+        "primary": "Orange filled pill",
+        "secondary": "Text ('Log in'), SSO buttons",
+        "states": "Standard"
+      },
+      "interactionsAndMotion": {
+        "signatureInteractions": [
+          "Record activity (map + live stats)",
+          "Kudos/social feed",
+          "Segment leaderboards",
+          "Sport multi-select"
+        ],
+        "feedback": "Stat count-ups; kudos animation",
+        "transitions": "Feed scroll; record full-screen"
+      },
+      "whyItWorks": [
+        "Collapsing brand color and CTA color into one orange makes the product instantly recognizable and the action obvious.",
+        "The activity card (map + stat grid + social) is a perfect 'unit of accomplishment' that's shareable and motivating.",
+        "Social proof (kudos) is the retention engine, surfaced in the primary feed."
+      ],
+      "stealThisForThisProject": [
+        "Stat-grid block (value bold + small gray label) for your post-workout summary (duration / sets done / volume).",
+        "Icon + label selection rows (your routine/exercise pickers).",
+        "Photographic onboarding carousel pattern if you add a first-run intro."
+      ]
+    },
+
+    {
+      "id": "centr",
+      "name": "Centr",
+      "tagline": "Chris Hemsworth's training, meals & mind",
+      "relevanceToThisProject": "MEDIUM — premium dark + all-caps editorial headlines + social proof persuasion.",
+      "designArchetype": "Premium dark, magazine-editorial, founder-led.",
+      "theme": "dark",
+      "colorSystem": {
+        "background": "~#0A0A0A black",
+        "surfaces": "Dark cards over full-bleed athlete photography",
+        "primaryAccent": "~#D4F000 chartreuse (the atom logo) used sparingly; white & black for CTAs",
+        "secondaryAccents": ["gold star ratings", "award badges"],
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "Cool gray",
+        "paletteLogic": "Cinematic black + photography for aspiration; CTA color is mostly white-on-dark / black-on-light for editorial restraint, with chartreuse as a rare brand spark."
+      },
+      "typography": {
+        "displayTypeface": "Bold CONDENSED uppercase display (athletic, magazine)",
+        "bodyTypeface": "Clean sans",
+        "headlineStyle": "ALL-CAPS condensed headlines ('ACHIEVE YOUR FITNESS GOALS, YOUR WAY')",
+        "casing": "UPPERCASE display; sentence-case body",
+        "hierarchy": "Caps headline (XL) > supporting body > testimonial/social-proof blocks"
+      },
+      "layoutAndSpacing": {
+        "density": "Editorial; generous full-bleed imagery",
+        "cornerRadius": "Moderate",
+        "cardTreatment": "Full-bleed photo + dark gradient + overlaid caps headline; testimonial cards with stars; before/after images",
+        "gridSystem": "Single column; goal radio lists"
+      },
+      "navigationAndPlacement": {
+        "model": "Quiz-driven onboarding -> bottom tabs in app",
+        "tabBar": ["program-centric"],
+        "headerPattern": "Step counter ('Step 2 of 8'); founder framing",
+        "primaryActionPlacement": "White 'GET STARTED' pill on photo; black 'CONTINUE'"
+      },
+      "iconography": {
+        "style": "Minimal; award/star badges for credibility",
+        "notes": "Imagery > icons"
+      },
+      "buttons": {
+        "primary": "White or black pill (UPPERCASE label)",
+        "secondary": "Text ('LOG IN')",
+        "states": "Disabled gray"
+      },
+      "interactionsAndMotion": {
+        "signatureInteractions": [
+          "FitQuiz personalization",
+          "Goal radio selection",
+          "Social-proof reveal (reviews, before/after, awards)"
+        ],
+        "feedback": "Progress step counter",
+        "transitions": "Editorial fades"
+      },
+      "whyItWorks": [
+        "All-caps condensed type + cinematic photography instantly signals 'serious, premium training'.",
+        "Heavy, well-placed social proof (40k reviews, awards, before/after) de-risks the subscription decision during onboarding.",
+        "Founder (celebrity) personalization creates trust and aspiration."
+      ],
+      "stealThisForThisProject": [
+        "An all-caps condensed display style for big section titles can add athletic energy (pair with Lexend body).",
+        "Use a 'Step N of M' counter for any multi-step flow.",
+        "Even offline, a tasteful achievement/stat callout post-workout taps the same motivation."
+      ]
+    },
+
+    {
+      "id": "ladder",
+      "name": "Ladder",
+      "tagline": "Coach-programmed strength teams",
+      "relevanceToThisProject": "HIGH — black + bright accent (your exact archetype) + filter-based personalization.",
+      "designArchetype": "Black + volt-yellow, coach/team-driven, high-energy.",
+      "theme": "dark",
+      "colorSystem": {
+        "background": "#000000",
+        "surfaces": "Dark cards; photographic coach imagery",
+        "primaryAccent": "~#E2FB4F / #D9F526 (volt-yellow; black text on it)",
+        "secondaryAccents": ["white", "photographic coaches"],
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "Gray",
+        "paletteLogic": "Identical strategy to Apple's volt-green: one electric accent on pure black. Volt-yellow with black text yields maximal contrast and a 'sports/energy' read."
+      },
+      "typography": {
+        "displayTypeface": "Bold condensed UPPERCASE",
+        "bodyTypeface": "Clean sans",
+        "headlineStyle": "Caps condensed ('YOUR FIRST WORKOUT', 'LADDER IS DIFFERENT')",
+        "casing": "UPPERCASE display",
+        "hierarchy": "Caps headline > supporting text > filter labels"
+      },
+      "layoutAndSpacing": {
+        "density": "Medium; filter lists",
+        "cornerRadius": "Rounded pills/cards",
+        "cardTreatment": "Coach/team cards with photos; radio/checkbox filter lists",
+        "gridSystem": "Single column; selection lists with accent checkmarks"
+      },
+      "navigationAndPlacement": {
+        "model": "Onboarding filters -> app",
+        "tabBar": ["team/workout-centric"],
+        "headerPattern": "Filter / Reset; 'Skip'",
+        "primaryActionPlacement": "Full-width volt-yellow pill ('GET NOTIFIED', 'CONTINUE', 'APPLY FILTER (15 Matches)')"
+      },
+      "iconography": {
+        "style": "Simple line + accent checkmarks",
+        "notes": "Accent checkmark = selected"
+      },
+      "buttons": {
+        "primary": "Volt-yellow pill, black text",
+        "secondary": "Ghost / text ('Skip')",
+        "states": "Accent radio/checkbox fill on select"
+      },
+      "interactionsAndMotion": {
+        "signatureInteractions": [
+          "Filter to match a coach/team (style, length, coach gender)",
+          "Match-count on the apply button ('15 Matches')"
+        ],
+        "feedback": "Live match count updates with filters",
+        "transitions": "Standard"
+      },
+      "whyItWorks": [
+        "Volt-yellow on black is the same proven 'one electric accent on near-black' formula — confirms your direction with a different hue.",
+        "Putting the live match count ON the apply button ('15 Matches') gives instant feedback and reduces empty-result anxiety.",
+        "Coach photos + team framing create accountability and belonging."
+      ],
+      "stealThisForThisProject": [
+        "Put dynamic counts on buttons where relevant (e.g., 'Start Workout · 6 exercises').",
+        "Accent checkmark as the selected-state for any list selection.",
+        "Confidence to keep your green as the ONLY accent on dark — it's a validated pattern."
+      ]
+    },
+
+    {
+      "id": "hevy",
+      "name": "Hevy",
+      "tagline": "Workout logger & lifting community",
+      "relevanceToThisProject": "VERY HIGH — its set/rep logging table + green completion is the closest analogue to your setsProgress[] model.",
+      "designArchetype": "Clean light logger with a blue accent and a structured set table.",
+      "theme": "light (also offers dark)",
+      "colorSystem": {
+        "background": "#FFFFFF",
+        "surfaces": "White rows / subtle gray dividers",
+        "primaryAccent": "~#2D7FF9 / #1E88E5 blue (links, Finish, exercise names, rest timer)",
+        "secondaryAccents": [
+          "completed-set row tint ~#D6F5D6 green / check ~#34C759",
+          "warmup 'W' badge amber ~#F5A623",
+          "discard red"
+        ],
+        "textPrimary": "~#1A1A1A",
+        "textSecondary": "Gray",
+        "paletteLogic": "Neutral light UI so the SEMANTIC colors carry meaning: blue = interactive, green = completed, amber = warmup, red = destructive. Color never decorates — it always means something."
+      },
+      "typography": {
+        "displayTypeface": "Clean sans (Inter-like)",
+        "bodyTypeface": "Same",
+        "headlineStyle": "Bold exercise/section titles; LARGE rest-timer numerals",
+        "casing": "Sentence case; small caps column headers (SET / PREVIOUS / KG / REPS)",
+        "hierarchy": "Exercise title (blue, bold) > table rows > tiny column headers"
+      },
+      "layoutAndSpacing": {
+        "density": "Dense but orderly TABLE",
+        "cornerRadius": "Subtle on cards/buttons",
+        "cardTreatment": "Per-exercise block: thumbnail + title + note + rest-timer line + set table + 'Add Set'",
+        "gridSystem": "Tabular: columns SET | PREVIOUS | KG | REPS | ✓"
+      },
+      "navigationAndPlacement": {
+        "model": "Active-session view + bottom tabs (Home feed / etc.)",
+        "tabBar": ["Home", "social/profile"],
+        "headerPattern": "Collapse chevron + elapsed timer + rest-timer icon + blue 'Finish'",
+        "primaryActionPlacement": "'Finish' top-right (blue); 'Add Set' per exercise; rest-timer overlay controls"
+      },
+      "iconography": {
+        "style": "Simple line icons (timer, overflow, exercise thumbnails)",
+        "notes": "Checkbox per set is the key interactive glyph"
+      },
+      "buttons": {
+        "primary": "Blue filled (Finish, Save, Continue)",
+        "secondary": "Tinted 'Add Set'; ghost",
+        "states": "Set checkbox toggles row to GREEN when completed; rest overlay −15 / +15 / Skip"
+      },
+      "interactionsAndMotion": {
+        "signatureInteractions": [
+          "Tap a set's checkbox -> row fills green + auto-starts rest timer",
+          "Rest overlay big countdown with −15/+15/Skip",
+          "'Add Set' grows the table",
+          "Workout finish -> 'Nice work!' confetti + Duration/Volume/Sets summary"
+        ],
+        "feedback": "Green row + check is the core completion reward; confetti on first/finish",
+        "transitions": "Inline table updates; celebratory finish screen"
+      },
+      "whyItWorks": [
+        "The set table is the right abstraction for strength logging: PREVIOUS column anchors progressive overload, the checkbox makes each set a tiny commit, and the green row is an instant, satisfying 'done'.",
+        "Auto-starting the rest timer on set completion removes a manual step at exactly the right moment.",
+        "The finish screen converts effort into shareable stats (Volume, Sets) — closing the motivation loop."
+      ],
+      "stealThisForThisProject": [
+        "MODEL YOUR WORKOUT SCREEN ON THIS. Per exercise: thumbnail + name + middot meta, then a row per set with a check that flips the row to a #38e07b tint — a direct visual for your setsProgress[] (exerciseId,setNumber).",
+        "Auto-launch your Timer.tsx as a rest overlay (big numerals + −15/+15/Skip) when a set is checked, seeded from Exercise.restTime.",
+        "A 'Nice work!' completion screen on COMPLETE_WORKOUT with Duration / Sets done / (optional volume) — wire fitness-motion + fitness-haptics-sound."
+      ]
+    },
+
+    {
+      "id": "tonal",
+      "name": "Tonal",
+      "tagline": "Smart home strength trainer",
+      "relevanceToThisProject": "MEDIUM-HIGH — strength domain; dual light-minimal/dark-cinematic system; video-guided exercises with rep counts.",
+      "designArchetype": "Dual-mode: minimal B&W setup + cinematic dark training.",
+      "theme": "mixed (light minimal onboarding, dark cinematic in-app)",
+      "colorSystem": {
+        "background": "Onboarding ~#F4F4F4/#FFFFFF; in-app ~#0A0A0F near-black",
+        "surfaces": "White cards (setup); dark textured panels (training)",
+        "primaryAccent": "Onboarding monochrome (black pills); in-app magenta ~#E0218A with purple→teal gradients; green 'Filter' pill seen",
+        "secondaryAccents": ["teal/cyan", "play-circle glyphs"],
+        "textPrimary": "Black on light / white on dark",
+        "textSecondary": "Gray",
+        "paletteLogic": "Deliberate split: setup/forms are calm, neutral, distraction-free (faster completion); the actual workout is cinematic dark with vivid gradients to feel premium and immersive, like a class."
+      },
+      "typography": {
+        "displayTypeface": "Bold sans; LARGE display ('STRENGTH')",
+        "bodyTypeface": "Clean sans",
+        "headlineStyle": "Centered bold headlines in setup ('What should we call you?'); huge program word-marks in app",
+        "casing": "Sentence case forms; UPPERCASE big labels ('STRENGTH')",
+        "hierarchy": "Big program title > round indicator ('Round 1 of 3') > exercise rows ('Floor Y Raise · 12 reps')"
+      },
+      "layoutAndSpacing": {
+        "density": "Very airy onboarding; richer in-app",
+        "cornerRadius": "Rounded; pill CTAs",
+        "cardTreatment": "Setup: minimal underline fields + radio-right rows; In-app: exercise list with play-circle + rep counts under a big STRENGTH hero",
+        "gridSystem": "Single column"
+      },
+      "navigationAndPlacement": {
+        "model": "Bottom tabs in app",
+        "tabBar": ["Home", "Activity", "Explore", "Coach", "Settings"],
+        "headerPattern": "'Personal Info' / progress underline in setup; immersive headers in app",
+        "primaryActionPlacement": "Black 'CONTINUE' pill (setup); play/start in training"
+      },
+      "iconography": {
+        "style": "Minimal; play-circle is the exercise-start glyph",
+        "notes": "Radio-right selection rows (black fill = selected)"
+      },
+      "buttons": {
+        "primary": "Black pill (setup) / accent in app",
+        "secondary": "Text / ghost",
+        "states": "Radio-right rows; disabled gray CTA"
+      },
+      "interactionsAndMotion": {
+        "signatureInteractions": [
+          "Round-based exercise flow ('Round 1 of 3')",
+          "Tap play-circle to start a guided move",
+          "Filter pill on class lists"
+        ],
+        "feedback": "Round progress",
+        "transitions": "Minimal setup -> cinematic player"
+      },
+      "whyItWorks": [
+        "Splitting the system (calm light forms vs cinematic dark training) optimizes each context: data entry wants zero distraction; working out wants immersion and energy.",
+        "Round/exercise lists with rep counts + play-circle make a structured program feel guided, not like homework.",
+        "Centered, single-question setup screens reduce cognitive load and boost completion."
+      ],
+      "stealThisForThisProject": [
+        "Consider a calmer treatment for settings/forms vs a richer treatment for the active workout (you can do this within one dark theme via spacing & accent density).",
+        "Round/block grouping with a 'Round X of Y' indicator if routines have circuits.",
+        "Play-circle glyph on each exercise that has a video (ties into VideoPreview)."
+      ]
+    }
+  ],
+
+  "comparativeMatrix": {
+    "note": "Quick scan of archetypes. 'Accent on dark' is the cluster you belong to.",
+    "byTheme": {
+      "dark_plus_single_accent": [
+        "Fitbod (coral)",
+        "WHOOP (mint)",
+        "Apple Fitness (volt-green)",
+        "Ladder (volt-yellow)",
+        "Peloton (coral-red)",
+        "Centr (chartreuse, sparing)",
+        "Tonal in-app (magenta)"
+      ],
+      "light_clean": [
+        "Nike Training Club (mono/photo)",
+        "Strava (orange)",
+        "Hevy (blue)",
+        "Tonal onboarding (mono)"
+      ],
+      "soft_illustrated": ["Gentler Streak (pastel + mascot)"]
+    },
+    "byTypeCasing": {
+      "uppercase_condensed_athletic": ["Centr", "Ladder", "WHOOP labels", "Tonal big labels"],
+      "bold_grotesque_editorial": ["Nike Training Club", "Strava"],
+      "friendly_rounded": ["Gentler Streak"],
+      "system_sf_pro": ["Apple Fitness", "Fitbod", "Hevy(Inter-like)"]
+    },
+    "byPrimaryActionShape": {
+      "filled_accent_pill": [
+        "Fitbod",
+        "Apple Fitness",
+        "Peloton",
+        "Ladder",
+        "Strava",
+        "Centr(white/black)",
+        "Hevy(blue)"
+      ],
+      "outline_accent_pill": ["WHOOP"],
+      "black_or_white_pill": ["NTC", "Tonal", "Centr"]
+    }
+  },
+
+  "synthesisForThisProject": {
+    "headline": "You're in the right quadrant (dark + neon-green = Apple/WHOOP/Ladder DNA). Win by upgrading execution: type confidence, disciplined accent, data viz, completion feedback, and motion.",
+    "prioritizedActions": [
+      {
+        "priority": 1,
+        "action": "Rebuild the workout screen as a Hevy/Fitbod-style exercise+set list.",
+        "details": "Per exercise: rounded thumbnail (or VideoPreview play) + bold name (Lexend) + middot meta from your data ('3 sets · 8–12 reps · 60s rest'). Below it, one row per set with a tap-target check. Tapping a set's check flips that row to a #38e07b-tinted state — this is the visual realization of setsProgress[] keyed by (exerciseId,setNumber). ExerciseAccordion already does one-open-at-a-time; keep that.",
+        "touches": [
+          "src/components/ExerciseAccordion.tsx",
+          "src/contexts/AppContext.tsx (TOGGLE_SET case persisting via LocalStorageService)",
+          "src/styles/index.css (.accordion-item, new .set-row / .set-row--done)"
+        ]
+      },
+      {
+        "priority": 2,
+        "action": "Promote Timer.tsx to a focused rest overlay.",
+        "details": "Big centered numerals, circular SVG progress filled #38e07b, and −15 / +15 / Skip controls. Auto-open seeded from Exercise.restTime when a set is checked; onComplete returns to the list. This mirrors Hevy/Fitbod/Apple.",
+        "touches": ["src/components/Timer.tsx", "workout screen", "settings default durations"]
+      },
+      {
+        "priority": 3,
+        "action": "Discipline the accent; add a semantic palette.",
+        "details": "Use #38e07b ONLY for primary action + active nav + completed state. Add: amber (#F5A623-ish) for warmup/in-progress, a red for destructive (end/discard), and a muted gray-green for 'not started'. This matches Hevy/Apple 'color = meaning' and prevents the all-green flatness.",
+        "touches": [
+          "src/styles/index.css @theme tokens",
+          "add --color-warning / --color-danger / --color-muted"
+        ]
+      },
+      {
+        "priority": 4,
+        "action": "Make the Progress screen glanceable with a ring + big numbers.",
+        "details": "Reuse the circular SVG approach (you already have it in Timer) to render a streak/weekly-goal ring filled #38e07b with a huge centered number (WHOOP/Apple pattern). Add a stat-grid (Strava pattern): value bold + small gray label for workouts, streak, total volume from LocalStorageService.getStats().",
+        "touches": ["progress screen", "src/utils/localStorage.ts getStats()"]
+      },
+      {
+        "priority": 5,
+        "action": "Pay off completion with motion + haptics + a finish screen.",
+        "details": "On set check: spring + subtle haptic. On COMPLETE_WORKOUT: a 'Nice work!' screen with Duration / Sets done / streak, plus light confetti. You already have fitness-motion and fitness-haptics-sound skills — this is exactly their use case.",
+        "touches": [
+          "COMPLETE_WORKOUT flow",
+          "new CompletionScreen",
+          "fitness-motion / fitness-haptics-sound"
+        ]
+      },
+      {
+        "priority": 6,
+        "action": "Typographic confidence.",
+        "details": "Push Lexend heavier (700–800) and tighter for headings and big numerics; keep Noto Sans for body. Consider an UPPERCASE micro-label style (letter-spaced) for section headers ('TODAY', 'THIS WEEK') — the Centr/WHOOP/Ladder athletic cue, used sparingly.",
+        "touches": ["src/styles/index.css type scale", "headings"]
+      },
+      {
+        "priority": 7,
+        "action": "Calendar as a streak heatmap.",
+        "details": "Color completed days with #38e07b intensity (Apple/Gentler streak logic). Makes consistency visible and motivating.",
+        "touches": ["calendar screen", "getStats()/workoutHistory"]
+      },
+      {
+        "priority": 8,
+        "action": "VideoPreview = NTC/Peloton card.",
+        "details": "Thumbnail + circular accent play; on the exercise detail, an icon-tagged metadata row (sets · reps · rest · target muscle). Keeps your lazy-iframe approach.",
+        "touches": ["src/components/VideoPreview.tsx", "exercise detail"]
+      }
+    ],
+    "antiPatternsToAvoid": [
+      "Don't paint everything green — kills the 'tap me / done' contract. Accent must stay scarce.",
+      "Don't add a router — your switch-based nav already matches the category's tab-bar model. Just style the active tab in the accent and keep it hidden during workouts (you already do).",
+      "Don't chase photographic hero imagery you can't ship offline — lean on YouTube thumbnails + type + green instead (NTC proves chrome can be minimal if one layer carries energy).",
+      "Don't over-onboard a no-auth local app; a one-time units/rest-time/default-routine selection (selection-card pattern) is plenty."
+    ],
+    "tokenStarterEdits": {
+      "note": "Illustrative additions for src/styles/index.css @theme — verify hexes against the real screenshots/eyedropper before finalizing.",
+      "suggested": {
+        "--color-accent": "#38e07b (existing — keep; primary action/active/done)",
+        "--color-accent-dim": "#2aa85d (pressed/hover on dark)",
+        "--color-warning": "#f5a623 (warmup / in-progress)",
+        "--color-danger": "#e5544b (end workout / discard)",
+        "--color-set-done-bg": "rgba(56,224,123,0.14) (completed set row tint)",
+        "--color-muted": "#5d7a67 (not-started / disabled on dark)"
+      }
+    }
+  },
+
+  "appendix": {
+    "appsConsideredButNotDeepDived": [
+      "Me+",
+      "Liven",
+      "MyFitnessPal",
+      "Yazio",
+      "TIDE",
+      "Yuka",
+      "Runbuds",
+      "Alan",
+      "Fitplan",
+      "Runna (not opened)"
+    ],
+    "notOnMobbinOrSkipped": [
+      "Strong (no dedicated app page found via search; appeared only as screen-text matches)"
+    ],
+    "furtherViewingSuggestions": [
+      "Open each app's 'Flows' tab on Mobbin for end-to-end interaction sequences (onboarding, log-a-workout, finish-and-share) to study transitions and motion, which still images understate."
+    ]
+  }
+}

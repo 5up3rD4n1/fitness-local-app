@@ -4,168 +4,104 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a React single-page fitness application that compiles to a single HTML file with localStorage for data persistence. No backend or authentication is required - anyone with the HTML file can use the app.
+Offline-first React fitness tracker that compiles to a **single HTML file** and persists everything to `localStorage`. No backend, no auth, no network dependency after first load (except YouTube embeds and Google Fonts). Deployed to GitHub Pages and installable as a PWA (iOS home-screen target).
 
 ## Tech Stack
 
-- **React** - Single page application framework
-- **Tailwind CSS** - Utility-first CSS framework for styling
-- **localStorage** - Client-side data persistence
-- **YouTube API** - Exercise video previews
-- **Build Tool** - Vite (recommended for single HTML output)
+- **React 19** + **TypeScript**, **Vite 7**
+- **Tailwind CSS v4** (via `@tailwindcss/postcss`)
+- `vite-plugin-singlefile` for single-HTML output
+- `@radix-ui/react-dialog` (confirm dialogs), `uuid`
+- `react-router-dom` is installed **but not used for routing** — see Navigation below
 
-## Project Structure
-
-```
-fitness-app/
-├── docs/
-│   ├── spec.md           # Project specification
-│   └── designs/          # HTML design mockups
-│       ├── home.html
-│       ├── workout.html
-│       ├── exercise-details.html
-│       └── calendar-tracking.html
-├── src/                  # Source code (to be created)
-│   ├── components/       # React components
-│   ├── screens/         # Screen components
-│   ├── utils/           # Utility functions
-│   └── App.jsx          # Main application
-└── public/              # Static assets
-```
-
-## Key Commands
+## Commands
 
 ```bash
-# Run development server
-npm run dev
-
-# Build to single HTML file
-npm run build
-
-# Preview production build
-npm run preview
-
-# Run linting
-npm run lint
-
-# Format code with Prettier
-npm run format
-
-# Check code formatting
-npm run check-format
-
-# Convert CSV workout data to JSON (if needed)
-npm run convert-data
+npm run dev            # Vite dev server
+npm run build          # Single-file build to dist/
+npm run preview        # Serve the production build
+npm run lint           # ESLint (flat config, eslint.config.mjs)
+npm run format         # Prettier write
+npm run check-format   # Prettier check
+npm run convert-data   # Regenerate src/data/workoutData.json from the CSV
 ```
+
+There is **no test runner** configured. Ignore any references to `npm test` — no Vitest/Jest/`test` script exists. Don't invent test commands.
 
 ## Architecture
 
-### Core Features
-1. **Workout Management**: Display daily workouts with exercises as accordions
-2. **Exercise Tracking**: Track sets, reps, and completion status
-3. **Timer System**: Rest timers and exercise timers with countdown
-4. **Video Integration**: YouTube video previews for exercise demonstrations
-5. **Calendar Tracking**: Schedule and track workout sessions
-6. **Progress Monitoring**: Track workout frequency and progress over time
+### State: one reducer, one context
 
-### Data Structure (localStorage)
-```javascript
-{
-  workouts: [
-    {
-      id: string,
-      date: Date,
-      name: string,
-      exercises: [
-        {
-          id: string,
-          name: string,
-          sets: number,
-          reps: number,
-          duration: number,
-          videoUrl: string,
-          completed: boolean
-        }
-      ]
-    }
-  ],
-  progress: {
-    completedWorkouts: [],
-    streaks: {}
-  },
-  settings: {
-    restTimer: number,
-    exerciseTimer: number
-  }
-}
-```
+All app state lives in a single `useReducer` inside `src/contexts/AppContext.tsx`, exposed via the `useApp()` hook. There is no Redux/Zustand and no per-screen state store.
 
-### Screen Components
-1. **Home Screen**: Today's workout, upcoming sessions, mini calendar, progress tracker
-2. **Workout Screen**: Exercise list with accordion UI, one active exercise at a time
-3. **Exercise Details**: Video preview, set tracking, timer controls
-4. **Calendar Screen**: Monthly view with workout scheduling
+- The reducer is **not pure**: most cases call `LocalStorageService` to persist as a side effect (e.g. `START_WORKOUT` → `saveCurrentSession`, `COMPLETE_WORKOUT` → `addWorkoutSession`). A separate `useEffect` persists `currentRoutine`/`currentExerciseIndex` to app state. When adding actions, follow this pattern: mutate state **and** write through `LocalStorageService` in the same case.
+- On mount, the provider rehydrates `currentSession`, `workoutHistory`, `settings`, and app state from localStorage (behind a 100ms fake loading delay → `LoadingScreen`).
 
-### Design System
-- **Colors**:
-  - Primary bg: `#122118`
-  - Secondary bg: `#1b3124`
-  - Borders: `#264532`, `#366348`
-  - Accent: `#38e07b`
-  - Text: White (primary), `#96c5a9` (secondary)
-- **Typography**: Lexend (headings), Noto Sans (body)
-- **Layout**: Mobile-first responsive design
+### Navigation: state machine, not a router
 
-## Build Configuration for Single HTML
+`currentScreen` (`'login' | 'home' | 'workout' | 'calendar' | 'progress' | 'programs' | 'program' | 'settings'`) lives in the reducer. `App.tsx` switches on it; `navigateTo(screen)` dispatches `NAVIGATE`. Do not add `react-router` routes — match the existing switch-based pattern.
 
-To compile to a single HTML file, use vite-plugin-singlefile:
+- **Auth gate:** `App.tsx` renders `LoginScreen` whenever `currentUser` is null (regardless of `currentScreen`); the tab bar + app screens mount only once logged in.
+- **Tab bar** (`HIDE_TABBAR` in `App.tsx`) is hidden on `workout`, `programs`, `program`, `settings`.
+- After login you land on `programs` (the picker) if there's no active program, else `home`.
 
-```bash
-npm install -D vite-plugin-singlefile
-```
+### Accounts: local multi-user (NOT real security)
 
-Configure vite.config.js:
-```javascript
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { viteSingleFile } from 'vite-plugin-singlefile'
+Multiple local accounts live in `localStorage`. `LoginScreen` registers/selects a user; passwords are **salted + SHA-256 hashed via Web Crypto** (offline) — a casual gate only, since localStorage is readable. `crypto`/`TextEncoder`/`Uint8Array` are whitelisted in `eslint.config.mjs` globals. `currentUser` + `activeProgramId` live in the reducer; `login`/`register`/`logout`/`listUsers`/`setActiveProgram` come from `useApp()`. "Switch user" = logout, then pick another account on the login screen.
 
-export default defineConfig({
-  plugins: [react(), viteSingleFile()],
-  build: {
-    assetsInlineLimit: 100000000
-  }
-})
-```
+### Data model: Program → Routine → Exercise (read-only)
 
-## Development Guidelines
+Workout content is **static**, loaded from `src/data/workoutData.json` (imported directly), shaped `{ programs: Program[] }`. Users run programs/routines; they cannot create/edit content.
 
-1. **Component Structure**: Use functional components with hooks
-2. **State Management**: Use React Context for global state (workouts, settings)
-3. **Data Persistence**: Save to localStorage on every state change
-4. **Responsive Design**: Mobile-first approach using Tailwind breakpoints
-5. **Accessibility**: Ensure ARIA labels for interactive elements
-6. **Performance**: Lazy load YouTube videos, optimize re-renders
+- A **`Program`** bundles its own `routines`, `exercises`, and meta (`id`, `name`, `description`, `safetyPrinciples[]`, `recommendedEquipment[]`). The active program is per-user (`activeProgramId`); `useApp()` exposes the active program's `routines`/`exercises`, plus `programs` (all) and `allRoutines` (flat, for resolving history across programs).
+- **IDs are program-prefixed** and globally unique: routine `<programId>-day-<n>`, exercise `<programId>-d<n>-<slug>`. `Routine`/`Exercise`/`WorkoutSession` all carry `programId`.
+- `Routine.exercises` is a `string[]` of **exercise IDs**, not nested objects.
+- `Exercise.reps`/`restTime` are **strings** (`"8-12"`, `"60s"`); `sets` is a number.
+- Progress is **not** on exercises. `WorkoutSession.setsProgress[]` records completion keyed by `(exerciseId, setNumber)`.
+- Types are the source of truth: `src/types/index.ts`.
 
-## Testing Approach
+### Persistence
 
-When testing is implemented:
-```bash
-# Run unit tests
-npm test
+All localStorage access goes through `src/utils/localStorage.ts` (`LocalStorageService`). Never touch `localStorage` from components. Keys: global `fitness_app_users` / `fitness_app_current_user`; **per-user** data under `fitness_app_u_<userId>_<suffix>` (`workout_history`, `current_session`, `user_settings`, `state`, `active_program`). `getStats()` operates on the current user's history. `checkAndMigrateSchema()` wipes all `fitness_app_*` (clean slate) on a `CURRENT_SCHEMA_VERSION` bump.
 
-# Run tests in watch mode
-npm run test:watch
+### Data pipeline
 
-# Generate coverage report
-npm run test:coverage
-```
+`npm run convert-data` runs `scripts/convertCSVtoJSON.ts` (via `tsx`): it scans **`docs/programs/*/`** (one folder per program) → writes `src/data/workoutData.json` as `{ programs: [...] }`.
 
-## Important Implementation Notes
+Each program folder contains:
 
-1. **Accordion Behavior**: Only one exercise should be expanded at a time
-2. **Exercise Completion**: Collapsed accordion items show checkmark if completed
-3. **Timer Functionality**: Implement both rest timer and exercise timer with audio alerts
-4. **YouTube Integration**: Use iframe API for video previews, ensure lazy loading
-5. **Offline Support**: All functionality must work offline after initial load
-6. **Single File Output**: Final build must be a single HTML file with all assets inlined
+- `program.json` — `{ id, name, description, safetyPrinciples[], recommendedEquipment[] }`
+- `routines/*.csv` — one CSV per day; day number parsed from the filename (`... DIA 1 ...`). Same column format as the existing program.
+- `videos.json` — `{ "<localExerciseId>": "<youtubeUrl>" }`, keyed by the **unprefixed** local id (`d<day>-<slug>`); the converter maps it onto the prefixed id.
+
+**To add a program:** create `docs/programs/<new-id>/` with those three pieces, then `npm run convert-data`. No code changes needed — it appears in the picker automatically.
+
+### Key components
+
+- `Timer.tsx` — self-contained countdown with circular SVG progress and an `onComplete` callback; reused for rest and exercise timers. Default durations come from `settings`.
+- `VideoPreview.tsx` — parses a YouTube ID from the exercise URL, shows the thumbnail, and lazy-mounts the iframe only on click.
+- `ExerciseAccordion.tsx` — workout screen list; only one exercise expanded at a time, collapsed completed items show a checkmark.
+
+## Build & Deploy
+
+- `vite.config.ts` sets `base: '/fitness-local-app/'` and inlines all assets, **except** `sw.js`, `register-sw.js`, and `manifest.json`, which stay external in `public/` for the PWA to work.
+- CI: `.github/workflows/deploy.yml` builds and publishes `dist/` to GitHub Pages on push to `main`.
+- **Service-worker caveat**: `register-sw.js` registers `/sw.js` and `sw.js` caches `/` and `/index.html` using **root-absolute paths**, which don't account for the `/fitness-local-app/` Pages subpath. Treat SW caching as approximate; verify on the deployed URL after any path/base change.
+- Fonts are **offline via Fontsource** (`@fontsource-variable/space-grotesk` + `lexend`, imported in `src/main.tsx`) — no Google Fonts CDN. `font-display` (Space Grotesk) = titles/metrics/buttons; `font-lexend` = body.
+
+## Conventions
+
+- **Lint**: unused vars/args are allowed only when prefixed with `_` (`argsIgnorePattern: '^_'`) — this is why context method signatures use names like `_routineId`. `@typescript-eslint/no-explicit-any` is a warning; avoid `any`.
+- `*.config.*`, `scripts/`, and `dist/` are excluded from linting.
+- **Design system** — current visual language is **"Refined"**: flat solid surfaces at distinct elevation levels, hairline borders, NO gradients/glow/glass, color used only for emphasis, text white/secondary/tertiary, purposeful icons (no decorative icon-boxes). Tailwind v4 CSS-first tokens live in the `@theme` block of `src/styles/index.css`. `tailwind.config.js` is **vestigial and ignored**; edit `index.css`. Shared classes (`.card`, `.btn-primary`, `.list`/`.list-row`, `.accordion-item`, `.nav-item`, `.segment`) live under `@layer components`. Authority + rules: the `fitness-design-system` skill.
+  - Surfaces: `primary-bg` `#0b0d11` → `secondary-bg` `#14161b` → `surface-raised` `#1c1f26`
+  - Borders: `border-primary` `#23272f`, `border-secondary` `#2f343f`
+  - Accent (emphasis only): `accent` `#5b8cff`, `accent-solid` `#3b6ef5` (button fill)
+  - Text: white / `text-secondary` `#99a0ab` / `text-tertiary` `#5b616c`
+- Mobile-first; `index.html` fixes the iOS viewport (`position: fixed`, `viewport-fit=cover`) and the app owns its own scroll container.
+
+## Docs
+
+- `docs/spec.md` — original specification
+- `docs/designs/*.html` — static HTML mockups for each screen
+- `DEPLOYMENT.md`, `GITHUB-PAGES-SETUP.md`, `README-IPHONE.md` — hosting / iOS install guides

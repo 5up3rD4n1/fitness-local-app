@@ -1,0 +1,28 @@
+{
+  "id": "hpt-ganglion",
+  "name": "Rutina HPT Adaptada — Ganglión",
+  "description": "Programa adaptado para una paciente con ganglión dorsal de muñeca. Prioriza la ausencia de dolor sobre la carga. Base científica: Schoenfeld (hipertrofia), Angelides (ganglión), OMS (actividad física).",
+  "safetyPrinciples": [
+    "Los movimientos deben ser siempre indoloros — si aparece molestia en la muñeca, reduce el rango.",
+    "Straps obligatorios en todos los ejercicios de tracción (la carga descansa en el antebrazo, no en el flexor del pulgar).",
+    "Agarre paralelo (neutro) en todos los press.",
+    "Sin carga axial sobre la muñeca en extensión.",
+    "Evita el agarre prolongado de mancuernas; usa máquinas y poleas con tobillera/strap.",
+    "Planchas siempre en antebrazos, nunca en las manos.",
+    "Regla del dolor 24h: si una molestia persiste al día siguiente, ajusta carga o rango."
+  ],
+  "recommendedEquipment": [
+    "Mini banda elástica",
+    "Lifting straps (mínimo 2 pares)",
+    "Wrist cuff / strap proximal",
+    "Chaleco lastrado (8-15 kg)",
+    "Máquina de hip thrust",
+    "Máquina hammer press (inclinado / plano / declinado)",
+    "Poleas alta y baja",
+    "Multipower / máquina Smith",
+    "Caminadora",
+    "Bici reclinada o elíptica",
+    "Silla romana / banco de capitanes",
+    "Esterilla"
+  ]
+}

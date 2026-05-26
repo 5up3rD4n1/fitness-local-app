@@ -1,0 +1,28 @@
+{
+  "id": "engineer-training-plan",
+  "name": "Engineer Training Plan",
+  "description": "5-day hypertrophy & strength split: posterior chain & glutes, push, quads, pull, and a full-body conditioning day. Each session opens with mobility warm-ups and closes with core/stability work.",
+  "safetyPrinciples": [
+    "Warm up fully before loading — never skip the mobility work at the start of each day.",
+    "Keep a neutral spine on all hinges (RDL, hip thrust, deadlift) and brace your core before lifting.",
+    "Control the eccentric (lowering) phase; avoid bouncing or using momentum.",
+    "Leave 1–2 reps in reserve on most sets (RPE 8–9) unless a set explicitly says Failure.",
+    "Stop any exercise that causes joint pain (not muscle burn); reduce range or load.",
+    "Progress gradually — add small weight or reps week to week, not all at once."
+  ],
+  "recommendedEquipment": [
+    "Barbell + plates",
+    "Dumbbells",
+    "Cable machine",
+    "Pull-up bar",
+    "Hex / trap bar",
+    "Leg curl & leg extension machines",
+    "Adductor machine",
+    "Reverse pec deck",
+    "Hip thrust bench / pad",
+    "Kettlebell",
+    "Battle ropes",
+    "Foam roller",
+    "Resistance band"
+  ]
+}

@@ -5,7 +5,7 @@ const LoadingScreen: React.FC = () => {
     <div className="flex h-screen w-full items-center justify-center bg-primary-bg">
       <div className="flex flex-col items-center gap-4">
         <div className="relative">
-          <div className="h-16 w-16 animate-spin rounded-full border-4 border-border-primary border-t-accent"></div>
+          <div className="spinner h-16 w-16"></div>
           <div className="absolute inset-0 flex items-center justify-center">
             <svg
               className="h-8 w-8 text-accent"

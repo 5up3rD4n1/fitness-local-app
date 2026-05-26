@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mockup · Workout · Elevated</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b0e14;
+        --surface: #161b26;
+        --raised: #1e2533;
+        --border: #28303f;
+        --border-2: #3a4556;
+        --accent: #5b8cff;
+        --accent-2: #8fb3ff;
+        --tint: #19253e;
+        --txt: #eef2f8;
+        --txt-2: #93a0b4;
+        --txt-3: #5c6678;
+        --warning: #f5a623;
+        --display: 'Space Grotesk', sans-serif;
+        --body: 'Lexend', sans-serif;
+        --glow: 0 0 48px -14px rgba(91, 140, 255, 0.45);
+        --shadow-card: 0 18px 40px -22px rgba(0, 0, 0, 0.8);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #05070b;
+        font-family: var(--body);
+        color: var(--txt);
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 40px 16px 64px;
+        -webkit-font-smoothing: antialiased;
+      }
+      .label {
+        position: absolute;
+        top: -26px;
+        left: 4px;
+        font: 600 12px var(--body);
+        color: #5c6678;
+        letter-spacing: 0.04em;
+      }
+      .phone {
+        position: relative;
+        width: 412px;
+        height: 880px;
+        border-radius: 40px;
+        overflow: hidden;
+        border: 1px solid #1a2030;
+        background:
+          radial-gradient(135% 85% at 50% -18%, #1a2742 0%, #0d111a 46%, var(--bg) 100%), var(--bg);
+        box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.9);
+      }
+      .scroll {
+        position: absolute;
+        inset: 0 0 0 0;
+        overflow: hidden;
+      }
+
+      .whead {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        padding: 18px 18px 14px;
+        background: linear-gradient(180deg, rgba(11, 14, 20, 0.85), rgba(11, 14, 20, 0.4));
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .back {
+        width: 40px;
+        height: 40px;
+        border-radius: 13px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border);
+        color: var(--txt);
+        flex: none;
+      }
+      .wtitle {
+        font: 700 16px var(--display);
+        letter-spacing: -0.01em;
+      }
+      .wfocus {
+        font: 500 12px var(--body);
+        color: var(--txt-2);
+        margin-top: 2px;
+      }
+      .start {
+        margin-left: auto;
+        font: 600 14px var(--display);
+        color: #08101f;
+        padding: 10px 18px;
+        border-radius: 13px;
+        border: none;
+        background: linear-gradient(180deg, #74a0ff, #4f7fea);
+        box-shadow:
+          0 8px 18px -8px rgba(91, 140, 255, 0.6),
+          inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      }
+
+      .navstrip {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 18px;
+      }
+      .navbtn {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--txt-2);
+      }
+      .navmid {
+        flex: 1;
+        text-align: center;
+      }
+      .navcount {
+        font: 600 11px var(--display);
+        letter-spacing: 0.1em;
+        color: var(--txt-3);
+      }
+      .navex {
+        font: 600 13px var(--body);
+        margin-top: 2px;
+      }
+      .secpill {
+        display: inline-block;
+        margin-top: 4px;
+        font: 600 9px var(--display);
+        letter-spacing: 0.08em;
+        color: var(--accent-2);
+        background: rgba(91, 140, 255, 0.12);
+        border: 1px solid rgba(91, 140, 255, 0.25);
+        padding: 2px 8px;
+        border-radius: 999px;
+      }
+
+      .progress {
+        padding: 6px 20px 4px;
+      }
+      .ptrack {
+        height: 7px;
+        border-radius: 999px;
+        background: #1a2230;
+        overflow: hidden;
+      }
+      .pfill {
+        height: 100%;
+        width: 30%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #5b8cff, #8fb3ff);
+        box-shadow: 0 0 14px rgba(91, 140, 255, 0.6);
+      }
+      .prow {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 7px;
+      }
+      .prow span:first-child {
+        font: 500 12px var(--body);
+        color: var(--txt-2);
+      }
+      .prow span:last-child {
+        font: 600 12px var(--display);
+        color: var(--accent-2);
+      }
+
+      .content {
+        padding: 12px 18px 30px;
+      }
+      .grouphead {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 18px 4px 12px;
+      }
+      .grouphead h3 {
+        font: 700 13px var(--display);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--txt);
+      }
+      .countbadge {
+        font: 600 11px var(--display);
+        color: var(--accent-2);
+        background: rgba(91, 140, 255, 0.12);
+        border: 1px solid rgba(91, 140, 255, 0.22);
+        width: 24px;
+        height: 24px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+      }
+
+      .exrow {
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: linear-gradient(160deg, #141a26, #10141d);
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 10px;
+      }
+      .exnum {
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: grid;
+        place-items: center;
+        font: 600 13px var(--display);
+        color: var(--txt-2);
+        flex: none;
+      }
+      .exname {
+        font: 600 14px var(--body);
+      }
+      .exmeta {
+        font: 500 12px var(--body);
+        color: var(--txt-2);
+        margin-top: 2px;
+      }
+      .mini {
+        width: 34px;
+        height: 5px;
+        border-radius: 999px;
+        background: #1a2230;
+        overflow: hidden;
+      }
+      .mini i {
+        display: block;
+        height: 100%;
+        background: var(--accent);
+      }
+
+      /* expanded */
+      .exopen {
+        border-radius: 22px;
+        border: 1px solid rgba(91, 140, 255, 0.28);
+        background: linear-gradient(160deg, #18203200, #141b2b 30%);
+        box-shadow:
+          var(--shadow-card),
+          0 0 40px -18px rgba(91, 140, 255, 0.5);
+        margin-bottom: 12px;
+        overflow: hidden;
+      }
+      .exopen .top {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 16px 6px;
+      }
+      .exopen .exnum {
+        background: rgba(91, 140, 255, 0.16);
+        border-color: rgba(91, 140, 255, 0.4);
+        color: var(--accent-2);
+      }
+      .exbody {
+        padding: 8px 16px 18px;
+      }
+      .video {
+        position: relative;
+        aspect-ratio: 16/9;
+        border-radius: 16px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #223052, #141a2b 70%);
+        border: 1px solid var(--border);
+        display: grid;
+        place-items: center;
+        margin-bottom: 16px;
+      }
+      .video::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 45%, rgba(91, 140, 255, 0.18), transparent 60%);
+      }
+      .play {
+        position: relative;
+        z-index: 1;
+        width: 58px;
+        height: 58px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.92);
+        display: grid;
+        place-items: center;
+        box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.6);
+      }
+      .play svg {
+        color: #ff0000;
+        margin-left: 3px;
+      }
+      .vlabel {
+        position: absolute;
+        z-index: 1;
+        bottom: 10px;
+        left: 12px;
+        font: 600 11px var(--display);
+        letter-spacing: 0.06em;
+        color: #cdd7e6;
+      }
+      .microlabel {
+        font: 600 10px var(--display);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--txt-3);
+        margin-bottom: 8px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-bottom: 16px;
+      }
+      .echip {
+        font: 500 12px var(--body);
+        color: var(--txt-2);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 5px 11px;
+        border-radius: 999px;
+      }
+      .cues {
+        background: var(--raised);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 13px 14px;
+        margin-bottom: 14px;
+      }
+      .cues p {
+        font: 400 13px/1.55 var(--body);
+        color: #c2cad8;
+      }
+      .safety {
+        display: flex;
+        gap: 10px;
+        background: rgba(245, 166, 35, 0.08);
+        border: 1px solid rgba(245, 166, 35, 0.28);
+        border-left: 3px solid var(--warning);
+        border-radius: 12px;
+        padding: 12px 14px;
+        margin-bottom: 16px;
+      }
+      .safety svg {
+        color: var(--warning);
+        flex: none;
+        margin-top: 1px;
+      }
+      .safety p {
+        font: 400 12.5px/1.5 var(--body);
+        color: #d8cdb6;
+      }
+      .sets {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 9px;
+        margin-bottom: 14px;
+      }
+      .set {
+        aspect-ratio: 1;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font: 600 16px var(--display);
+        border: 1.5px solid var(--border);
+        background: var(--bg);
+        color: var(--txt);
+        position: relative;
+      }
+      .set.done {
+        border-color: var(--accent);
+        background: var(--tint);
+        color: var(--accent-2);
+        box-shadow: 0 0 20px -8px rgba(91, 140, 255, 0.6);
+      }
+      .set.done::after {
+        content: '✓';
+        position: absolute;
+        top: 4px;
+        right: 7px;
+        font-size: 11px;
+      }
+      .complete {
+        width: 100%;
+        font: 600 15px var(--display);
+        color: #08101f;
+        padding: 14px;
+        border-radius: 14px;
+        border: none;
+        background: linear-gradient(180deg, #74a0ff, #4f7fea);
+        box-shadow:
+          0 10px 22px -8px rgba(91, 140, 255, 0.55),
+          inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .fab {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 14px 18px 24px;
+        background: linear-gradient(0deg, rgba(11, 14, 20, 0.95), rgba(11, 14, 20, 0.4));
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+      .fab button {
+        width: 100%;
+        font: 600 15px var(--display);
+        color: var(--txt);
+        padding: 15px;
+        border-radius: 16px;
+        border: 1px solid rgba(91, 140, 255, 0.3);
+        background: linear-gradient(160deg, #1a2336, #131a28);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        box-shadow: 0 0 30px -16px rgba(91, 140, 255, 0.6);
+      }
+      .fab svg {
+        color: var(--accent-2);
+      }
+    </style>
+  </head>
+  <body>
+    <div style="position: relative">
+      <div class="label">WORKOUT · expanded exercise</div>
+      <div class="phone">
+        <div class="scroll">
+          <div class="whead">
+            <div class="back">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M15 6l-6 6 6 6" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div>
+              <div class="wtitle">DÍA 2 — Espalda y Bíceps</div>
+              <div class="wfocus">02:14 transcurrido</div>
+            </div>
+            <button
+              class="start"
+              style="
+                background: var(--surface);
+                color: var(--txt);
+                border: 1px solid var(--border);
+                box-shadow: none;
+              "
+            >
+              Cancelar
+            </button>
+          </div>
+
+          <div class="navstrip">
+            <div class="navbtn">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M15 6l-6 6 6 6" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="navmid">
+              <div class="navcount">EJERCICIO 4 DE 10</div>
+              <div class="navex">Hip thrust en máquina</div>
+              <span class="secpill">BLOQUE PRINCIPAL</span>
+            </div>
+            <div class="navbtn">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M9 6l6 6-6 6" stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="progress">
+            <div class="prow"><span>Progreso</span><span>30%</span></div>
+            <div class="ptrack"><div class="pfill"></div></div>
+          </div>
+
+          <div class="content">
+            <div class="grouphead">
+              <h3>Bloque principal</h3>
+              <span class="countbadge">6</span>
+            </div>
+
+            <!-- expanded -->
+            <div class="exopen">
+              <div class="top">
+                <div class="exnum">4</div>
+                <div>
+                  <div class="exname" style="color: var(--accent-2)">
+                    Hip thrust en máquina con respaldo
+                  </div>
+                  <div class="exmeta">4 series · 12 reps · 2 min descanso</div>
+                </div>
+              </div>
+              <div class="exbody">
+                <div class="video">
+                  <div class="play">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                  <div class="vlabel">Ver demostración</div>
+                </div>
+
+                <div class="microlabel">Equipo</div>
+                <div class="chips">
+                  <span class="echip">Máquina de hip thrust</span>
+                  <span class="echip">Pad grueso</span>
+                </div>
+
+                <div class="microlabel">Cómo hacerlo</div>
+                <div class="cues">
+                  <p>
+                    Sentada en máquina, espalda alta contra el respaldo, pies a anchura de cadera.
+                    Empuja la cadera hacia arriba apretando glúteo, pausa 1 s arriba, desciende
+                    controlado 2 s.
+                  </p>
+                </div>
+
+                <div class="safety">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <p>
+                    Las manos solo guían, no soportan carga. Si usas barra: pad grueso y manos
+                    abiertas sin cerrar el pulgar con fuerza.
+                  </p>
+                </div>
+
+                <div class="microlabel">Series · 2 / 4</div>
+                <div class="sets">
+                  <div class="set done">1</div>
+                  <div class="set done">2</div>
+                  <div class="set">3</div>
+                  <div class="set">4</div>
+                </div>
+
+                <button class="complete">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                  >
+                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  Completar ejercicio
+                </button>
+              </div>
+            </div>
+
+            <!-- collapsed -->
+            <div class="exrow">
+              <div class="exnum">5</div>
+              <div style="flex: 1">
+                <div class="exname">Peso muerto rumano + straps</div>
+                <div class="exmeta">4 series · 10 reps · 90 s</div>
+              </div>
+              <div class="mini"><i style="width: 0"></i></div>
+            </div>
+            <div class="exrow">
+              <div class="exnum">6</div>
+              <div style="flex: 1">
+                <div class="exname">Remo en máquina hammer</div>
+                <div class="exmeta">4 series · 12 reps · 60 s</div>
+              </div>
+              <div class="mini"><i style="width: 0"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fab">
+          <button>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="13" r="8" />
+              <path d="M12 9v4l2 2M9 2h6" stroke-linecap="round" />
+            </svg>
+            Iniciar descanso · 2 min
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

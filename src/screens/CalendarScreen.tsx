@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../contexts/AppContext';
 import { LocalStorageService } from '../utils/localStorage';
 import ConfirmDialog from '../components/ConfirmDialog';
+import { Button, IconButton } from '../components/ui';
 
 interface CalendarDay {
   date: Date;
@@ -13,7 +14,7 @@ interface CalendarDay {
 }
 
 const CalendarScreen: React.FC = () => {
-  const { routines, exercises, viewWorkout, startWorkout } = useApp();
+  const { routines, exercises, viewWorkout, allRoutines } = useApp();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [refreshKey, setRefreshKey] = useState(0);
@@ -22,16 +23,31 @@ const CalendarScreen: React.FC = () => {
     workoutId: string | null;
   }>({ isOpen: false, workoutId: null });
 
-  const workoutHistory = LocalStorageService.getWorkoutHistory();
+  // refreshKey is used as a dependency trigger to re-read localStorage after delete
+  const workoutHistory = React.useMemo(
+    () => LocalStorageService.getWorkoutHistory(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [refreshKey]
+  );
 
   const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-  // Generate calendar days for the current month
+  // Generate calendar days for the current month (7 cols × 6 rows = 42 cells)
   const generateCalendarDays = (): CalendarDay[] => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -54,14 +70,14 @@ const CalendarScreen: React.FC = () => {
       const isToday = date.getTime() === today.getTime();
       const isSelected = date.getTime() === selected.getTime();
 
-      // Check if there's a completed workout on this date
-      const workoutCompleted = workoutHistory.some(session => {
+      // Accent dot: completed workout on this day
+      const workoutCompleted = workoutHistory.some((session) => {
         const sessionDate = new Date(session.date);
         sessionDate.setHours(0, 0, 0, 0);
         return sessionDate.getTime() === date.getTime() && session.completed;
       });
 
-      // Simple logic: assume workouts are scheduled for current month days
+      // Muted dot: scheduled (current-month) day without a completed workout
       const hasWorkout = isCurrentMonth;
 
       days.push({
@@ -79,20 +95,20 @@ const CalendarScreen: React.FC = () => {
 
   const calendarDays = generateCalendarDays();
 
-  // Get routine for a specific date (simple rotation based on day of week)
+  // Routine for a date — simple rotation by day-of-week index
   const getRoutineForDate = (date: Date) => {
+    if (!routines.length) return null;
     const dayOfWeek = date.getDay();
-    const routineIndex = dayOfWeek % routines.length;
-    return routines[routineIndex];
+    return routines[dayOfWeek % routines.length] ?? null;
   };
 
   const selectedRoutine = getRoutineForDate(selectedDate);
   const selectedExercises = selectedRoutine
-    ? exercises.filter(exercise => selectedRoutine.exercises.includes(exercise.id))
+    ? exercises.filter((exercise) => selectedRoutine.exercises.includes(exercise.id))
     : [];
 
-  // Get all completed workouts for the selected date
-  const selectedDateWorkouts = workoutHistory.filter(session => {
+  // All completed workouts for the selected date
+  const selectedDateWorkouts = workoutHistory.filter((session) => {
     const sessionDate = new Date(session.date);
     sessionDate.setHours(0, 0, 0, 0);
     const selected = new Date(selectedDate);
@@ -112,20 +128,6 @@ const CalendarScreen: React.FC = () => {
     return seconds > 0 ? `${minutes}m ${seconds}s` : `${minutes}m`;
   };
 
-  const navigateMonth = (direction: 'prev' | 'next') => {
-    const newDate = new Date(currentDate);
-    if (direction === 'prev') {
-      newDate.setMonth(newDate.getMonth() - 1);
-    } else {
-      newDate.setMonth(newDate.getMonth() + 1);
-    }
-    setCurrentDate(newDate);
-  };
-
-  const handleDateSelect = (date: Date) => {
-    setSelectedDate(date);
-  };
-
   const formatDate = (date: Date) => {
     const today = new Date();
     const tomorrow = new Date(today);
@@ -138,6 +140,16 @@ const CalendarScreen: React.FC = () => {
     if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
 
     return `${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}`;
+  };
+
+  const navigateMonth = (direction: 'prev' | 'next') => {
+    const newDate = new Date(currentDate);
+    newDate.setMonth(newDate.getMonth() + (direction === 'next' ? 1 : -1));
+    setCurrentDate(newDate);
+  };
+
+  const handleDateSelect = (date: Date) => {
+    setSelectedDate(date);
   };
 
   const canStartWorkout = () => {
@@ -155,7 +167,7 @@ const CalendarScreen: React.FC = () => {
   const confirmDelete = () => {
     if (deleteConfirm.workoutId) {
       LocalStorageService.deleteWorkoutSession(deleteConfirm.workoutId);
-      setRefreshKey(prev => prev + 1);
+      setRefreshKey((prev) => prev + 1);
     }
     setDeleteConfirm({ isOpen: false, workoutId: null });
   };
@@ -167,106 +179,176 @@ const CalendarScreen: React.FC = () => {
   return (
     <div className="flex flex-col h-full bg-primary-bg">
       {/* Header */}
-      <div className="flex items-center bg-primary-bg p-4 pb-2 justify-center border-b border-border-primary">
-        <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">
+      <header className="app-header justify-center">
+        <h2
+          className="text-white"
+          style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.0625rem' }}
+        >
           Calendar
         </h2>
-      </div>
+      </header>
 
       <div className="flex-1 overflow-y-auto">
-        {/* Calendar Header */}
-        <div className="p-4">
-          <div className="flex items-center justify-between mb-4">
-            <button
+        {/* Month navigation + grid */}
+        <div className="px-4 pt-4 pb-2">
+          {/* Month nav row */}
+          <div className="mb-4 flex items-center justify-between">
+            <IconButton
+              label="Previous month"
               onClick={() => navigateMonth('prev')}
-              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-secondary-bg transition-colors"
-            >
-              <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z" />
-              </svg>
-            </button>
+              icon={
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 256 256">
+                  <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z" />
+                </svg>
+              }
+            />
 
-            <h3 className="text-white text-xl font-bold">
+            <h3
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: 700,
+                fontSize: '1.125rem',
+                color: 'var(--color-text-primary)',
+              }}
+            >
               {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
             </h3>
 
-            <button
+            <IconButton
+              label="Next month"
               onClick={() => navigateMonth('next')}
-              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-secondary-bg transition-colors"
-            >
-              <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z" />
-              </svg>
-            </button>
+              icon={
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 256 256">
+                  <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z" />
+                </svg>
+              }
+            />
           </div>
 
-          {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-1">
-            {/* Day headers */}
-            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day) => (
-              <div key={day} className="h-12 flex items-center justify-center">
-                <span className="text-text-secondary text-sm font-bold">{day}</span>
+          {/* Day-of-week headers */}
+          <div className="grid grid-cols-7 mb-1">
+            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
+              <div key={i} className="h-9 flex items-center justify-center">
+                <span
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 600,
+                    fontSize: '0.75rem',
+                    color: 'var(--color-text-tertiary)',
+                  }}
+                >
+                  {day}
+                </span>
               </div>
             ))}
+          </div>
 
-            {/* Calendar days */}
-            {calendarDays.map((day, index) => (
-              <button
-                key={index}
-                onClick={() => handleDateSelect(day.date)}
-                className={`h-12 flex items-center justify-center rounded-lg text-sm font-medium transition-colors relative ${
-                  !day.isCurrentMonth
-                    ? 'text-border-primary hover:bg-secondary-bg'
-                    : day.isSelected
-                    ? 'bg-accent text-primary-bg'
-                    : day.isToday
-                    ? 'bg-secondary-bg text-white border-2 border-accent'
-                    : 'text-white hover:bg-secondary-bg'
-                }`}
-              >
-                <span>{day.date.getDate()}</span>
+          {/* 42 day cells */}
+          <div className="grid grid-cols-7 gap-y-1">
+            {calendarDays.map((day, index) => {
+              let cellStyle: React.CSSProperties = {};
+              let numColor = 'var(--color-text-primary)';
 
-                {/* Workout indicators */}
-                {day.isCurrentMonth && (
-                  <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex gap-1">
-                    {day.workoutCompleted && (
-                      <div className="w-1.5 h-1.5 bg-accent rounded-full"></div>
-                    )}
-                    {day.hasWorkout && !day.workoutCompleted && (
-                      <div className="w-1.5 h-1.5 bg-border-secondary rounded-full"></div>
-                    )}
-                  </div>
-                )}
-              </button>
-            ))}
+              if (!day.isCurrentMonth) {
+                numColor = 'var(--color-text-tertiary)';
+              } else if (day.isSelected) {
+                cellStyle = {
+                  background: 'var(--color-accent)',
+                  borderRadius: 10,
+                };
+                numColor = '#08101f';
+              } else if (day.isToday) {
+                cellStyle = {
+                  borderRadius: 10,
+                  border: '1px solid var(--color-accent)',
+                };
+              }
+
+              return (
+                <button
+                  key={index}
+                  onClick={() => handleDateSelect(day.date)}
+                  className="relative flex h-11 items-center justify-center transition-colors hover:bg-secondary-bg"
+                  style={{ borderRadius: 10, ...cellStyle }}
+                >
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: day.isToday || day.isSelected ? 700 : 500,
+                      fontSize: '0.875rem',
+                      color: numColor,
+                    }}
+                  >
+                    {day.date.getDate()}
+                  </span>
+
+                  {/* Dot indicators — only for current-month cells */}
+                  {day.isCurrentMonth && (
+                    <div className="absolute bottom-1 left-1/2 flex -translate-x-1/2 gap-1">
+                      {day.workoutCompleted && <div className="dot dot-accent" />}
+                      {day.hasWorkout && !day.workoutCompleted && <div className="dot dot-muted" />}
+                    </div>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* Legend */}
-          <div className="flex items-center justify-center gap-6 mt-4 text-sm">
+          <div className="flex items-center justify-center gap-6 mt-4 mb-1">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-accent rounded-full"></div>
-              <span className="text-text-secondary">Completed</span>
+              <div className="dot dot-accent" />
+              <span
+                style={{
+                  fontFamily: 'var(--font-lexend)',
+                  fontWeight: 500,
+                  fontSize: '0.75rem',
+                  color: 'var(--color-text-secondary)',
+                }}
+              >
+                Completed
+              </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-border-secondary rounded-full"></div>
-              <span className="text-text-secondary">Scheduled</span>
+              <div className="dot dot-muted" />
+              <span
+                style={{
+                  fontFamily: 'var(--font-lexend)',
+                  fontWeight: 500,
+                  fontSize: '0.75rem',
+                  color: 'var(--color-text-secondary)',
+                }}
+              >
+                Scheduled
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Selected Date Details */}
-        <div className="p-4 border-t border-border-primary">
-          <h3 className="text-white text-lg font-bold mb-2">
+        {/* Selected date detail panel */}
+        <div
+          className="px-4 pb-6 pt-4"
+          style={{ borderTop: '1px solid var(--color-border-primary)' }}
+        >
+          <h3
+            className="mb-3"
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 700,
+              fontSize: '1.0625rem',
+              color: 'var(--color-text-primary)',
+            }}
+          >
             {formatDate(selectedDate)}
           </h3>
 
           {selectedDateWorkouts.length > 0 ? (
-            // Show all completed workouts for this date
+            // Completed workout cards
             <div className="space-y-3">
               {selectedDateWorkouts.map((workout, index) => {
-                const workoutRoutine = routines.find(r => r.id === workout.routineId);
+                const workoutRoutine = allRoutines.find((r) => r.id === workout.routineId);
                 const workoutExercises = workoutRoutine
-                  ? exercises.filter(exercise => workoutRoutine.exercises.includes(exercise.id))
+                  ? exercises.filter((exercise) => workoutRoutine.exercises.includes(exercise.id))
                   : [];
 
                 const startTime = workout.startedAt ? new Date(workout.startedAt) : null;
@@ -274,56 +356,127 @@ const CalendarScreen: React.FC = () => {
 
                 return (
                   <div key={index} className="card relative">
-                    <button
-                      onClick={() => handleDeleteWorkout(workout.id)}
-                      className="absolute top-3 right-3 flex items-center justify-center w-8 h-8 rounded-full bg-secondary-bg hover:bg-border-secondary transition-colors"
-                      title="Delete workout"
-                    >
-                      <svg className="h-4 w-4 text-text-secondary hover:text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                      </svg>
-                    </button>
-
-                    <div className="flex items-center gap-2 mb-3">
-                      <svg className="h-5 w-5 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                      </svg>
-                      <span className="text-accent font-medium">Workout Completed</span>
+                    {/* Delete button */}
+                    <div className="absolute right-3 top-3">
+                      <IconButton
+                        label="Delete workout"
+                        size="sm"
+                        onClick={() => handleDeleteWorkout(workout.id)}
+                        icon={
+                          <svg
+                            className="h-4 w-4"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            style={{ color: 'var(--color-text-secondary)' }}
+                          >
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                          </svg>
+                        }
+                      />
                     </div>
 
-                    <p className="text-white font-medium mb-2">{workoutRoutine?.name || 'Workout'}</p>
+                    {/* Completed badge row */}
+                    <div className="mb-3 flex items-center gap-2 text-accent">
+                      <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                      </svg>
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-display)',
+                          fontWeight: 600,
+                          fontSize: '0.8125rem',
+                        }}
+                      >
+                        Workout completado
+                      </span>
+                    </div>
 
-                    <div className="space-y-1 text-text-secondary text-sm mb-3">
+                    <p
+                      className="pr-10 mb-2"
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontWeight: 600,
+                        fontSize: '0.9375rem',
+                        color: 'var(--color-text-primary)',
+                      }}
+                    >
+                      {workoutRoutine?.name || 'Workout'}
+                    </p>
+
+                    <div className="space-y-1 mb-3">
                       {startTime && (
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">Start:</span>
+                        <div
+                          className="flex items-center gap-2"
+                          style={{
+                            fontFamily: 'var(--font-lexend)',
+                            fontSize: '0.8125rem',
+                            color: 'var(--color-text-secondary)',
+                          }}
+                        >
+                          <span style={{ fontWeight: 600 }}>Start:</span>
                           <span>{formatTime(startTime)}</span>
                         </div>
                       )}
                       {endTime && (
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">End:</span>
+                        <div
+                          className="flex items-center gap-2"
+                          style={{
+                            fontFamily: 'var(--font-lexend)',
+                            fontSize: '0.8125rem',
+                            color: 'var(--color-text-secondary)',
+                          }}
+                        >
+                          <span style={{ fontWeight: 600 }}>End:</span>
                           <span>{formatTime(endTime)}</span>
                         </div>
                       )}
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">Duration:</span>
+                      <div
+                        className="flex items-center gap-2"
+                        style={{
+                          fontFamily: 'var(--font-lexend)',
+                          fontSize: '0.8125rem',
+                          color: 'var(--color-text-secondary)',
+                        }}
+                      >
+                        <span style={{ fontWeight: 600 }}>Duration:</span>
                         <span>{formatDuration(workout.duration || 0)}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">Exercises:</span>
+                      <div
+                        className="flex items-center gap-2"
+                        style={{
+                          fontFamily: 'var(--font-lexend)',
+                          fontSize: '0.8125rem',
+                          color: 'var(--color-text-secondary)',
+                        }}
+                      >
+                        <span style={{ fontWeight: 600 }}>Exercises:</span>
                         <span>{workoutExercises.length}</span>
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <h4 className="text-text-secondary text-sm font-medium">Exercises completed:</h4>
+                      <h4
+                        style={{
+                          fontFamily: 'var(--font-lexend)',
+                          fontWeight: 600,
+                          fontSize: '0.8125rem',
+                          color: 'var(--color-text-secondary)',
+                        }}
+                      >
+                        Exercises completed:
+                      </h4>
                       {workoutExercises.map((exercise) => (
                         <div key={exercise.id} className="flex items-center gap-2">
-                          <svg className="h-4 w-4 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                          </svg>
-                          <span className="text-text-secondary text-sm">{exercise.name}</span>
+                          <div className="dot dot-accent flex-shrink-0" />
+                          <span
+                            style={{
+                              fontFamily: 'var(--font-lexend)',
+                              fontSize: '0.8125rem',
+                              color: 'var(--color-text-secondary)',
+                            }}
+                          >
+                            {exercise.name}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -332,73 +485,134 @@ const CalendarScreen: React.FC = () => {
               })}
 
               {canStartWorkout() && selectedRoutine && (
-                <button
-                  onClick={() => viewWorkout(selectedRoutine.id)}
-                  className="w-full btn-primary"
-                >
+                <Button variant="primary" fullWidth onClick={() => viewWorkout(selectedRoutine.id)}>
                   Start Another Workout
-                </button>
+                </Button>
               )}
             </div>
           ) : selectedRoutine ? (
-            // Show scheduled workout
+            // Scheduled workout card
             <div className="card">
-              <p className="text-white font-medium mb-2">{selectedRoutine.name}</p>
+              <p
+                className="mb-1"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  color: 'var(--color-text-primary)',
+                }}
+              >
+                {selectedRoutine.name}
+              </p>
 
-              <div className="flex items-center gap-4 text-text-secondary text-sm mb-3">
+              {selectedRoutine.focus && (
+                <p
+                  className="mb-3"
+                  style={{
+                    fontFamily: 'var(--font-lexend)',
+                    fontSize: '0.875rem',
+                    color: 'var(--color-text-secondary)',
+                  }}
+                >
+                  {selectedRoutine.focus}
+                </p>
+              )}
+
+              <div
+                className="flex items-center gap-4 mb-3"
+                style={{
+                  fontFamily: 'var(--font-lexend)',
+                  fontSize: '0.875rem',
+                  color: 'var(--color-text-secondary)',
+                }}
+              >
                 <span>Exercises: {selectedExercises.length}</span>
-                <span>Est. time: 45 min</span>
               </div>
 
               <div className="space-y-2 mb-4">
-                <h4 className="text-text-secondary text-sm font-medium">Exercises:</h4>
+                <h4
+                  style={{
+                    fontFamily: 'var(--font-lexend)',
+                    fontWeight: 600,
+                    fontSize: '0.8125rem',
+                    color: 'var(--color-text-secondary)',
+                  }}
+                >
+                  Exercises:
+                </h4>
                 {selectedExercises.slice(0, 3).map((exercise) => (
                   <div key={exercise.id} className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-border-secondary rounded-full"></div>
-                    <span className="text-text-secondary text-sm">{exercise.name}</span>
+                    <div className="dot dot-muted flex-shrink-0" />
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-lexend)',
+                        fontSize: '0.875rem',
+                        color: 'var(--color-text-secondary)',
+                      }}
+                    >
+                      {exercise.name}
+                    </span>
                   </div>
                 ))}
                 {selectedExercises.length > 3 && (
-                  <div className="text-text-secondary text-sm">
+                  <p
+                    style={{
+                      fontFamily: 'var(--font-lexend)',
+                      fontSize: '0.875rem',
+                      color: 'var(--color-text-secondary)',
+                    }}
+                  >
                     +{selectedExercises.length - 3} more exercises
-                  </div>
+                  </p>
                 )}
               </div>
 
-              {canStartWorkout() && (
-                <button
-                  onClick={() => viewWorkout(selectedRoutine.id)}
-                  className="w-full btn-primary"
+              {canStartWorkout() ? (
+                <Button variant="primary" fullWidth onClick={() => viewWorkout(selectedRoutine.id)}>
+                  Start Today&apos;s Workout
+                </Button>
+              ) : selectedDate < new Date() ? (
+                <p
+                  className="text-center"
+                  style={{
+                    fontFamily: 'var(--font-lexend)',
+                    fontSize: '0.875rem',
+                    color: 'var(--color-text-secondary)',
+                  }}
                 >
-                  Start Today's Workout
-                </button>
-              )}
-
-              {!canStartWorkout() && selectedDate < new Date() && (
-                <div className="text-center text-text-secondary text-sm">
                   This workout is in the past
-                </div>
-              )}
-
-              {!canStartWorkout() && selectedDate > new Date() && (
-                <div className="text-center text-text-secondary text-sm">
+                </p>
+              ) : (
+                <p
+                  className="text-center"
+                  style={{
+                    fontFamily: 'var(--font-lexend)',
+                    fontSize: '0.875rem',
+                    color: 'var(--color-text-secondary)',
+                  }}
+                >
                   Workout scheduled for this date
-                </div>
+                </p>
               )}
             </div>
           ) : (
-            // No workout scheduled
+            // Rest day / no routine
             <div className="card text-center">
-              <svg className="h-12 w-12 text-text-secondary mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="h-12 w-12 mx-auto mb-2"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                style={{ color: 'var(--color-text-secondary)' }}
+              >
                 <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5V3.5C15 2.7 14.3 2 13.5 2H10.5C9.7 2 9 2.7 9 3.5V5.5L3 7V9H21ZM6 12V20C6 20.6 6.4 21 7 21H9V19H15V21H17C17.6 21 18 20.6 18 20V12L12 10L6 12Z" />
               </svg>
-              <p className="text-text-secondary">No workout scheduled</p>
+              <p style={{ color: 'var(--color-text-secondary)' }}>No workout scheduled</p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Delete Confirmation Dialog */}
+      {/* Delete confirmation dialog */}
       <ConfirmDialog
         isOpen={deleteConfirm.isOpen}
         title="Delete Workout?"

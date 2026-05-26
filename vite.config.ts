@@ -12,7 +12,7 @@ export default defineConfig({
         inlineDynamicImports: true,
       },
       // Don't inline service worker and manifest
-      external: ['/sw.js', '/register-sw.js', '/manifest.json']
+      external: ['/sw.js', '/register-sw.js', '/manifest.json'],
     },
   },
   base: '/fitness-local-app/',

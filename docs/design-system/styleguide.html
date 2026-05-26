@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fitness App — Design System Style Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!--
+      STANDALONE dev-only style guide. Not part of the app bundle (Vite never builds docs/).
+      Token values below are a COPY of src/styles/index.css @theme — keep them in sync when you
+      change a token (see the fitness-design-system skill, "How to add a token", step 3).
+    -->
+    <style>
+      :root {
+        /* surfaces */
+        --color-primary-bg: #122118;
+        --color-secondary-bg: #1b3124;
+        --color-surface-raised: #1f3929;
+        /* borders */
+        --color-border-primary: #264532;
+        --color-border-secondary: #366348;
+        /* accent */
+        --color-accent: #38e07b;
+        --color-accent-dim: #28b060;
+        --color-accent-pressed: #20924e;
+        --color-accent-tint: #184028;
+        /* text */
+        --color-text-secondary: #96c5a9;
+        --color-text-tertiary: #5d7a67;
+        /* semantic / brand */
+        --color-danger: #e0544a;
+        --color-danger-dim: #b8392f;
+        --color-warning: #f5a623;
+        --color-youtube: #ff0000;
+        --color-scrim: rgba(0, 0, 0, 0.75);
+        /* type sizes */
+        --text-display: 2.25rem;
+        --text-h1: 1.75rem;
+        --text-h2: 1.375rem;
+        --text-h3: 1.125rem;
+        --text-body: 1rem;
+        --text-caption: 0.875rem;
+        --text-micro: 0.75rem;
+        --text-metric: 3rem;
+        --text-metric-sm: 2rem;
+        /* radius */
+        --radius-control: 0.75rem;
+        --radius-sheet: 1rem;
+        --radius-pill: 9999px;
+        /* shadow */
+        --shadow-dialog: 0 16px 48px rgba(0, 0, 0, 0.6);
+        --shadow-sheet: 0 -4px 24px rgba(0, 0, 0, 0.4);
+        --shadow-fab: 0 4px 16px rgba(0, 0, 0, 0.4);
+        --ease-out: cubic-bezier(0, 0, 0.2, 1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--color-primary-bg);
+        color: #fff;
+        font-family: Lexend, sans-serif;
+        line-height: 1.5;
+        padding: 2rem 1.25rem 6rem;
+      }
+      .wrap {
+        max-width: 60rem;
+        margin: 0 auto;
+      }
+      h1.title {
+        font-size: var(--text-display);
+        font-weight: 900;
+        letter-spacing: -0.025em;
+        margin: 0 0 0.25rem;
+      }
+      .subtitle {
+        color: var(--color-text-secondary);
+        margin: 0 0 2.5rem;
+      }
+      section {
+        margin: 2.75rem 0;
+      }
+      h2.section {
+        font-size: var(--text-h2);
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        border-bottom: 1px solid var(--color-border-primary);
+        padding-bottom: 0.5rem;
+        margin: 0 0 1.25rem;
+      }
+      .grid {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      }
+      .swatch {
+        border: 1px solid var(--color-border-primary);
+        border-radius: var(--radius-control);
+        overflow: hidden;
+      }
+      .swatch .chip {
+        height: 64px;
+      }
+      .swatch .meta {
+        padding: 0.5rem 0.625rem;
+        background: var(--color-secondary-bg);
+      }
+      .swatch .name {
+        font-size: var(--text-caption);
+        font-weight: 700;
+      }
+      .swatch .hex {
+        font-size: var(--text-micro);
+        color: var(--color-text-secondary);
+        font-family: ui-monospace, monospace;
+      }
+      .swatch .use {
+        font-size: var(--text-micro);
+        color: var(--color-text-secondary);
+        margin-top: 0.25rem;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .label {
+        color: var(--color-text-secondary);
+        font-size: var(--text-micro);
+        font-family: ui-monospace, monospace;
+        margin-bottom: 0.25rem;
+      }
+
+      /* ---- mirrored @layer component classes (for live demos) ---- */
+      .btn-primary,
+      .btn-secondary,
+      .btn-danger,
+      .btn-ghost {
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-control);
+        font: inherit;
+        font-weight: 700;
+        border: 0;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: var(--color-accent);
+        color: var(--color-primary-bg);
+      }
+      .btn-secondary {
+        background: var(--color-secondary-bg);
+        color: #fff;
+        font-weight: 500;
+      }
+      .btn-danger {
+        background: var(--color-danger);
+        color: #fff;
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--color-text-secondary);
+        font-weight: 500;
+        border: 1px solid var(--color-border-primary);
+      }
+      .card {
+        background: var(--color-secondary-bg);
+        border-radius: var(--radius-control);
+        padding: 1rem;
+        border: 1px solid var(--color-border-primary);
+      }
+      .stat-tile {
+        background: var(--color-secondary-bg);
+        border-radius: var(--radius-control);
+        padding: 1rem;
+        border: 1px solid var(--color-border-primary);
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.625rem;
+        border-radius: var(--radius-pill);
+        font-size: var(--text-micro);
+        font-weight: 500;
+      }
+      .pill-accent {
+        background: var(--color-accent);
+        color: var(--color-primary-bg);
+      }
+      .pill-muted {
+        background: var(--color-border-primary);
+        color: var(--color-text-secondary);
+      }
+      .pill-warning {
+        background: var(--color-warning);
+        color: var(--color-primary-bg);
+      }
+      .pill-danger {
+        background: var(--color-danger);
+        color: #fff;
+      }
+      .segmented {
+        display: inline-flex;
+        gap: 0.25rem;
+        padding: 0.25rem;
+        border-radius: var(--radius-control);
+        background: var(--color-secondary-bg);
+      }
+      .segment {
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.5rem;
+        font-size: var(--text-micro);
+        font-weight: 500;
+        color: var(--color-text-secondary);
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+      }
+      .segment.active {
+        background: var(--color-accent);
+        color: var(--color-primary-bg);
+      }
+      .progress-track {
+        height: 0.5rem;
+        border-radius: var(--radius-pill);
+        background: var(--color-border-primary);
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        border-radius: var(--radius-pill);
+        background: var(--color-accent);
+      }
+      .progress-fill.warning {
+        background: var(--color-warning);
+      }
+      .set-tile {
+        height: 4rem;
+        width: 4rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-control);
+        border: 2px solid var(--color-border-primary);
+        background: var(--color-primary-bg);
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.125rem;
+      }
+      .set-tile.done {
+        border-color: var(--color-accent);
+        background: var(--color-accent-tint);
+        color: var(--color-accent);
+      }
+      .completion-banner {
+        border-radius: var(--radius-control);
+        border: 1px solid var(--color-accent);
+        background: var(--color-accent-tint);
+        padding: 0.75rem 1rem;
+        text-align: center;
+      }
+      .round-stepper {
+        width: 2.5rem;
+        height: 2.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-pill);
+        background: var(--color-border-primary);
+        color: #fff;
+        border: 0;
+        cursor: pointer;
+        font-size: 1.25rem;
+      }
+      .dot {
+        width: 0.375rem;
+        height: 0.375rem;
+        border-radius: var(--radius-pill);
+        display: inline-block;
+      }
+      .dot-accent {
+        background: var(--color-accent);
+      }
+      .dot-muted {
+        background: var(--color-border-secondary);
+      }
+      .list-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        min-height: 4.5rem;
+        padding: 0.5rem 1rem;
+        background: var(--color-primary-bg);
+        border: 1px solid var(--color-border-primary);
+        border-radius: var(--radius-control);
+      }
+      .icon-square {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.5rem;
+        background: var(--color-border-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .t-display {
+        font-size: var(--text-display);
+        font-weight: 900;
+        letter-spacing: -0.025em;
+        line-height: 1.1;
+      }
+      .t-h1 {
+        font-size: var(--text-h1);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .t-h2 {
+        font-size: var(--text-h2);
+        font-weight: 700;
+        letter-spacing: -0.015em;
+      }
+      .t-h3 {
+        font-size: var(--text-h3);
+        font-weight: 700;
+      }
+      .t-body {
+        font-size: var(--text-body);
+        font-weight: 500;
+      }
+      .t-caption {
+        font-size: var(--text-caption);
+      }
+      .t-micro {
+        font-size: var(--text-micro);
+        font-weight: 500;
+        letter-spacing: 0.015em;
+      }
+      .t-metric {
+        font-size: var(--text-metric);
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        line-height: 1;
+      }
+      .muted {
+        color: var(--color-text-secondary);
+      }
+      .callout {
+        border-left: 3px solid var(--color-accent);
+        background: var(--color-secondary-bg);
+        padding: 0.75rem 1rem;
+        border-radius: 0 var(--radius-control) var(--radius-control) 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1 class="title">Fitness Design System</h1>
+      <p class="subtitle muted">
+        Dark + one electric accent. Mirrors <code>src/styles/index.css</code>. See the
+        <code>fitness-design-system</code> skill for authority and
+        <code>docs/design-research/mobbin-fitness-ux-analysis.json</code> for the rationale.
+      </p>
+
+      <div class="callout">
+        <strong>Accent discipline:</strong> <code>#38e07b</code> is only for the primary action,
+        active nav, completed state, progress fill, and one hero metric. Everything else uses
+        secondary/tertiary text, borders, or raised surfaces.
+      </div>
+
+      <section>
+        <h2 class="section">Color — surfaces &amp; borders</h2>
+        <div class="grid" id="sw-surfaces"></div>
+      </section>
+
+      <section>
+        <h2 class="section">Color — accent</h2>
+        <div class="grid" id="sw-accent"></div>
+      </section>
+
+      <section>
+        <h2 class="section">Color — text &amp; semantic</h2>
+        <div class="grid" id="sw-semantic"></div>
+      </section>
+
+      <section>
+        <h2 class="section">Typography</h2>
+        <div class="stack">
+          <div>
+            <div class="label">text-display · 36 / 900</div>
+            <div class="t-display">Workout complete</div>
+          </div>
+          <div>
+            <div class="label">text-h1 · 28 / 700</div>
+            <div class="t-h1">Today's session</div>
+          </div>
+          <div>
+            <div class="label">text-h2 · 22 / 700 (.section-heading)</div>
+            <div class="t-h2">All Workouts</div>
+          </div>
+          <div>
+            <div class="label">text-h3 · 18 / 700</div>
+            <div class="t-h3">Dumbbell Bench Press</div>
+          </div>
+          <div>
+            <div class="label">text-body · 16 / 500</div>
+            <div class="t-body">Three sets of eight to twelve reps.</div>
+          </div>
+          <div>
+            <div class="label">text-caption · 14 / 400</div>
+            <div class="t-caption muted">3 sets · 8–12 reps · 60s rest</div>
+          </div>
+          <div>
+            <div class="label">text-micro · 12 / 500 +tracking</div>
+            <div class="t-micro muted">EXERCISE 2 OF 6</div>
+          </div>
+          <div>
+            <div class="label">text-metric · 48 / 900</div>
+            <div class="t-metric" style="color: var(--color-accent)">1:30</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section">Radius &amp; elevation</h2>
+        <div class="row">
+          <div class="stack" style="align-items: center">
+            <div
+              style="
+                width: 96px;
+                height: 64px;
+                background: var(--color-secondary-bg);
+                border: 1px solid var(--color-border-primary);
+                border-radius: var(--radius-control);
+              "
+            ></div>
+            <div class="label">control · 12px</div>
+          </div>
+          <div class="stack" style="align-items: center">
+            <div
+              style="
+                width: 96px;
+                height: 64px;
+                background: var(--color-secondary-bg);
+                border: 1px solid var(--color-border-primary);
+                border-radius: var(--radius-sheet);
+              "
+            ></div>
+            <div class="label">sheet · 16px</div>
+          </div>
+          <div class="stack" style="align-items: center">
+            <div
+              style="
+                width: 64px;
+                height: 64px;
+                background: var(--color-secondary-bg);
+                border: 1px solid var(--color-border-primary);
+                border-radius: var(--radius-pill);
+              "
+            ></div>
+            <div class="label">pill</div>
+          </div>
+          <div class="stack" style="align-items: center">
+            <div
+              style="
+                width: 96px;
+                height: 64px;
+                background: var(--color-secondary-bg);
+                border-radius: var(--radius-control);
+                box-shadow: var(--shadow-dialog);
+              "
+            ></div>
+            <div class="label">shadow-dialog</div>
+          </div>
+          <div class="stack" style="align-items: center">
+            <div
+              style="
+                width: 96px;
+                height: 64px;
+                background: var(--color-secondary-bg);
+                border-radius: var(--radius-control);
+                box-shadow: var(--shadow-fab);
+              "
+            ></div>
+            <div class="label">shadow-fab</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section">Buttons</h2>
+        <div class="label">on primary-bg</div>
+        <div class="row" style="margin-bottom: 1rem">
+          <button class="btn-primary">Start Workout</button>
+          <button class="btn-secondary">Cancel</button>
+          <button class="btn-danger">Discard</button>
+          <button class="btn-ghost">Skip</button>
+        </div>
+        <div class="label">on a secondary-bg card (note: use ghost, not secondary)</div>
+        <div class="card row">
+          <button class="btn-primary">Finish</button>
+          <button class="btn-ghost">Keep going</button>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section">Pills &amp; segmented control</h2>
+        <div class="row" style="margin-bottom: 1rem">
+          <span class="pill pill-accent">Done</span>
+          <span class="pill pill-muted">Scheduled</span>
+          <span class="pill pill-warning">Warmup</span>
+          <span class="pill pill-danger">Missed</span>
+        </div>
+        <div class="segmented">
+          <button class="segment active">Week</button>
+          <button class="segment">Month</button>
+          <button class="segment">Year</button>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section">Set tiles &amp; progress</h2>
+        <div class="row" style="margin-bottom: 1rem">
+          <span class="set-tile">1</span>
+          <span class="set-tile done">2 ✓</span>
+          <span class="set-tile done">3 ✓</span>
+          <span class="set-tile">4</span>
+        </div>
+        <div class="stack" style="max-width: 360px">
+          <div>
+            <div class="label">progress-fill (accent) · 70%</div>
+            <div class="progress-track"><div class="progress-fill" style="width: 70%"></div></div>
+          </div>
+          <div>
+            <div class="label">progress-fill.warning · 35%</div>
+            <div class="progress-track">
+              <div class="progress-fill warning" style="width: 35%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="completion-banner" style="margin-top: 1rem; max-width: 360px">
+          <strong style="color: var(--color-accent)">✓ Exercise Complete!</strong>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section">Stat tiles &amp; progress ring</h2>
+        <div class="row" style="align-items: stretch">
+          <div class="stat-tile" style="min-width: 150px">
+            <span class="t-caption muted">Current Streak</span>
+            <span class="t-h1" style="color: var(--color-accent)"
+              >5 <span class="t-caption muted">days</span></span
+            >
+          </div>
+          <div class="stat-tile" style="min-width: 150px">
+            <span class="t-caption muted">Total Workouts</span>
+            <span class="t-h1">23 <span class="t-caption muted">completed</span></span>
+          </div>
+          <div
+            class="stat-tile"
+            style="min-width: 150px; align-items: center; justify-content: center"
+          >
+            <!-- ProgressRing demo: r = 64 - 8 = 56, circumference = 351.86, 68% fill -->
+            <svg width="128" height="128" viewBox="0 0 128 128" style="transform: rotate(-90deg)">
+              <circle
+                cx="64"
+                cy="64"
+                r="56"
+                fill="none"
+                stroke="var(--color-border-primary)"
+                stroke-width="8"
+              />
+              <circle
+                cx="64"
+                cy="64"
+                r="56"
+                fill="none"
+                stroke="var(--color-accent)"
+                stroke-width="8"
+                stroke-linecap="round"
+                stroke-dasharray="351.86"
+                stroke-dashoffset="112.6"
+              />
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section">List row</h2>
+        <div class="stack" style="max-width: 420px">
+          <div class="list-row">
+            <div class="icon-square">🏋️</div>
+            <div style="flex: 1; min-width: 0">
+              <div class="t-body">Push Day</div>
+              <div class="t-caption muted">6 exercises</div>
+            </div>
+            <button
+              class="btn-secondary"
+              style="font-size: var(--text-caption); padding: 0.375rem 0.75rem"
+            >
+              View
+            </button>
+          </div>
+          <div class="list-row" style="background: var(--color-accent-tint)">
+            <div class="icon-square">🏋️</div>
+            <div style="flex: 1; min-width: 0">
+              <div class="t-body">Pull Day</div>
+              <div class="t-caption muted">7 exercises · completed</div>
+            </div>
+            <span class="dot dot-accent"></span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const surfaces = [
+        ['--color-primary-bg', '#122118', 'app background'],
+        ['--color-secondary-bg', '#1b3124', 'cards / panels'],
+        ['--color-surface-raised', '#1f3929', 'block on a card'],
+        ['--color-border-primary', '#264532', 'borders / tracks'],
+        ['--color-border-secondary', '#366348', 'hover borders'],
+      ];
+      const accent = [
+        ['--color-accent', '#38e07b', 'action / active / done'],
+        ['--color-accent-dim', '#28b060', 'hover'],
+        ['--color-accent-pressed', '#20924e', ':active'],
+        ['--color-accent-tint', '#184028', 'completed bg'],
+      ];
+      const semantic = [
+        ['--color-text-secondary', '#96c5a9', 'meta text'],
+        ['--color-text-tertiary', '#5d7a67', 'disabled / not started'],
+        ['--color-danger', '#e0544a', 'destructive'],
+        ['--color-warning', '#f5a623', 'warmup / caution'],
+        ['--color-youtube', '#ff0000', 'YouTube brand only'],
+        ['--color-scrim', 'rgba(0,0,0,.75)', 'overlay scrim'],
+      ];
+      const render = (id, rows) => {
+        document.getElementById(id).innerHTML = rows
+          .map(
+            ([name, hex, use]) => `
+            <div class="swatch">
+              <div class="chip" style="background:${hex}"></div>
+              <div class="meta">
+                <div class="name">${name.replace('--color-', '')}</div>
+                <div class="hex">${hex}</div>
+                <div class="use">${use}</div>
+              </div>
+            </div>`
+          )
+          .join('');
+      };
+      render('sw-surfaces', surfaces);
+      render('sw-accent', accent);
+      render('sw-semantic', semantic);
+    </script>
+  </body>
+</html>

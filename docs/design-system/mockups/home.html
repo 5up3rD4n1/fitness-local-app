@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mockup · Home · Elevated</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b0e14;
+        --surface: #161b26;
+        --raised: #1e2533;
+        --border: #28303f;
+        --border-2: #3a4556;
+        --accent: #5b8cff;
+        --accent-2: #8fb3ff;
+        --txt: #eef2f8;
+        --txt-2: #93a0b4;
+        --txt-3: #5c6678;
+        --warning: #f5a623;
+        --display: 'Space Grotesk', sans-serif;
+        --body: 'Lexend', sans-serif;
+        --glow: 0 0 48px -14px rgba(91, 140, 255, 0.45);
+        --shadow-card: 0 18px 40px -22px rgba(0, 0, 0, 0.8);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #05070b;
+        font-family: var(--body);
+        color: var(--txt);
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 40px 16px 64px;
+        -webkit-font-smoothing: antialiased;
+      }
+      .label {
+        position: absolute;
+        top: -26px;
+        left: 4px;
+        font: 600 12px var(--body);
+        color: #5c6678;
+        letter-spacing: 0.04em;
+      }
+      .phone {
+        position: relative;
+        width: 412px;
+        height: 880px;
+        border-radius: 40px;
+        overflow: hidden;
+        border: 1px solid #1a2030;
+        background:
+          radial-gradient(135% 85% at 50% -18%, #1a2742 0%, #0d111a 46%, var(--bg) 100%), var(--bg);
+        box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.9);
+      }
+      /* faint corner glow */
+      .phone::after {
+        content: '';
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        left: -120px;
+        bottom: 40px;
+        background: radial-gradient(circle, rgba(91, 140, 255, 0.12), transparent 70%);
+        pointer-events: none;
+      }
+      .scroll {
+        position: absolute;
+        inset: 0 0 78px 0;
+        overflow: hidden;
+      }
+
+      /* ---- glass header ---- */
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        padding: 20px 22px 14px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        background: linear-gradient(180deg, rgba(11, 14, 20, 0.82), rgba(11, 14, 20, 0.45));
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+      .hello {
+        font: 600 22px/1.1 var(--display);
+        letter-spacing: -0.01em;
+      }
+      .sub {
+        font: 500 13px var(--body);
+        color: var(--txt-2);
+        margin-top: 3px;
+      }
+      .iconbtn {
+        width: 40px;
+        height: 40px;
+        border-radius: 13px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border);
+        color: var(--txt-2);
+      }
+      .content {
+        padding: 8px 18px 24px;
+      }
+      .anim {
+        opacity: 0;
+        transform: translateY(14px);
+        animation: up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+      }
+      @keyframes up {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* ---- HERO ---- */
+      .hero {
+        position: relative;
+        margin-top: 8px;
+        padding: 22px 22px 20px;
+        border-radius: 26px;
+        background: linear-gradient(158deg, #1f2a45 0%, #161d2e 55%, #131927 100%);
+        border: 1px solid rgba(91, 140, 255, 0.18);
+        box-shadow:
+          var(--shadow-card),
+          var(--glow),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        overflow: hidden;
+      }
+      .hero::before {
+        content: '';
+        position: absolute;
+        right: -40px;
+        top: -50px;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(91, 140, 255, 0.35), transparent 65%);
+        filter: blur(8px);
+      }
+      .hero-tag {
+        font: 600 11px var(--display);
+        letter-spacing: 0.22em;
+        color: var(--accent-2);
+      }
+      .hero-title {
+        font: 700 27px/1.05 var(--display);
+        letter-spacing: -0.02em;
+        margin-top: 10px;
+        max-width: 230px;
+      }
+      .hero-meta {
+        font: 500 13px var(--body);
+        color: var(--txt-2);
+        margin-top: 8px;
+      }
+      .hero-row {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+      .cta {
+        font: 600 15px var(--display);
+        color: #08101f;
+        padding: 13px 22px;
+        border-radius: 14px;
+        border: none;
+        background: linear-gradient(180deg, #74a0ff, #4f7fea);
+        box-shadow:
+          0 10px 22px -8px rgba(91, 140, 255, 0.6),
+          inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ring-wrap {
+        position: relative;
+        width: 78px;
+        height: 78px;
+      }
+      .ring-num {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font: 700 18px var(--display);
+      }
+      .ring-num small {
+        font: 500 9px var(--body);
+        color: var(--txt-2);
+        display: block;
+        text-align: center;
+        margin-top: -2px;
+      }
+
+      /* ---- section ---- */
+      .seclabel {
+        font: 600 12px var(--body);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--txt-3);
+        margin: 26px 4px 12px;
+      }
+
+      /* ---- routine tiles ---- */
+      .tiles {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .tile {
+        position: relative;
+        padding: 16px;
+        border-radius: 20px;
+        background: linear-gradient(160deg, #171e2c 0%, #11151f 100%);
+        border: 1px solid var(--border);
+        min-height: 122px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+      }
+      .tile.active {
+        border-color: rgba(91, 140, 255, 0.5);
+        box-shadow: 0 0 30px -16px rgba(91, 140, 255, 0.6);
+      }
+      .tile.active::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(160deg, rgba(91, 140, 255, 0.1), transparent 60%);
+      }
+      .chip {
+        width: 42px;
+        height: 42px;
+        border-radius: 13px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(160deg, rgba(91, 140, 255, 0.22), rgba(91, 140, 255, 0.05));
+        border: 1px solid rgba(91, 140, 255, 0.2);
+        color: var(--accent-2);
+      }
+      .tile-name {
+        font: 600 14px/1.2 var(--display);
+        letter-spacing: -0.01em;
+      }
+      .tile-meta {
+        font: 500 12px var(--body);
+        color: var(--txt-2);
+        margin-top: 3px;
+      }
+      .tile .go {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        color: var(--txt-3);
+      }
+      .pill {
+        align-self: flex-start;
+        font: 600 10px var(--display);
+        letter-spacing: 0.06em;
+        color: var(--accent-2);
+        background: rgba(91, 140, 255, 0.12);
+        border: 1px solid rgba(91, 140, 255, 0.25);
+        padding: 3px 8px;
+        border-radius: 999px;
+        margin-bottom: 6px;
+      }
+
+      /* ---- stats row ---- */
+      .stats {
+        display: grid;
+        grid-template-columns: auto 1fr 1fr;
+        gap: 12px;
+        align-items: stretch;
+      }
+      .statcard {
+        padding: 14px 16px;
+        border-radius: 18px;
+        background: linear-gradient(160deg, #161d2c, #11151f);
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2px;
+      }
+      .stat-k {
+        font: 500 11px var(--body);
+        color: var(--txt-2);
+      }
+      .stat-v {
+        font: 700 26px var(--display);
+        letter-spacing: -0.02em;
+      }
+      .stat-v.warn {
+        color: var(--warning);
+      }
+      .stat-u {
+        font: 500 11px var(--body);
+        color: var(--txt-2);
+      }
+      .streakcard {
+        padding: 16px;
+        border-radius: 18px;
+        background: linear-gradient(160deg, #16203a, #11161f);
+        border: 1px solid rgba(91, 140, 255, 0.18);
+        display: grid;
+        place-items: center;
+        width: 108px;
+      }
+
+      /* ---- tab bar ---- */
+      .tabbar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 78px;
+        display: flex;
+        padding: 10px 30px 22px;
+        background: linear-gradient(0deg, rgba(11, 14, 20, 0.92), rgba(11, 14, 20, 0.5));
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .tab {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        color: var(--txt-3);
+        font: 600 11px var(--body);
+      }
+      .tab.on {
+        color: var(--accent);
+      }
+      .tab.on .dot {
+        box-shadow: 0 0 14px 1px rgba(91, 140, 255, 0.7);
+      }
+    </style>
+  </head>
+  <body>
+    <div style="position: relative">
+      <div class="label">HOME · Elevated</div>
+      <div class="phone">
+        <div class="scroll">
+          <div class="header">
+            <div>
+              <div class="hello">Hola, Mariangel</div>
+              <div class="sub">Martes · semana 2</div>
+            </div>
+            <div class="iconbtn" aria-label="info">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 11v5M12 8h.01" stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="content">
+            <!-- HERO -->
+            <div class="hero anim" style="animation-delay: 0.05s">
+              <div class="hero-row" style="margin: 0">
+                <div>
+                  <div class="hero-tag">HOY · DÍA 2</div>
+                  <div class="hero-title">Espalda y Bíceps</div>
+                  <div class="hero-meta">10 ejercicios · ~60 min</div>
+                </div>
+                <div class="ring-wrap">
+                  <svg width="78" height="78" viewBox="0 0 78 78" style="transform: rotate(-90deg)">
+                    <circle cx="39" cy="39" r="33" fill="none" stroke="#28303f" stroke-width="7" />
+                    <circle
+                      cx="39"
+                      cy="39"
+                      r="33"
+                      fill="none"
+                      stroke="#5b8cff"
+                      stroke-width="7"
+                      stroke-linecap="round"
+                      stroke-dasharray="207"
+                      stroke-dashoffset="186"
+                      style="filter: drop-shadow(0 0 6px rgba(91, 140, 255, 0.7))"
+                    />
+                  </svg>
+                  <div class="ring-num">10%<small>listo</small></div>
+                </div>
+              </div>
+              <div class="hero-row">
+                <button class="cta">
+                  Empezar
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </button>
+                <span style="font: 500 12px var(--body); color: var(--txt-2)"
+                  >dorsal · romboides · bíceps</span
+                >
+              </div>
+            </div>
+
+            <!-- ROUTINES -->
+            <div class="seclabel">Tus rutinas</div>
+            <div class="tiles">
+              <div class="tile active anim" style="animation-delay: 0.12s">
+                <span class="pill">EN CURSO</span>
+                <div class="chip">
+                  <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor">
+                    <path
+                      d="M248 120h-8V88a16 16 0 0 0-16-16h-16v-8a16 16 0 0 0-16-16h-24a16 16 0 0 0-16 16v56h-48V64a16 16 0 0 0-16-16H48a16 16 0 0 0-16 16v8H16A16 16 0 0 0 0 88H0v32H0a8 8 0 0 0 0 16v32a16 16 0 0 0 16 16h16v8a16 16 0 0 0 16 16h24a16 16 0 0 0 16-16v-56h48v56a16 16 0 0 0 16 16h24a16 16 0 0 0 16-16v-8h16a16 16 0 0 0 16-16v-32h8a8 8 0 0 0 0-16Z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <div class="tile-name">Día 2 · Espalda</div>
+                  <div class="tile-meta">10 ejercicios</div>
+                </div>
+              </div>
+              <div class="tile anim" style="animation-delay: 0.18s">
+                <svg
+                  class="go"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 6l6 6-6 6" stroke-linecap="round" />
+                </svg>
+                <div class="chip">
+                  <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor">
+                    <path
+                      d="M248 120h-8V88a16 16 0 0 0-16-16h-16v-8a16 16 0 0 0-16-16h-24a16 16 0 0 0-16 16v56h-48V64a16 16 0 0 0-16-16H48a16 16 0 0 0-16 16v8H16A16 16 0 0 0 0 88H0v32H0a8 8 0 0 0 0 16v32a16 16 0 0 0 16 16h16v8a16 16 0 0 0 16 16h24a16 16 0 0 0 16-16v-56h48v56a16 16 0 0 0 16 16h24a16 16 0 0 0 16-16v-8h16a16 16 0 0 0 16-16v-32h8a8 8 0 0 0 0-16Z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <div class="tile-name">Día 1 · Glúteo</div>
+                  <div class="tile-meta">10 ejercicios</div>
+                </div>
+              </div>
+              <div class="tile anim" style="animation-delay: 0.24s">
+                <svg
+                  class="go"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 6l6 6-6 6" stroke-linecap="round" />
+                </svg>
+                <div class="chip">
+                  <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor">
+                    <path
+                      d="M248 120h-8V88a16 16 0 0 0-16-16h-16v-8a16 16 0 0 0-16-16h-24a16 16 0 0 0-16 16v56h-48V64a16 16 0 0 0-16-16H48a16 16 0 0 0-16 16v8H16A16 16 0 0 0 0 88H0v32H0a8 8 0 0 0 0 16v32a16 16 0 0 0 16 16h16v8a16 16 0 0 0 16 16h24a16 16 0 0 0 16-16v-56h48v56a16 16 0 0 0 16 16h24a16 16 0 0 0 16-16v-8h16a16 16 0 0 0 16-16v-32h8a8 8 0 0 0 0-16Z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <div class="tile-name">Día 3 · Cuádriceps</div>
+                  <div class="tile-meta">10 ejercicios</div>
+                </div>
+              </div>
+              <div class="tile anim" style="animation-delay: 0.3s">
+                <svg
+                  class="go"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 6l6 6-6 6" stroke-linecap="round" />
+                </svg>
+                <div class="chip">
+                  <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor">
+                    <path
+                      d="M248 120h-8V88a16 16 0 0 0-16-16h-16v-8a16 16 0 0 0-16-16h-24a16 16 0 0 0-16 16v56h-48V64a16 16 0 0 0-16-16H48a16 16 0 0 0-16 16v8H16A16 16 0 0 0 0 88H0v32H0a8 8 0 0 0 0 16v32a16 16 0 0 0 16 16h16v8a16 16 0 0 0 16 16h24a16 16 0 0 0 16-16v-56h48v56a16 16 0 0 0 16 16h24a16 16 0 0 0 16-16v-8h16a16 16 0 0 0 16-16v-32h8a8 8 0 0 0 0-16Z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <div class="tile-name">Día 4 · Pecho</div>
+                  <div class="tile-meta">10 ejercicios</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PROGRESS -->
+            <div class="seclabel">Tu progreso</div>
+            <div class="stats">
+              <div class="streakcard anim" style="animation-delay: 0.34s">
+                <div class="ring-wrap" style="width: 56px; height: 56px">
+                  <svg width="56" height="56" viewBox="0 0 56 56" style="transform: rotate(-90deg)">
+                    <circle cx="28" cy="28" r="23" fill="none" stroke="#28303f" stroke-width="6" />
+                    <circle
+                      cx="28"
+                      cy="28"
+                      r="23"
+                      fill="none"
+                      stroke="#5b8cff"
+                      stroke-width="6"
+                      stroke-linecap="round"
+                      stroke-dasharray="144"
+                      stroke-dashoffset="144"
+                    />
+                  </svg>
+                  <div class="ring-num" style="font-size: 15px">0</div>
+                </div>
+                <div class="stat-k" style="margin-top: 8px">Racha</div>
+              </div>
+              <div class="statcard anim" style="animation-delay: 0.38s">
+                <div class="stat-k">Entrenos</div>
+                <div class="stat-v">0</div>
+              </div>
+              <div class="statcard anim" style="animation-delay: 0.42s">
+                <div class="stat-k">Duración media</div>
+                <div class="stat-v">0<span class="stat-u"> min</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB BAR -->
+        <div class="tabbar">
+          <div class="tab on">
+            <span class="dot"
+              ><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3l9 8h-3v9h-4v-6h-4v6H6v-9H3z" /></svg
+            ></span>
+            Inicio
+          </div>
+          <div class="tab">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <rect x="3" y="5" width="18" height="16" rx="2" />
+              <path d="M3 9h18M8 3v4M16 3v4" stroke-linecap="round" />
+            </svg>
+            Calendario
+          </div>
+          <div class="tab">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <path
+                d="M4 19V5M4 19h16M8 16l4-5 3 3 5-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Progreso
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

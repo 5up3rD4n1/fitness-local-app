@@ -1,116 +1,270 @@
 import fs from 'fs';
 import path from 'path';
-import { v4 as uuidv4 } from 'uuid';
+
+type ExerciseSection = 'activation' | 'main' | 'core' | 'cardio';
 
 interface Exercise {
   id: string;
+  programId: string;
   name: string;
   sets: number;
   reps: string;
   restTime: string;
   videoUrl: string;
   day: number;
+  section: ExerciseSection;
+  equipment: string;
+  description: string;
+  safetyNotes: string;
 }
 
 interface Routine {
   id: string;
+  programId: string;
   name: string;
+  title: string;
+  focus?: string;
   day: number;
-  exercises: string[]; // Array of exercise IDs
+  exercises: string[];
 }
 
-interface WorkoutData {
+interface ProgramMeta {
+  id: string;
+  name: string;
+  description: string;
+  safetyPrinciples: string[];
+  recommendedEquipment: string[];
+}
+
+interface Program extends ProgramMeta {
   routines: Routine[];
   exercises: Exercise[];
 }
 
-function parseCSV(csvContent: string): WorkoutData {
-  const lines = csvContent.split('\n');
-  const exercises: Exercise[] = [];
-  const routinesMap = new Map<number, { name: string; exerciseIds: string[] }>();
+interface WorkoutData {
+  programs: Program[];
+}
 
-  // Skip header line
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
+const PROGRAMS_DIR = path.join(__dirname, '../docs/programs');
+const OUTPUT_PATH = path.join(__dirname, '../src/data/workoutData.json');
 
-    // Parse CSV line
-    const parts = line.split(',');
-    if (parts.length < 7) continue;
-
-    const day = parseInt(parts[0]);
-    const exerciseName = parts[1].trim();
-    const sets = parts[2].trim();
-    const reps = parts[3].trim();
-    const restTime = parts[4].trim();
-    // Skip empty column (index 5)
-    const videoUrl = parts[6]?.trim() || '';
-
-    if (!exerciseName || !day) continue;
-
-    // Create exercise
-    const exerciseId = uuidv4();
-    const exercise: Exercise = {
-      id: exerciseId,
-      name: exerciseName,
-      sets: isNaN(parseInt(sets)) ? 0 : parseInt(sets),
-      reps: reps,
-      restTime: restTime,
-      videoUrl: videoUrl,
-      day: day,
-    };
-    exercises.push(exercise);
-
-    // Group by day for routines
-    if (!routinesMap.has(day)) {
-      const routineName = `Day ${day} Workout`;
-      routinesMap.set(day, { name: routineName, exerciseIds: [] });
+/** RFC4180-aware single-line parser (these CSVs have no embedded newlines). */
+function parseCSVLine(line: string): string[] {
+  const out: string[] = [];
+  let field = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (line[i + 1] === '"') {
+          field += '"';
+          i++;
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        field += c;
+      }
+    } else if (c === '"') {
+      inQuotes = true;
+    } else if (c === ',') {
+      out.push(field);
+      field = '';
+    } else {
+      field += c;
     }
-    routinesMap.get(day)!.exerciseIds.push(exerciseId);
+  }
+  out.push(field);
+  return out.map((f) => f.trim());
+}
+
+/** Accent-stripping kebab slug for stable ids. */
+function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-+/g, '-');
+}
+
+function sectionFromHeader(s: string): ExerciseSection | null {
+  const u = s.toUpperCase();
+  if (/^ACTIVACI[ÓO]N/.test(u) || /^WARM[\s-]?UP/.test(u)) return 'activation';
+  if (/^BLOQUE\s+PRINCIPAL/.test(u) || /^MAIN/.test(u)) return 'main';
+  if (/^BLOQUE\s+CORE/.test(u) || /^CORE/.test(u)) return 'core';
+  if (/^CARDIO/.test(u) || /^CONDITIONING/.test(u)) return 'cardio';
+  return null;
+}
+
+/** Build one routine (+ its exercises) from a day CSV. IDs are prefixed with the program id. */
+function convertFile(
+  filePath: string,
+  programId: string,
+  day: number,
+  videoMap: Record<string, string>
+): { routine: Routine; exercises: Exercise[] } {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const lines = content.split(/\r?\n/).filter((l) => l.trim().length > 0);
+
+  const exercises: Exercise[] = [];
+  const exerciseIds: string[] = [];
+  const seenLocal = new Set<string>();
+
+  let title = `Día ${day}`;
+  let focus: string | undefined;
+  let currentSection: ExerciseSection = 'activation';
+  let sawTitle = false;
+
+  for (const rawLine of lines) {
+    const cols = parseCSVLine(rawLine);
+    const c0 = (cols[0] || '').trim();
+    if (!c0) continue;
+
+    if (!sawTitle && /^(?:D[ÍI]A|DAY)\s+\d/i.test(c0)) {
+      title = c0;
+      sawTitle = true;
+      continue;
+    }
+    if (/^(?:Enfoque|Focus)\s*:/i.test(c0)) {
+      focus = c0.replace(/^(?:Enfoque|Focus):\s*/i, '');
+      continue;
+    }
+    if (c0 === 'Ejercicio') continue;
+    const sec = sectionFromHeader(c0);
+    if (sec && (cols[1] || '').trim() === '') {
+      currentSection = sec;
+      continue;
+    }
+
+    // Exercise row. Local id (for video lookup) then program-prefixed global id.
+    const name = c0;
+    let localId = `d${day}-${slugify(name)}`;
+    if (seenLocal.has(localId)) {
+      let k = 2;
+      while (seenLocal.has(`${localId}-${k}`)) k++;
+      localId = `${localId}-${k}`;
+    }
+    seenLocal.add(localId);
+    const id = `${programId}-${localId}`;
+
+    const sets = parseInt((cols[1] || '').trim(), 10);
+    const rest = (cols[3] || '').trim();
+
+    exercises.push({
+      id,
+      programId,
+      name,
+      sets: Number.isNaN(sets) ? 0 : sets,
+      reps: (cols[2] || '').trim(),
+      restTime: rest === '—' ? '' : rest,
+      videoUrl: videoMap[localId] || videoMap[id] || '',
+      day,
+      section: currentSection,
+      equipment: (cols[4] || '').trim(),
+      description: (cols[5] || '').trim(),
+      safetyNotes: (cols[6] || '').trim(),
+    });
+    exerciseIds.push(id);
   }
 
-  // Create routines
-  const routines: Routine[] = Array.from(routinesMap.entries()).map(([day, data]) => ({
-    id: uuidv4(),
-    name: data.name,
-    day: day,
-    exercises: data.exerciseIds,
-  }));
+  const routine: Routine = {
+    id: `${programId}-day-${day}`,
+    programId,
+    name: title,
+    title,
+    focus,
+    day,
+    exercises: exerciseIds,
+  };
+  return { routine, exercises };
+}
 
-  // Add names based on day content
-  if (routines[0]) routines[0].name = 'Day 1: Glutes & Legs';
-  if (routines[1]) routines[1].name = 'Day 2: Back & Biceps';
-  if (routines[2]) routines[2].name = 'Day 3: Legs & Glutes';
-  if (routines[3]) routines[3].name = 'Day 4: Chest & Triceps';
-  if (routines[4]) routines[4].name = 'Day 5: Shoulders & Abs';
+/** Build one Program from docs/programs/<id>/ (program.json + routines/*.csv + videos.json). */
+function convertProgram(dir: string): Program {
+  const metaPath = path.join(dir, 'program.json');
+  if (!fs.existsSync(metaPath)) {
+    throw new Error(`Missing program.json in ${dir}`);
+  }
+  const meta = JSON.parse(fs.readFileSync(metaPath, 'utf-8')) as ProgramMeta;
+  const programId = meta.id;
 
-  return { routines, exercises };
+  let videoMap: Record<string, string> = {};
+  const videosPath = path.join(dir, 'videos.json');
+  if (fs.existsSync(videosPath)) {
+    try {
+      videoMap = JSON.parse(fs.readFileSync(videosPath, 'utf-8'));
+    } catch {
+      console.warn(`⚠️  Could not parse ${videosPath}; continuing without videos`);
+    }
+  }
+
+  const routinesDir = path.join(dir, 'routines');
+  const files = fs
+    .readdirSync(routinesDir)
+    .filter((f) => f.toLowerCase().endsWith('.csv'))
+    .map((f) => {
+      const m = f.match(/(?:D[IÍ]A|DAY)\s+(\d)/i);
+      return { file: f, day: m ? parseInt(m[1], 10) : 0 };
+    })
+    .filter((x) => x.day > 0)
+    .sort((a, b) => a.day - b.day);
+
+  if (files.length === 0) {
+    throw new Error(`No routine CSVs found in ${routinesDir}`);
+  }
+
+  const routines: Routine[] = [];
+  const exercises: Exercise[] = [];
+  for (const { file, day } of files) {
+    const { routine, exercises: ex } = convertFile(
+      path.join(routinesDir, file),
+      programId,
+      day,
+      videoMap
+    );
+    routines.push(routine);
+    exercises.push(...ex);
+  }
+
+  return { ...meta, routines, exercises };
 }
 
 function main() {
-  const csvPath = path.join(__dirname, '../docs/Rutina - Sheet1(1).csv');
-  const outputPath = path.join(__dirname, '../src/data/workoutData.json');
-
-  try {
-    const csvContent = fs.readFileSync(csvPath, 'utf-8');
-    const workoutData = parseCSV(csvContent);
-
-    // Create output directory if it doesn't exist
-    const outputDir = path.dirname(outputPath);
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-
-    // Write JSON file
-    fs.writeFileSync(outputPath, JSON.stringify(workoutData, null, 2));
-
-    console.log('✅ Successfully converted CSV to JSON');
-    console.log(`📊 Created ${workoutData.routines.length} routines with ${workoutData.exercises.length} exercises`);
-    console.log(`📁 Output saved to: ${outputPath}`);
-  } catch (error) {
-    console.error('❌ Error converting CSV:', error);
+  if (!fs.existsSync(PROGRAMS_DIR)) {
+    console.error('❌ No programs dir at', PROGRAMS_DIR);
     process.exit(1);
   }
+
+  const programDirs = fs
+    .readdirSync(PROGRAMS_DIR, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => path.join(PROGRAMS_DIR, d.name))
+    .sort();
+
+  if (programDirs.length === 0) {
+    console.error('❌ No program subfolders in', PROGRAMS_DIR);
+    process.exit(1);
+  }
+
+  const programs: Program[] = programDirs.map(convertProgram);
+  const data: WorkoutData = { programs };
+
+  const outputDir = path.dirname(OUTPUT_PATH);
+  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(data, null, 2), 'utf-8');
+
+  for (const p of programs) {
+    const withVideo = p.exercises.filter((e) => e.videoUrl).length;
+    console.log(
+      `✅ ${p.id}: ${p.routines.length} routines, ${p.exercises.length} exercises, ${withVideo} with video`
+    );
+  }
+  console.log(
+    `📁 Output: ${OUTPUT_PATH} (${programs.length} program${programs.length > 1 ? 's' : ''})`
+  );
 }
 
 main();

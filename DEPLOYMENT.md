@@ -5,6 +5,7 @@ Since iOS Safari doesn't allow opening local HTML files directly, you need to ho
 ## Option 1: GitHub Pages (Recommended)
 
 1. **Push your code to GitHub**:
+
    ```bash
    git init
    git add .
@@ -21,6 +22,7 @@ Since iOS Safari doesn't allow opening local HTML files directly, you need to ho
    - Click Save
 
 3. **Build and push**:
+
    ```bash
    npm run build
    git add dist -f
@@ -38,11 +40,13 @@ Since iOS Safari doesn't allow opening local HTML files directly, you need to ho
 ## Option 2: Netlify
 
 1. **Install Netlify CLI**:
+
    ```bash
    npm install -g netlify-cli
    ```
 
 2. **Build and deploy**:
+
    ```bash
    npm run build
    netlify deploy --prod --dir=dist
@@ -55,11 +59,13 @@ Since iOS Safari doesn't allow opening local HTML files directly, you need to ho
 ## Option 3: Vercel
 
 1. **Install Vercel CLI**:
+
    ```bash
    npm install -g vercel
    ```
 
 2. **Deploy**:
+
    ```bash
    npm run build
    vercel --prod
@@ -81,6 +87,7 @@ You can use any design tool or online icon generator. The icon should represent 
 ## After Deployment
 
 Once deployed and added to your iPhone home screen:
+
 - ✅ Works offline (thanks to service worker)
 - ✅ Full-screen experience
 - ✅ Saves data in browser storage

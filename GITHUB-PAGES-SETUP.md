@@ -60,16 +60,19 @@ git push origin main
 ## 🛠️ Troubleshooting
 
 ### Workflow fails?
+
 - Check the Actions tab for error details
 - Make sure all files are committed
 - Verify `package.json` has all dependencies
 
 ### Page shows 404?
+
 - Wait 2-3 minutes after first deployment
 - Clear browser cache
 - Check Settings → Pages shows the correct URL
 
 ### App not working?
+
 - Make sure you're using HTTPS (not HTTP)
 - Check browser console for errors
 - Verify all files are in `dist/` folder
@@ -77,6 +80,7 @@ git push origin main
 ## ✅ What's Next?
 
 After deployment:
+
 1. Test the app on desktop browser
 2. Install on your iPhone
 3. Share the URL with others!

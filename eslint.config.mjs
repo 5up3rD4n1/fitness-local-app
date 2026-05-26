@@ -8,7 +8,14 @@ import tsParser from '@typescript-eslint/parser';
 export default [
   // Global ignores
   {
-    ignores: ['**/*.config.{js,mjs,ts}', 'scripts/**/*', 'dist/**/*', 'postcss.config.js', 'tailwind.config.js', 'vite.config.ts'],
+    ignores: [
+      '**/*.config.{js,mjs,ts}',
+      'scripts/**/*',
+      'dist/**/*',
+      'postcss.config.js',
+      'tailwind.config.js',
+      'vite.config.ts',
+    ],
   },
   js.configs.recommended,
   prettierConfig,
@@ -38,6 +45,9 @@ export default [
         setInterval: true,
         clearInterval: true,
         NodeJS: true,
+        crypto: true,
+        TextEncoder: true,
+        Uint8Array: true,
       },
     },
     rules: {

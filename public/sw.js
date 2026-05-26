@@ -1,29 +1,21 @@
 const CACHE_NAME = 'fitness-tracker-v1';
-const urlsToCache = [
-  '/',
-  '/index.html'
-];
+const urlsToCache = ['/', '/index.html'];
 
 // Install service worker and cache assets
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(urlsToCache))
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache)));
 });
 
 // Fetch from cache first, then network
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
+    caches.match(event.request).then((response) => {
+      // Cache hit - return response
+      if (response) {
+        return response;
       }
-    )
+      return fetch(event.request);
+    })
   );
 });
 

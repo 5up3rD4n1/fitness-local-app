@@ -1,184 +1,250 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useApp } from '../contexts/AppContext';
 import { LocalStorageService } from '../utils/localStorage';
+import { IconButton, ProgressRing, RoutineTile } from '../components/ui';
+import ActiveWorkoutBanner from '../components/ActiveWorkoutBanner';
+
+const infoIcon = (
+  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 11v5M12 8h.01" strokeLinecap="round" />
+  </svg>
+);
+
+const gearIcon = (
+  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+    <circle cx="12" cy="12" r="3" />
+    <path
+      strokeLinecap="round"
+      d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+    />
+  </svg>
+);
+
+// Spanish day names for greeting
+const WEEKDAY_ES = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+const MONTH_ES = [
+  'enero',
+  'febrero',
+  'marzo',
+  'abril',
+  'mayo',
+  'junio',
+  'julio',
+  'agosto',
+  'septiembre',
+  'octubre',
+  'noviembre',
+  'diciembre',
+];
 
 const HomeScreen: React.FC = () => {
-  const { routines, viewWorkout, currentSession, exercises, navigateTo } = useApp();
-  const [currentDate] = useState(new Date());
-
+  const { routines, viewWorkout, currentSession, exercises, navigateTo, currentProgram } = useApp();
   const stats = LocalStorageService.getStats();
 
-  // Get today's routine (simple rotation based on day of week)
-  const getDayOfWeekRoutine = () => {
-    const dayOfWeek = currentDate.getDay(); // 0 = Sunday, 1 = Monday, etc.
-    const routineIndex = dayOfWeek % routines.length;
-    return routines[routineIndex];
-  };
+  const formatDuration = (ms: number) => `${Math.floor(ms / (1000 * 60))} min`;
 
-  const todaysRoutine = getDayOfWeekRoutine();
+  const hasStartedWorkout = Boolean(
+    currentSession && !currentSession.completed && currentSession.startedAt
+  );
 
-  // Get upcoming sessions (next 2-3 days)
-  const getUpcomingSessions = () => {
-    const upcoming = [];
-    for (let i = 1; i <= 3; i++) {
-      const futureDate = new Date(currentDate);
-      futureDate.setDate(currentDate.getDate() + i);
-      const dayOfWeek = futureDate.getDay();
-      const routineIndex = dayOfWeek % routines.length;
-      const routine = routines[routineIndex];
+  // Active routine for banner (session belongs to a routine we know)
+  const activeRoutineId = hasStartedWorkout ? currentSession!.routineId : null;
 
-      upcoming.push({
-        date: futureDate,
-        routine,
-        time: '9:00 AM', // Default time
-      });
-    }
-    return upcoming;
-  };
+  // Determine today's hero routine: active session first, then routine matching today's weekday index, else first routine
+  const todayDayIndex = new Date().getDay(); // 0=Sun
+  const heroRoutine =
+    routines.find((r) => r.id === activeRoutineId) ??
+    routines.find((r) => r.day === todayDayIndex) ??
+    routines[0] ??
+    null;
 
-  const upcomingSessions = getUpcomingSessions();
+  // Workout progress for hero ring
+  const heroProgress = (() => {
+    if (!heroRoutine || !currentSession || currentSession.routineId !== heroRoutine.id) return 0;
+    const heroExercises = exercises.filter((e) => heroRoutine.exercises.includes(e.id));
+    let total = 0;
+    let done = 0;
+    heroExercises.forEach((ex) => {
+      total += ex.sets || 1;
+      done += currentSession.setsProgress.filter(
+        (p) => p.exerciseId === ex.id && p.completed
+      ).length;
+    });
+    return total > 0 ? Math.round((done / total) * 100) : 0;
+  })();
 
-  const formatDuration = (ms: number) => {
-    const minutes = Math.floor(ms / (1000 * 60));
-    return `${minutes} min`;
-  };
+  const heroExerciseCount = heroRoutine
+    ? exercises.filter((e) => heroRoutine.exercises.includes(e.id)).length
+    : 0;
 
-  const formatDate = (date: Date) => {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
+  const isHeroActive = heroRoutine ? heroRoutine.id === activeRoutineId : false;
 
-    if (date.toDateString() === today.toDateString()) return 'Today';
-    if (date.toDateString() === tomorrow.toDateString()) return 'Tomorrow';
-
-    return `${days[date.getDay()]}, ${date.getMonth() + 1}/${date.getDate()}`;
-  };
+  // Date heading
+  const now = new Date();
+  const weekdayName = WEEKDAY_ES[now.getDay()];
+  const dateStr = `${now.getDate()} de ${MONTH_ES[now.getMonth()]} · ${now.getFullYear()}`;
 
   return (
-    <div className="flex flex-col min-h-full bg-primary-bg">
-      {/* Header */}
-      <div className="flex items-center bg-primary-bg p-4 pb-2 justify-between">
-        <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pl-12">
-          Home
-        </h2>
-        <div className="flex w-12 items-center justify-end">
-          <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 bg-transparent text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
-            <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 256 256">
-              <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z" />
-            </svg>
-          </button>
+    <div className="flex min-h-full flex-col bg-primary-bg">
+      {/* Glass header */}
+      <header className="app-header">
+        <div className="flex-1">
+          <p
+            className="font-display text-[22px] font-bold leading-tight tracking-tight text-white capitalize"
+            style={{ letterSpacing: '-0.01em' }}
+          >
+            Hola · {weekdayName}
+          </p>
+          <p className="mt-0.5 text-caption text-text-secondary">{dateStr}</p>
         </div>
-      </div>
+        <div className="flex items-center gap-2">
+          <IconButton label="Program info" icon={infoIcon} onClick={() => navigateTo('program')} />
+          <IconButton label="Settings" icon={gearIcon} onClick={() => navigateTo('settings')} />
+        </div>
+      </header>
 
       <div className="flex-1 overflow-y-auto pb-4">
-        {/* Current Workout - only show if actually started */}
-        {currentSession && !currentSession.completed && currentSession.startedAt && (
-          <section>
-            <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
-              Active Workout
-            </h2>
-            <div className="px-4 pb-4">
-              <div className="rounded-xl bg-secondary-bg border border-accent p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <div>
-                    <p className="text-white font-bold text-lg">
-                      {routines.find(r => r.id === currentSession.routineId)?.name}
-                    </p>
-                    <p className="text-text-secondary text-sm">Workout in progress</p>
-                  </div>
-                  <button
-                    onClick={() => navigateTo('workout')}
-                    className="px-4 py-2 rounded-xl bg-accent text-primary-bg font-medium hover:opacity-90 transition-opacity"
-                  >
-                    Continue
-                  </button>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* All Workouts */}
-        <section>
-          <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
-            All Workouts
-          </h2>
-          {routines.map((routine) => {
-            const exerciseCount = exercises.filter(e => routine.exercises.includes(e.id)).length;
-            const isActiveRoutine = currentSession && !currentSession.completed && currentSession.routineId === routine.id;
-            const hasActiveStartedWorkout = currentSession && !currentSession.completed && currentSession.startedAt;
-
-            const handleWorkoutClick = (routineId: string) => {
-              // Always set the current routine first, then navigate
-              viewWorkout(routineId);
-            };
-
-            const getButtonText = () => {
-              if (isActiveRoutine && hasActiveStartedWorkout) {
-                return 'Continue';
-              }
-              return 'View';
-            };
-
-            return (
-              <div key={routine.id} className="flex items-center gap-4 bg-primary-bg px-4 min-h-[72px] py-2 border-b border-border-primary hover:bg-secondary-bg transition-colors">
-                <div className="text-white flex items-center justify-center rounded-lg bg-border-primary shrink-0 size-12">
-                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M248,120h-8V88a16,16,0,0,0-16-16H208V64a16,16,0,0,0-16-16H168a16,16,0,0,0-16,16v56H104V64A16,16,0,0,0,88,48H64A16,16,0,0,0,48,64v8H32A16,16,0,0,0,16,88v32H8a8,8,0,0,0,0,16h8v32a16,16,0,0,0,16,16H48v8a16,16,0,0,0,16,16H88a16,16,0,0,0,16-16V136h48v56a16,16,0,0,0,16,16h24a16,16,0,0,0,16-16v-8h16a16,16,0,0,0,16-16V136h8a8,8,0,0,0,0-16ZM32,168V88H48v80Zm56,24H64V64H88V192Zm104,0H168V64h24V175.82c0,.06,0,.12,0,.18s0,.12,0,.18V192Zm32-24H208V88h16Z" />
-                  </svg>
-                </div>
-                <div className="flex-1 flex flex-col justify-center min-w-0">
-                  <p className="text-white text-base font-medium leading-normal truncate">
-                    {routine.name}
-                  </p>
-                  <p className="text-text-secondary text-sm font-normal leading-normal">
-                    {routine.category} · {exerciseCount} exercises
-                  </p>
-                </div>
-                <button
-                  onClick={() => handleWorkoutClick(routine.id)}
-                  className="px-4 py-2 rounded-xl bg-border-primary text-white text-sm font-medium hover:bg-border-secondary transition-colors shrink-0"
-                >
-                  {getButtonText()}
-                </button>
-              </div>
-            );
-          })}
-        </section>
-
-        {/* Progress Tracker */}
-        <section>
-          <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
-            Progress Tracker
-          </h2>
-          <div className="flex flex-wrap gap-4 px-4 py-6">
-            <div className="flex min-w-72 flex-1 flex-col gap-2">
-              <p className="text-white text-base font-medium leading-normal">Workout Streak</p>
-              <p className="text-white tracking-light text-[32px] font-bold leading-tight truncate">
-                {stats.currentStreak} days
-              </p>
-              <div className="flex gap-1">
-                <p className="text-text-secondary text-base font-normal leading-normal">
-                  Total Workouts: {stats.totalWorkouts}
+        <div className="px-[18px] pt-2">
+          {/* Program switcher */}
+          {currentProgram && (
+            <button
+              onClick={() => navigateTo('programs')}
+              className="mb-3 flex w-full items-center gap-3 rounded-[14px] border border-border-primary bg-secondary-bg px-4 py-3 text-left"
+            >
+              <div className="min-w-0 flex-1">
+                <p className="text-micro uppercase tracking-[0.14em] text-text-tertiary">
+                  Programa
+                </p>
+                <p className="truncate font-display text-[14px] font-semibold text-white">
+                  {currentProgram.name}
                 </p>
               </div>
+              <span className="font-display text-[12px] font-semibold text-accent">Cambiar</span>
+              <svg
+                className="h-4 w-4 shrink-0 text-text-tertiary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path d="M9 6l6 6-6 6" strokeLinecap="round" />
+              </svg>
+            </button>
+          )}
 
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <div className="card">
-                  <p className="text-text-secondary text-sm">Best Streak</p>
-                  <p className="text-white text-xl font-bold">{stats.maxStreak} days</p>
-                </div>
-                <div className="card">
-                  <p className="text-text-secondary text-sm">Avg Duration</p>
-                  <p className="text-white text-xl font-bold">
-                    {stats.averageDuration > 0 ? formatDuration(stats.averageDuration) : '0 min'}
+          {/* Active workout banner — show only when heroRoutine does NOT match the active session */}
+          {hasStartedWorkout && heroRoutine && activeRoutineId !== heroRoutine.id && (
+            <div className="mb-3">
+              <ActiveWorkoutBanner />
+            </div>
+          )}
+
+          {/* HERO card */}
+          {heroRoutine && (
+            <div className="hero p-[22px] mb-2">
+              {/* top row: text + ring */}
+              <div className="flex items-start justify-between">
+                <div className="flex-1 min-w-0 pr-4">
+                  <p
+                    className={`font-display text-[11px] font-semibold tracking-[0.18em] uppercase ${
+                      isHeroActive ? 'text-accent' : 'text-text-tertiary'
+                    }`}
+                  >
+                    {isHeroActive ? 'EN CURSO' : 'HOY'}
+                  </p>
+                  <h2
+                    className="font-display text-[26px] font-bold leading-[1.05] mt-2"
+                    style={{
+                      letterSpacing: '-0.02em',
+                      maxWidth: '230px',
+                      color: 'var(--color-text-primary)',
+                    }}
+                  >
+                    {heroRoutine.title}
+                  </h2>
+                  <p className="text-caption text-text-secondary mt-2">
+                    {heroExerciseCount} ejercicios · ~60 min
                   </p>
                 </div>
+                {/* Progress ring */}
+                <ProgressRing value={heroProgress} size={78} strokeWidth={7}>
+                  <div className="flex flex-col items-center">
+                    <span className="font-display text-[18px] font-bold text-white leading-none">
+                      {heroProgress}%
+                    </span>
+                    <span className="text-[9px] font-medium text-text-secondary mt-0.5">listo</span>
+                  </div>
+                </ProgressRing>
+              </div>
+              {/* bottom row: CTA + focus */}
+              <div className="flex items-end justify-between mt-5">
+                <button
+                  className="btn-primary inline-flex items-center gap-2"
+                  onClick={() => viewWorkout(heroRoutine.id)}
+                >
+                  {isHeroActive ? 'Continuar' : 'Empezar'}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </button>
+                {heroRoutine.focus && (
+                  <span className="text-caption text-text-secondary text-right max-w-[120px] leading-snug">
+                    {heroRoutine.focus}
+                  </span>
+                )}
               </div>
             </div>
+          )}
+
+          {/* ROUTINES section */}
+          <p className="mt-[26px] mb-3 px-1 text-micro uppercase tracking-[0.16em] text-text-tertiary">
+            Tus rutinas
+          </p>
+          <div className="list">
+            {routines.map((routine) => {
+              const count = exercises.filter((e) => routine.exercises.includes(e.id)).length;
+              const isActive =
+                !!currentSession &&
+                !currentSession.completed &&
+                currentSession.routineId === routine.id;
+              return (
+                <RoutineTile
+                  key={routine.id}
+                  name={routine.name}
+                  meta={`${count} ejercicios`}
+                  badge={isActive ? 'En curso' : undefined}
+                  onClick={() => viewWorkout(routine.id)}
+                />
+              );
+            })}
           </div>
-        </section>
+
+          {/* PROGRESS section */}
+          <p className="mt-[26px] mb-3 px-1 text-micro uppercase tracking-[0.16em] text-text-tertiary">
+            Tu progreso
+          </p>
+          <div className="mb-6 flex overflow-hidden rounded-[16px] border border-border-primary bg-secondary-bg">
+            <div className="flex-1 border-r border-border-primary p-4 text-center">
+              <div className="font-display text-[24px] font-bold tracking-tight text-accent">
+                {stats.currentStreak}
+              </div>
+              <div className="mt-0.5 text-caption text-text-secondary">Racha</div>
+            </div>
+            <div className="flex-1 border-r border-border-primary p-4 text-center">
+              <div className="font-display text-[24px] font-bold tracking-tight text-white">
+                {stats.totalWorkouts}
+              </div>
+              <div className="mt-0.5 text-caption text-text-secondary">Entrenos</div>
+            </div>
+            <div className="flex-1 p-4 text-center">
+              <div className="font-display text-[24px] font-bold tracking-tight text-white">
+                {stats.averageDuration > 0 ? formatDuration(stats.averageDuration) : '0 min'}
+              </div>
+              <div className="mt-0.5 text-caption text-text-secondary">Media</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

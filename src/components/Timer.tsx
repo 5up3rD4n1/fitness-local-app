@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { ProgressRing, Button } from './ui';
 
 interface TimerProps {
   initialTime: number; // in seconds
@@ -13,7 +14,7 @@ const Timer: React.FC<TimerProps> = ({
   onComplete,
   autoStart = false,
   className = '',
-  showControls = true
+  showControls = true,
 }) => {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(autoStart);
@@ -81,85 +82,59 @@ const Timer: React.FC<TimerProps> = ({
 
   return (
     <div className={`flex flex-col items-center gap-4 ${className}`}>
-      <div className="relative">
-        <div className="relative h-32 w-32">
-          {/* Background circle */}
-          <svg className="h-32 w-32 transform -rotate-90" viewBox="0 0 128 128">
-            <circle
-              cx="64"
-              cy="64"
-              r="56"
-              stroke="currentColor"
-              strokeWidth="8"
-              fill="none"
-              className="text-border-primary"
-            />
-            {/* Progress circle */}
-            <circle
-              cx="64"
-              cy="64"
-              r="56"
-              stroke="currentColor"
-              strokeWidth="8"
-              fill="none"
-              strokeDasharray={351.86}
-              strokeDashoffset={351.86 - (progress / 100) * 351.86}
-              className={`transition-all duration-1000 ${
-                isCompleted ? 'text-accent' : 'text-text-secondary'
-              }`}
-              strokeLinecap="round"
-            />
-          </svg>
-          {/* Time display */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className={`text-2xl font-bold ${
-              isCompleted ? 'text-accent' : 'text-white'
-            }`}>
-              {formatTime(timeLeft)}
-            </span>
-          </div>
-        </div>
-      </div>
+      <ProgressRing value={progress} size={128} strokeWidth={8}>
+        <span
+          className={`font-display text-2xl font-bold ${isCompleted ? 'text-white' : 'text-white'}`}
+        >
+          {formatTime(timeLeft)}
+        </span>
+      </ProgressRing>
 
       {showControls && (
         <div className="flex gap-2">
           {!isRunning ? (
-            <button
+            <Button
+              variant="primary"
               onClick={handleStart}
-              className="flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-primary-bg font-medium hover:opacity-90 transition-opacity"
+              icon={
+                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              }
             >
-              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-              {isCompleted ? 'Restart' : 'Start'}
-            </button>
+              {isCompleted ? 'Reiniciar' : 'Iniciar'}
+            </Button>
           ) : (
-            <button
+            <Button
+              variant="secondary"
               onClick={handlePause}
-              className="flex items-center gap-2 rounded-xl bg-orange-500 px-4 py-2 text-white font-medium hover:opacity-90 transition-opacity"
+              icon={
+                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                </svg>
+              }
             >
-              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-              </svg>
-              Pause
-            </button>
+              Pausar
+            </Button>
           )}
 
-          <button
+          <Button
+            variant="ghost"
             onClick={handleReset}
-            className="flex items-center gap-2 rounded-xl bg-secondary-bg px-4 py-2 text-white font-medium hover:bg-opacity-80 transition-colors"
+            icon={
+              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+              </svg>
+            }
           >
-            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
-            </svg>
-            Reset
-          </button>
+            Reiniciar
+          </Button>
         </div>
       )}
 
       {isCompleted && (
         <div className="text-center">
-          <p className="text-accent font-medium">Time's up!</p>
+          <p className="font-display font-semibold text-accent">¡Tiempo!</p>
         </div>
       )}
     </div>

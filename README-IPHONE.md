@@ -1,11 +1,13 @@
 # 📱 Installing Fitness App on iPhone
 
 ## The Problem
+
 iPhone Safari doesn't allow opening local HTML files directly. You need to host the app online first.
 
 ## ✅ Solution: Deploy & Install as PWA
 
 Your app is now a **Progressive Web App (PWA)** with:
+
 - ✅ Offline support (works without internet)
 - ✅ Installable to home screen
 - ✅ Full-screen experience
@@ -28,6 +30,7 @@ git push -u origin main
 ```
 
 Then enable GitHub Pages:
+
 1. Go to your repo → Settings → Pages
 2. Select "main" branch and "/" (root) folder
 3. Save
@@ -52,6 +55,7 @@ Your app will be at: `https://YOUR_USERNAME.github.io/fitness-app/`
 ## 🔄 Alternative Deployment Options
 
 ### Option A: Netlify (Easiest)
+
 ```bash
 npm install -g netlify-cli
 npm run build
@@ -59,6 +63,7 @@ netlify deploy --prod --dir=dist
 ```
 
 ### Option B: Vercel
+
 ```bash
 npm install -g vercel
 npm run build
@@ -68,6 +73,7 @@ vercel --prod
 ## 📋 Files Created
 
 The build includes:
+
 - `dist/index.html` - Main app file (286 KB)
 - `dist/manifest.json` - PWA configuration
 - `dist/sw.js` - Service worker (offline support)
@@ -84,19 +90,23 @@ The default icon is in `public/icon.svg`. To customize:
 ## ❓ Troubleshooting
 
 **"Add to Home Screen" not showing?**
+
 - Make sure you're using Safari (not Chrome/Firefox)
 - Wait for the page to fully load
 - Check that you're on HTTPS (required for PWA)
 
 **App won't work offline?**
+
 - First load requires internet to cache assets
 - After that, it works completely offline
 
 **Data not saving?**
+
 - Check Safari settings allow storage
 - Settings → Safari → Block All Cookies (should be OFF)
 
 **Need to update the app?**
+
 - Just rebuild and redeploy
 - Users will get update on next visit
 

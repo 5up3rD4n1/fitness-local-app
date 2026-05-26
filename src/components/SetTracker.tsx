@@ -22,7 +22,10 @@ const SetTracker: React.FC<SetTrackerProps> = ({ exercise, routineId, className 
   const getSetProgress = (setNumber: number) => {
     if (!currentSession) return false;
     return currentSession.setsProgress.some(
-      (progress) => progress.exerciseId === exercise.id && progress.setNumber === setNumber && progress.completed
+      (progress) =>
+        progress.exerciseId === exercise.id &&
+        progress.setNumber === setNumber &&
+        progress.completed
     );
   };
 
@@ -40,7 +43,11 @@ const SetTracker: React.FC<SetTrackerProps> = ({ exercise, routineId, className 
         currentSession.routineId !== routineId
       ) {
         setConfirmDialog({ isOpen: true, setNumber });
-      } else if (!currentSession || currentSession.completed || currentSession.routineId !== routineId) {
+      } else if (
+        !currentSession ||
+        currentSession.completed ||
+        currentSession.routineId !== routineId
+      ) {
         // No session or completed session, create one for this routine
         if (routineId) {
           startWorkout(routineId);
@@ -68,51 +75,37 @@ const SetTracker: React.FC<SetTrackerProps> = ({ exercise, routineId, className 
     setConfirmDialog({ isOpen: false, setNumber: null });
   };
 
-  const completedSets = Array.from({ length: effectiveSets }, (_, i) => i + 1)
-    .filter(setNumber => getSetProgress(setNumber)).length;
+  const completedSets = Array.from({ length: effectiveSets }, (_, i) => i + 1).filter((setNumber) =>
+    getSetProgress(setNumber)
+  ).length;
 
   return (
     <div className={`${className}`}>
-      <div className="mb-4">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-lg font-bold text-white">{exercise.name}</h3>
-          {exercise.sets > 0 ? (
-            <span className="text-text-secondary text-sm">
-              {completedSets}/{exercise.sets} sets
-            </span>
-          ) : (
-            <span className="text-text-secondary text-sm">
-              {completedSets > 0 ? 'Complete' : 'Mark as done'}
-            </span>
-          )}
-        </div>
-        <div className="flex items-center gap-4 text-text-secondary text-sm">
+      {/* Section label + count */}
+      <div className="flex items-center justify-between mb-3">
+        <p className="font-display text-[10px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">
+          Series{exercise.sets > 0 ? ` · ${completedSets} / ${exercise.sets}` : ''}
+        </p>
+        <div className="flex items-center gap-3 text-caption text-text-secondary">
           <span>{exercise.reps} reps</span>
-          <span>{exercise.restTime || '1min'} rest</span>
+          <span>{exercise.restTime || '1min'} descanso</span>
         </div>
       </div>
 
       {exercise.sets === 0 ? (
         <button
           onClick={() => handleSetToggle(1)}
-          className={`
-            w-full flex items-center justify-center gap-2 h-16 rounded-xl border-2 font-bold transition-all
-            ${
-              getSetProgress(1)
-                ? 'border-accent bg-accent text-primary-bg'
-                : 'border-border-primary bg-primary-bg text-white hover:border-border-secondary'
-            }
-          `}
+          className={`set-tile w-full gap-2 ${getSetProgress(1) ? 'done' : ''}`}
         >
           {getSetProgress(1) && (
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
             </svg>
           )}
-          <span>{getSetProgress(1) ? 'Completed' : 'Mark Complete'}</span>
+          <span>{getSetProgress(1) ? 'Completado' : 'Marcar como hecho'}</span>
         </button>
       ) : (
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-4 gap-[9px] mb-[14px]">
           {Array.from({ length: exercise.sets }, (_, index) => {
             const setNumber = index + 1;
             const isCompleted = getSetProgress(setNumber);
@@ -121,18 +114,11 @@ const SetTracker: React.FC<SetTrackerProps> = ({ exercise, routineId, className 
               <button
                 key={setNumber}
                 onClick={() => handleSetToggle(setNumber)}
-                className={`
-                  relative flex h-16 w-full items-center justify-center rounded-xl border-2 font-bold text-lg transition-all
-                  ${
-                    isCompleted
-                      ? 'border-accent bg-accent text-primary-bg'
-                      : 'border-border-primary bg-primary-bg text-white hover:border-border-secondary'
-                  }
-                `}
+                className={`set-tile w-full ${isCompleted ? 'done' : ''}`}
               >
                 {isCompleted && (
                   <svg
-                    className="absolute top-1 right-1 h-4 w-4 text-primary-bg"
+                    className="absolute top-1 right-1 h-4 w-4"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -146,30 +132,13 @@ const SetTracker: React.FC<SetTrackerProps> = ({ exercise, routineId, className 
         </div>
       )}
 
-      {completedSets > 0 && exercise.sets > 0 && (
-        <div className="mt-4 rounded-xl bg-secondary-bg p-3">
-          <div className="flex items-center justify-between">
-            <span className="text-text-secondary">Progress</span>
-            <span className="text-accent font-medium">
-              {Math.round((completedSets / exercise.sets) * 100)}%
-            </span>
-          </div>
-          <div className="mt-2 h-2 rounded-full bg-border-primary overflow-hidden">
-            <div
-              className="h-full bg-accent transition-all duration-500"
-              style={{ width: `${(completedSets / exercise.sets) * 100}%` }}
-            />
-          </div>
-        </div>
-      )}
-
       {completedSets === effectiveSets && exercise.sets > 0 && (
-        <div className="mt-4 rounded-xl bg-accent bg-opacity-20 border border-accent p-3 text-center">
+        <div className="completion-banner mt-2">
           <div className="flex items-center justify-center gap-2 text-white">
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
             </svg>
-            <span className="font-medium">Exercise Complete!</span>
+            <span className="font-display font-semibold">¡Ejercicio completado!</span>
           </div>
         </div>
       )}

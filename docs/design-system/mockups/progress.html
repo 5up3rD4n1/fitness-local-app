@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mockup · Progress · Elevated</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b0e14;
+        --surface: #161b26;
+        --raised: #1e2533;
+        --border: #28303f;
+        --border-2: #3a4556;
+        --accent: #5b8cff;
+        --accent-2: #8fb3ff;
+        --txt: #eef2f8;
+        --txt-2: #93a0b4;
+        --txt-3: #5c6678;
+        --warning: #f5a623;
+        --display: 'Space Grotesk', sans-serif;
+        --body: 'Lexend', sans-serif;
+        --shadow-card: 0 18px 40px -22px rgba(0, 0, 0, 0.8);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #05070b;
+        font-family: var(--body);
+        color: var(--txt);
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 40px 16px 64px;
+        -webkit-font-smoothing: antialiased;
+      }
+      .label {
+        position: absolute;
+        top: -26px;
+        left: 4px;
+        font: 600 12px var(--body);
+        color: #5c6678;
+        letter-spacing: 0.04em;
+      }
+      .phone {
+        position: relative;
+        width: 412px;
+        height: 880px;
+        border-radius: 40px;
+        overflow: hidden;
+        border: 1px solid #1a2030;
+        background:
+          radial-gradient(135% 85% at 50% -18%, #1a2742 0%, #0d111a 46%, var(--bg) 100%), var(--bg);
+        box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.9);
+      }
+      .scroll {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        padding: 20px;
+        text-align: center;
+        background: linear-gradient(180deg, rgba(11, 14, 20, 0.85), rgba(11, 14, 20, 0.4));
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        font: 700 17px var(--display);
+      }
+      .content {
+        padding: 8px 18px 30px;
+      }
+      .microlabel {
+        font: 600 12px var(--body);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--txt-3);
+        margin: 22px 4px 12px;
+      }
+
+      .herostat {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        border-radius: 24px;
+        background: linear-gradient(158deg, #1c2740 0%, #141b2a 60%);
+        border: 1px solid rgba(91, 140, 255, 0.18);
+        box-shadow:
+          var(--shadow-card),
+          0 0 50px -16px rgba(91, 140, 255, 0.35);
+      }
+      .ring-wrap {
+        position: relative;
+        width: 96px;
+        height: 96px;
+        flex: none;
+      }
+      .ring-num {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font: 700 26px var(--display);
+      }
+      .ring-num small {
+        display: block;
+        text-align: center;
+        font: 500 10px var(--body);
+        color: var(--txt-2);
+        margin-top: -3px;
+      }
+      .herostat .meta .k {
+        font: 500 13px var(--body);
+        color: var(--txt-2);
+      }
+      .herostat .meta .big {
+        font: 700 22px var(--display);
+        letter-spacing: -0.01em;
+        margin: 2px 0 10px;
+      }
+      .mini-stats {
+        display: flex;
+        gap: 18px;
+      }
+      .mini-stats div span {
+        display: block;
+      }
+      .mini-stats .v {
+        font: 700 18px var(--display);
+      }
+      .mini-stats .l {
+        font: 500 11px var(--body);
+        color: var(--txt-2);
+      }
+
+      .seg {
+        display: inline-flex;
+        gap: 4px;
+        padding: 4px;
+        border-radius: 13px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .seg b {
+        font: 600 12px var(--body);
+        color: var(--txt-2);
+        padding: 6px 14px;
+        border-radius: 9px;
+      }
+      .seg b.on {
+        background: var(--accent);
+        color: #08101f;
+        box-shadow: 0 4px 12px -4px rgba(91, 140, 255, 0.6);
+      }
+      .rowhead {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 22px 4px 12px;
+      }
+      .rowhead h3 {
+        font: 700 14px var(--display);
+      }
+
+      .card {
+        border-radius: 20px;
+        background: linear-gradient(160deg, #151b27, #11151f);
+        border: 1px solid var(--border);
+        padding: 16px;
+      }
+      .chart {
+        height: 150px;
+        margin-top: 4px;
+      }
+      .xlabels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 8px;
+      }
+      .xlabels span {
+        font: 500 10px var(--body);
+        color: var(--txt-3);
+        flex: 1;
+        text-align: center;
+      }
+
+      .typerow {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .typerow:last-child {
+        margin-bottom: 0;
+      }
+      .tdot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 10px rgba(91, 140, 255, 0.7);
+        flex: none;
+      }
+      .tname {
+        font: 500 13px var(--body);
+        flex: 1;
+      }
+      .tbar {
+        width: 90px;
+        height: 6px;
+        border-radius: 999px;
+        background: #1a2230;
+        overflow: hidden;
+      }
+      .tbar i {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, #5b8cff, #8fb3ff);
+      }
+      .tcount {
+        font: 600 12px var(--display);
+        color: var(--txt-2);
+        width: 18px;
+        text-align: right;
+      }
+
+      .ach {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .badge {
+        border-radius: 18px;
+        padding: 16px;
+        border: 1px solid var(--border);
+        background: linear-gradient(160deg, #141a26, #10141d);
+      }
+      .badge.on {
+        border-color: rgba(91, 140, 255, 0.45);
+        background: linear-gradient(160deg, #18203400, #16203a 40%);
+        box-shadow: 0 0 30px -16px rgba(91, 140, 255, 0.6);
+      }
+      .badge .ico {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: var(--surface);
+        color: var(--txt-3);
+        margin-bottom: 10px;
+      }
+      .badge.on .ico {
+        background: linear-gradient(160deg, rgba(91, 140, 255, 0.25), rgba(91, 140, 255, 0.08));
+        color: var(--accent-2);
+      }
+      .badge .bt {
+        font: 600 13px var(--display);
+      }
+      .badge .bd {
+        font: 400 11px/1.4 var(--body);
+        color: var(--txt-2);
+        margin-top: 3px;
+      }
+      .badge:not(.on) .bt {
+        color: var(--txt-2);
+      }
+    </style>
+  </head>
+  <body>
+    <div style="position: relative">
+      <div class="label">PROGRESS · area chart + rings</div>
+      <div class="phone">
+        <div class="scroll">
+          <div class="header">Progreso</div>
+          <div class="content">
+            <!-- hero stat -->
+            <div class="herostat">
+              <div class="ring-wrap">
+                <svg width="96" height="96" viewBox="0 0 96 96" style="transform: rotate(-90deg)">
+                  <defs>
+                    <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#8fb3ff" />
+                      <stop offset="1" stop-color="#5b8cff" />
+                    </linearGradient>
+                  </defs>
+                  <circle cx="48" cy="48" r="40" fill="none" stroke="#28303f" stroke-width="8" />
+                  <circle
+                    cx="48"
+                    cy="48"
+                    r="40"
+                    fill="none"
+                    stroke="url(#rg)"
+                    stroke-width="8"
+                    stroke-linecap="round"
+                    stroke-dasharray="251"
+                    stroke-dashoffset="78"
+                    style="filter: drop-shadow(0 0 8px rgba(91, 140, 255, 0.7))"
+                  />
+                </svg>
+                <div class="ring-num">3<small>racha</small></div>
+              </div>
+              <div class="meta">
+                <div class="k">Esta semana</div>
+                <div class="big">3 de 5 días</div>
+                <div class="mini-stats">
+                  <div><span class="v">12</span><span class="l">total</span></div>
+                  <div>
+                    <span class="v" style="color: var(--accent-2)">5</span
+                    ><span class="l">mejor racha</span>
+                  </div>
+                  <div>
+                    <span class="v"
+                      >48<span style="font-size: 12px; color: var(--txt-2)">m</span></span
+                    ><span class="l">media</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- frequency chart -->
+            <div class="rowhead">
+              <h3>Frecuencia</h3>
+              <div class="seg"><b class="on">Semana</b><b>Mes</b><b>Año</b></div>
+            </div>
+            <div class="card">
+              <svg class="chart" width="100%" viewBox="0 0 340 150" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#5b8cff" stop-opacity="0.45" />
+                    <stop offset="1" stop-color="#5b8cff" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="120" x2="340" y2="120" stroke="#222a38" stroke-width="1" />
+                <line x1="0" y1="80" x2="340" y2="80" stroke="#1a2130" stroke-width="1" />
+                <line x1="0" y1="40" x2="340" y2="40" stroke="#1a2130" stroke-width="1" />
+                <path
+                  d="M0 100 C 30 96, 40 60, 70 64 S 120 30, 145 44 S 200 20, 240 36 S 300 16, 340 28 L 340 130 L 0 130 Z"
+                  fill="url(#area)"
+                />
+                <path
+                  d="M0 100 C 30 96, 40 60, 70 64 S 120 30, 145 44 S 200 20, 240 36 S 300 16, 340 28"
+                  fill="none"
+                  stroke="#8fb3ff"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  style="filter: drop-shadow(0 2px 6px rgba(91, 140, 255, 0.5))"
+                />
+                <circle
+                  cx="240"
+                  cy="36"
+                  r="4.5"
+                  fill="#8fb3ff"
+                  stroke="#0b0e14"
+                  stroke-width="2.5"
+                />
+              </svg>
+              <div class="xlabels">
+                <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span
+                ><span>D</span>
+              </div>
+            </div>
+
+            <!-- types -->
+            <div class="microlabel">Tipos de entreno</div>
+            <div class="card">
+              <div class="typerow">
+                <span class="tdot"></span><span class="tname">Día 2 · Espalda</span
+                ><span class="tbar"><i style="width: 100%"></i></span><span class="tcount">5</span>
+              </div>
+              <div class="typerow">
+                <span class="tdot"></span><span class="tname">Día 1 · Glúteo</span
+                ><span class="tbar"><i style="width: 70%"></i></span><span class="tcount">4</span>
+              </div>
+              <div class="typerow">
+                <span class="tdot"></span><span class="tname">Día 4 · Pecho</span
+                ><span class="tbar"><i style="width: 40%"></i></span><span class="tcount">2</span>
+              </div>
+            </div>
+
+            <!-- achievements -->
+            <div class="microlabel">Logros</div>
+            <div class="ach">
+              <div class="badge on">
+                <div class="ico">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.8 5.7 21l2.3-7.2-6-4.4h7.6z" />
+                  </svg>
+                </div>
+                <div class="bt">Primer entreno</div>
+                <div class="bd">Completa tu primera sesión</div>
+              </div>
+              <div class="badge on">
+                <div class="ico">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M13 2L3 14h7l-1 8 10-12h-7z" />
+                  </svg>
+                </div>
+                <div class="bt">Racha de 3 días</div>
+                <div class="bd">3 días seguidos</div>
+              </div>
+              <div class="badge">
+                <div class="ico">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M12 2v4M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7Z" />
+                  </svg>
+                </div>
+                <div class="bt">10 entrenos</div>
+                <div class="bd">Completa 10 sesiones</div>
+              </div>
+              <div class="badge">
+                <div class="ico">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="8" r="6" />
+                    <path d="M9 14l-1 8 4-2 4 2-1-8" />
+                  </svg>
+                </div>
+                <div class="bt">Guerrera semanal</div>
+                <div class="bd">Racha de 7 días</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

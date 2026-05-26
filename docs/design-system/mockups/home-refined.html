@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mockup · Home · Refined (surfaces, restrained)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* solid surface ladder — elevation by lightness, not gradient */
+        --bg: #0b0d11;
+        --s1: #14161b; /* cards */
+        --s2: #1c1f26; /* raised / pressed */
+        --border: #23272f;
+        --border-2: #2f343f;
+        /* text: neutral hierarchy only */
+        --t1: #f3f5f8;
+        --t2: #99a0ab;
+        --t3: #5b616c;
+        /* one accent — emphasis ONLY */
+        --accent: #5b8cff;
+        --accent-solid: #3b6ef5; /* button fill, white text */
+        --display: 'Space Grotesk', sans-serif;
+        --body: 'Lexend', sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #06070a;
+        font-family: var(--body);
+        color: var(--t1);
+        display: flex;
+        justify-content: center;
+        padding: 40px 16px 60px;
+        -webkit-font-smoothing: antialiased;
+      }
+      .label {
+        position: absolute;
+        top: -26px;
+        left: 4px;
+        font: 500 12px var(--body);
+        color: #5b616c;
+      }
+      .phone {
+        position: relative;
+        width: 412px;
+        height: 880px;
+        border-radius: 40px;
+        overflow: hidden;
+        background: var(--bg);
+        border: 1px solid #161922;
+      }
+      .scroll {
+        position: absolute;
+        inset: 0 0 76px 0;
+        overflow: hidden;
+      }
+
+      /* header: solid, minimal, no blur/gradient */
+      .head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 20px 6px;
+      }
+      .head .date {
+        font: 500 12px var(--body);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--t3);
+      }
+      .head .title {
+        font: 700 26px var(--display);
+        letter-spacing: -0.02em;
+        margin-top: 2px;
+      }
+      .hicons {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        color: var(--t2);
+      }
+      .hicons svg {
+        display: block;
+      }
+
+      .wrap {
+        padding: 14px 20px 26px;
+      }
+
+      /* TODAY card — flat surface, hairline border, NO gradient/glow */
+      .today {
+        background: var(--s1);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .today .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .over {
+        font: 600 11px var(--display);
+        letter-spacing: 0.14em;
+        color: var(--t3);
+      }
+      .today h2 {
+        font: 600 21px var(--display);
+        letter-spacing: -0.01em;
+        margin-top: 8px;
+      }
+      .today .meta {
+        font: 500 13px var(--body);
+        color: var(--t2);
+        margin-top: 6px;
+      }
+      /* thin solid ring, no glow */
+      .ring {
+        position: relative;
+        width: 52px;
+        height: 52px;
+        flex: none;
+      }
+      .ring .n {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font: 600 13px var(--display);
+        color: var(--t2);
+      }
+      .today .cta {
+        margin-top: 18px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: var(--accent-solid);
+        color: #fff;
+        font: 600 15px var(--display);
+        padding: 13px;
+        border: none;
+        border-radius: 11px;
+        cursor: pointer;
+      }
+      .today .cta:active {
+        background: #335fd6;
+      }
+
+      .seclabel {
+        font: 600 12px var(--body);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--t3);
+        margin: 26px 2px 10px;
+      }
+
+      /* routines: grouped list, hairline dividers, NO icon boxes */
+      .list {
+        background: var(--s1);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px 16px;
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+      }
+      .row:last-child {
+        border-bottom: none;
+      }
+      .row:active {
+        background: var(--s2);
+      }
+      .row .rt {
+        flex: 1;
+        min-width: 0;
+      }
+      .row .rn {
+        font: 500 15px var(--body);
+        color: var(--t1);
+      }
+      .row .rm {
+        font: 400 13px var(--body);
+        color: var(--t2);
+        margin-top: 2px;
+      }
+      .row .chev {
+        color: var(--t3);
+        flex: none;
+      }
+      .encurso {
+        font: 600 11px var(--display);
+        letter-spacing: 0.04em;
+        color: var(--accent);
+      }
+
+      /* summary: plain stats, accent on ONE metric only */
+      .summary {
+        display: flex;
+        background: var(--s1);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+      }
+      .stat {
+        flex: 1;
+        padding: 16px;
+        text-align: center;
+        border-right: 1px solid var(--border);
+      }
+      .stat:last-child {
+        border-right: none;
+      }
+      .stat .v {
+        font: 600 24px var(--display);
+        letter-spacing: -0.02em;
+        color: var(--t1);
+      }
+      .stat .v.em {
+        color: var(--accent);
+      }
+      .stat .k {
+        font: 400 12px var(--body);
+        color: var(--t2);
+        margin-top: 3px;
+      }
+
+      /* tab bar: solid, hairline top, monochrome; active = accent */
+      .tabs {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 76px;
+        display: flex;
+        padding: 8px 24px 20px;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+      }
+      .tab {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        color: var(--t3);
+        font: 500 11px var(--body);
+      }
+      .tab.on {
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <div style="position: relative">
+      <div class="label">HOME · Refined (surfaces · restrained color)</div>
+      <div class="phone">
+        <div class="scroll">
+          <div class="head">
+            <div>
+              <div class="date">Martes · 25 may</div>
+              <div class="title">Hoy</div>
+            </div>
+            <div class="hicons">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 11v5M12 8h.01" stroke-linecap="round" />
+              </svg>
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19.4 13a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.2A1.7 1.7 0 0 0 7 19.4l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H3a2 2 0 1 1 0-4h.2A1.7 1.7 0 0 0 4.6 7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9.4a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9.4a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.4 1Z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div class="wrap">
+            <!-- TODAY -->
+            <div class="today">
+              <div class="top">
+                <div>
+                  <div class="over">HOY · DÍA 2</div>
+                  <h2>Espalda y Bíceps</h2>
+                  <div class="meta">10 ejercicios · 60 min</div>
+                </div>
+                <div class="ring">
+                  <svg width="52" height="52" viewBox="0 0 52 52" style="transform: rotate(-90deg)">
+                    <circle cx="26" cy="26" r="22" fill="none" stroke="#262b34" stroke-width="4" />
+                    <circle
+                      cx="26"
+                      cy="26"
+                      r="22"
+                      fill="none"
+                      stroke="var(--accent)"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                      stroke-dasharray="138"
+                      stroke-dashoffset="124"
+                    />
+                  </svg>
+                  <div class="n">10%</div>
+                </div>
+              </div>
+              <button class="cta">
+                Empezar<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- ROUTINES -->
+            <div class="seclabel">Rutinas</div>
+            <div class="list">
+              <div class="row">
+                <div class="rt">
+                  <div class="rn">Día 1 · Glúteo y cadena posterior</div>
+                  <div class="rm">10 ejercicios</div>
+                </div>
+                <svg
+                  class="chev"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 6l6 6-6 6" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div class="row">
+                <div class="rt">
+                  <div class="rn">Día 2 · Espalda y bíceps</div>
+                  <div class="rm">10 ejercicios</div>
+                </div>
+                <span class="encurso">En curso</span>
+                <svg
+                  class="chev"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 6l6 6-6 6" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div class="row">
+                <div class="rt">
+                  <div class="rn">Día 3 · Cuádriceps y glúteo</div>
+                  <div class="rm">10 ejercicios</div>
+                </div>
+                <svg
+                  class="chev"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 6l6 6-6 6" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div class="row">
+                <div class="rt">
+                  <div class="rn">Día 4 · Pecho y tríceps</div>
+                  <div class="rm">10 ejercicios</div>
+                </div>
+                <svg
+                  class="chev"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 6l6 6-6 6" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div class="row">
+                <div class="rt">
+                  <div class="rn">Día 5 · Hombro y core</div>
+                  <div class="rm">11 ejercicios</div>
+                </div>
+                <svg
+                  class="chev"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 6l6 6-6 6" stroke-linecap="round" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- SUMMARY -->
+            <div class="seclabel">Resumen</div>
+            <div class="summary">
+              <div class="stat">
+                <div class="v em">0</div>
+                <div class="k">Racha</div>
+              </div>
+              <div class="stat">
+                <div class="v">0</div>
+                <div class="k">Entrenos</div>
+              </div>
+              <div class="stat">
+                <div class="v">0<span style="font-size: 14px; color: var(--t2)">m</span></div>
+                <div class="k">Media</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab on">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <path
+                d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Inicio
+          </div>
+          <div class="tab">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <rect x="3" y="5" width="18" height="16" rx="2" />
+              <path d="M3 9h18M8 3v4M16 3v4" stroke-linecap="round" />
+            </svg>
+            Calendario
+          </div>
+          <div class="tab">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <path
+                d="M4 19V5M4 19h16M8 16l4-5 3 3 5-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Progreso
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

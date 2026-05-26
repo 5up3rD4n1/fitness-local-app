@@ -23,6 +23,7 @@
     "@eslint/js": "^9.36.0",
     "@playwright/mcp": "0.0.41",
     "@tailwindcss/postcss": "^4.1.14",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^24.6.2",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
@@ -47,10 +48,17 @@
     "vite-plugin-singlefile": "^2.3.0"
   },
   "dependencies": {
+    "@fontsource-variable/lexend": "^5.2.11",
+    "@fontsource-variable/noto-sans": "^5.2.10",
+    "@fontsource-variable/space-grotesk": "^5.2.10",
     "@radix-ui/react-dialog": "^1.1.15",
+    "@use-gesture/react": "^10.3.1",
+    "canvas-confetti": "^1.9.4",
+    "motion": "^12.40.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.9.3",
-    "uuid": "^13.0.0"
+    "sonner": "^2.0.7",
+    "uuid": "^13.0.0",
+    "vaul": "^1.1.2"
   }
 }

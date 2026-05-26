@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LocalStorageService } from '../utils/localStorage';
 import { useApp } from '../contexts/AppContext';
+import { SegmentedControl, ProgressBar, ProgressRing, AreaChart } from '../components/ui';
 
 interface ChartData {
   label: string;
@@ -9,7 +10,7 @@ interface ChartData {
 }
 
 const ProgressScreen: React.FC = () => {
-  const { routines } = useApp();
+  const { routines, allRoutines } = useApp();
   const [selectedPeriod, setSelectedPeriod] = useState<'week' | 'month' | 'year'>('month');
 
   const stats = LocalStorageService.getStats();
@@ -27,7 +28,7 @@ const ProgressScreen: React.FC = () => {
         date.setDate(date.getDate() - i);
         date.setHours(0, 0, 0, 0);
 
-        const workoutsOnDate = workoutHistory.filter(session => {
+        const workoutsOnDate = workoutHistory.filter((session) => {
           const sessionDate = new Date(session.date);
           sessionDate.setHours(0, 0, 0, 0);
           return sessionDate.getTime() === date.getTime() && session.completed;
@@ -43,11 +44,11 @@ const ProgressScreen: React.FC = () => {
       // Last 4 weeks
       for (let i = 3; i >= 0; i--) {
         const endDate = new Date(now);
-        endDate.setDate(endDate.getDate() - (i * 7));
+        endDate.setDate(endDate.getDate() - i * 7);
         const startDate = new Date(endDate);
         startDate.setDate(startDate.getDate() - 6);
 
-        const workoutsInWeek = workoutHistory.filter(session => {
+        const workoutsInWeek = workoutHistory.filter((session) => {
           const sessionDate = new Date(session.date);
           return sessionDate >= startDate && sessionDate <= endDate && session.completed;
         });
@@ -65,11 +66,13 @@ const ProgressScreen: React.FC = () => {
         date.setMonth(date.getMonth() - i);
         date.setDate(1);
 
-        const workoutsInMonth = workoutHistory.filter(session => {
+        const workoutsInMonth = workoutHistory.filter((session) => {
           const sessionDate = new Date(session.date);
-          return sessionDate.getMonth() === date.getMonth() &&
-                 sessionDate.getFullYear() === date.getFullYear() &&
-                 session.completed;
+          return (
+            sessionDate.getMonth() === date.getMonth() &&
+            sessionDate.getFullYear() === date.getFullYear() &&
+            session.completed
+          );
         });
 
         data.push({
@@ -84,289 +87,492 @@ const ProgressScreen: React.FC = () => {
   };
 
   const chartData = generateChartData();
-  const maxValue = Math.max(...chartData.map(d => d.value), 1);
 
-  // Calculate additional stats
+  // Workout types: per-routine completed count, sorted descending
   const getWorkoutsByRoutine = () => {
-    const routineStats = routines.map(routine => {
-      const count = workoutHistory.filter(session =>
-        session.routineId === routine.id && session.completed
+    const routineStats = routines.map((routine) => {
+      const count = workoutHistory.filter(
+        (session) => session.routineId === routine.id && session.completed
       ).length;
       return { name: routine.name, count };
     });
-
     return routineStats.sort((a, b) => b.count - a.count);
   };
 
   const routineStats = getWorkoutsByRoutine();
+  const maxRoutineCount = Math.max(...routineStats.map((r) => r.count), 1);
 
-  const formatDuration = (milliseconds: number) => {
-    const minutes = Math.floor(milliseconds / (1000 * 60));
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-
-    if (hours > 0) {
-      return `${hours}h ${remainingMinutes}m`;
-    }
-    return `${minutes}m`;
+  // Weekly completion: workouts this week vs target (5 days)
+  const getWeeklyWorkouts = () => {
+    const now = new Date();
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+    return workoutHistory.filter((s) => {
+      const d = new Date(s.date);
+      return d >= startOfWeek && s.completed;
+    }).length;
   };
 
-  const getStreakColor = (streak: number) => {
-    if (streak >= 7) return 'text-accent';
-    if (streak >= 3) return 'text-yellow-500';
-    return 'text-white';
-  };
+  const weeklyTarget = 5;
+  const weeklyCount = getWeeklyWorkouts();
+  const weeklyPct = Math.min(100, (weeklyCount / weeklyTarget) * 100);
 
-  const getRecentWorkouts = () => {
-    return workoutHistory
-      .filter(session => session.completed)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 5);
-  };
+  const avgDurMin = stats.averageDuration > 0 ? Math.floor(stats.averageDuration / (1000 * 60)) : 0;
 
-  const recentWorkouts = getRecentWorkouts();
+  // Recent completed workouts (last 5)
+  const fmtDur = (ms?: number) => {
+    if (!ms) return '—';
+    const m = Math.floor(ms / 60000);
+    const h = Math.floor(m / 60);
+    return h > 0 ? `${h}h ${m % 60}m` : `${m}m`;
+  };
+  const dateLabel = (d: Date | string) => {
+    const date = new Date(d);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dd = new Date(date);
+    dd.setHours(0, 0, 0, 0);
+    const diff = Math.round((today.getTime() - dd.getTime()) / 86400000);
+    if (diff === 0) return 'Hoy';
+    if (diff === 1) return 'Ayer';
+    return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+  };
+  const recentWorkouts = [...workoutHistory]
+    .filter((s) => s.completed)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 5);
+
+  const achievements = [
+    {
+      id: 'first-workout',
+      label: 'Primer entreno',
+      description: 'Completa tu primera sesión',
+      unlocked: stats.totalWorkouts >= 1,
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.8 5.7 21l2.3-7.2-6-4.4h7.6z" />
+        </svg>
+      ),
+    },
+    {
+      id: '3-day-streak',
+      label: 'Racha de 3 días',
+      description: '3 días seguidos',
+      unlocked: stats.currentStreak >= 3,
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M13 2L3 14h7l-1 8 10-12h-7z" />
+        </svg>
+      ),
+    },
+    {
+      id: '10-workouts',
+      label: '10 entrenos',
+      description: 'Completa 10 sesiones',
+      unlocked: stats.totalWorkouts >= 10,
+      icon: (
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M12 2v4M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7Z" />
+        </svg>
+      ),
+    },
+    {
+      id: 'week-warrior',
+      label: 'Guerrera semanal',
+      description: 'Racha de 7 días',
+      unlocked: stats.currentStreak >= 7,
+      icon: (
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <circle cx="12" cy="8" r="6" />
+          <path d="M9 14l-1 8 4-2 4 2-1-8" />
+        </svg>
+      ),
+    },
+  ];
 
   return (
     <div className="flex flex-col h-full bg-primary-bg">
       {/* Header */}
-      <div className="flex items-center bg-primary-bg p-4 pb-2 justify-center border-b border-border-primary">
-        <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">
-          Progress
+      <header className="app-header justify-center">
+        <h2
+          className="text-white"
+          style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.0625rem' }}
+        >
+          Progreso
         </h2>
-      </div>
+      </header>
 
-      <div className="flex-1 overflow-y-auto pb-4">
-        {/* Overview Stats */}
-        <section className="p-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="card">
-              <p className="text-text-secondary text-sm mb-1">Current Streak</p>
-              <p className={`text-2xl font-bold ${getStreakColor(stats.currentStreak)}`}>
-                {stats.currentStreak}
+      <div className="flex-1 overflow-y-auto pb-6">
+        {/* Hero stat card */}
+        <section className="px-4 pt-4">
+          <div
+            className="hero flex items-center gap-5 p-5"
+            style={{ borderRadius: 'var(--radius-card)' }}
+          >
+            {/* Progress ring: weekly completion */}
+            <ProgressRing value={weeklyPct} size={96} strokeWidth={8}>
+              <div className="flex flex-col items-center leading-none">
+                <span
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 700,
+                    fontSize: '1.5rem',
+                    color: 'var(--color-text-primary)',
+                  }}
+                >
+                  {stats.currentStreak}
+                </span>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-lexend)',
+                    fontWeight: 500,
+                    fontSize: '0.625rem',
+                    color: 'var(--color-text-secondary)',
+                    marginTop: 2,
+                  }}
+                >
+                  racha
+                </span>
+              </div>
+            </ProgressRing>
+
+            {/* Meta */}
+            <div className="flex-1 min-w-0">
+              <p
+                style={{
+                  fontFamily: 'var(--font-lexend)',
+                  fontWeight: 500,
+                  fontSize: '0.8125rem',
+                  color: 'var(--color-text-secondary)',
+                }}
+              >
+                Esta semana
               </p>
-              <p className="text-text-secondary text-xs">days</p>
-            </div>
-
-            <div className="card">
-              <p className="text-text-secondary text-sm mb-1">Best Streak</p>
-              <p className="text-2xl font-bold text-white">{stats.maxStreak}</p>
-              <p className="text-text-secondary text-xs">days</p>
-            </div>
-
-            <div className="card">
-              <p className="text-text-secondary text-sm mb-1">Total Workouts</p>
-              <p className="text-2xl font-bold text-white">{stats.totalWorkouts}</p>
-              <p className="text-text-secondary text-xs">completed</p>
-            </div>
-
-            <div className="card">
-              <p className="text-text-secondary text-sm mb-1">Avg Duration</p>
-              <p className="text-2xl font-bold text-white">
-                {stats.averageDuration > 0 ? formatDuration(stats.averageDuration) : '0m'}
+              <p
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 700,
+                  fontSize: '1.375rem',
+                  letterSpacing: '-0.01em',
+                  color: 'var(--color-text-primary)',
+                  margin: '2px 0 10px',
+                }}
+              >
+                {weeklyCount} de {weeklyTarget} días
               </p>
-              <p className="text-text-secondary text-xs">per workout</p>
+              {/* Mini stats row */}
+              <div className="flex gap-4">
+                <div>
+                  <span
+                    className="block"
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: 700,
+                      fontSize: '1.125rem',
+                      color: 'var(--color-text-primary)',
+                    }}
+                  >
+                    {stats.totalWorkouts}
+                  </span>
+                  <span
+                    className="block"
+                    style={{
+                      fontFamily: 'var(--font-lexend)',
+                      fontWeight: 500,
+                      fontSize: '0.6875rem',
+                      color: 'var(--color-text-secondary)',
+                    }}
+                  >
+                    total
+                  </span>
+                </div>
+                <div>
+                  <span
+                    className="block text-white"
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: 700,
+                      fontSize: '1.125rem',
+                    }}
+                  >
+                    {stats.maxStreak}
+                  </span>
+                  <span
+                    className="block"
+                    style={{
+                      fontFamily: 'var(--font-lexend)',
+                      fontWeight: 500,
+                      fontSize: '0.6875rem',
+                      color: 'var(--color-text-secondary)',
+                    }}
+                  >
+                    mejor racha
+                  </span>
+                </div>
+                <div>
+                  <span
+                    className="block"
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: 700,
+                      fontSize: '1.125rem',
+                      color: 'var(--color-text-primary)',
+                    }}
+                  >
+                    {avgDurMin}
+                    <span
+                      style={{
+                        fontSize: '0.75rem',
+                        color: 'var(--color-text-secondary)',
+                        fontWeight: 500,
+                      }}
+                    >
+                      m
+                    </span>
+                  </span>
+                  <span
+                    className="block"
+                    style={{
+                      fontFamily: 'var(--font-lexend)',
+                      fontWeight: 500,
+                      fontSize: '0.6875rem',
+                      color: 'var(--color-text-secondary)',
+                    }}
+                  >
+                    media
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Workout Frequency Chart */}
-        <section className="p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white text-lg font-bold">Workout Frequency</h3>
-            <div className="flex gap-1 bg-secondary-bg rounded-lg p-1">
-              {(['week', 'month', 'year'] as const).map((period) => (
-                <button
-                  key={period}
-                  onClick={() => setSelectedPeriod(period)}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                    selectedPeriod === period
-                      ? 'bg-accent text-primary-bg'
-                      : 'text-text-secondary hover:text-white'
-                  }`}
-                >
-                  {period.charAt(0).toUpperCase() + period.slice(1)}
-                </button>
-              ))}
-            </div>
+        {/* Workout Frequency */}
+        <section className="px-4 pt-1">
+          <div className="flex items-center justify-between mt-5 mb-3">
+            <h3
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: 700,
+                fontSize: '0.875rem',
+                color: 'var(--color-text-primary)',
+              }}
+            >
+              Frecuencia
+            </h3>
+            <SegmentedControl
+              value={selectedPeriod}
+              onChange={setSelectedPeriod}
+              options={[
+                { value: 'week', label: 'Semana' },
+                { value: 'month', label: 'Mes' },
+                { value: 'year', label: 'Año' },
+              ]}
+            />
           </div>
 
           <div className="card">
-            <div className="flex items-end justify-between h-40 gap-2">
-              {chartData.map((data, index) => (
-                <div key={index} className="flex flex-col items-center flex-1">
-                  <div className="flex-1 flex items-end w-full">
-                    <div
-                      className="w-full bg-accent rounded-t-sm transition-all duration-500"
-                      style={{
-                        height: `${(data.value / maxValue) * 100}%`,
-                        minHeight: data.value > 0 ? '4px' : '0px',
-                      }}
-                    />
-                  </div>
-                  <div className="mt-2 text-xs text-text-secondary text-center">
-                    {data.label}
-                  </div>
-                  <div className="text-xs text-white font-medium">
-                    {data.value}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {chartData.every(d => d.value === 0) && (
-              <div className="text-center text-text-secondary py-8">
+            {chartData.every((d) => d.value === 0) ? (
+              <div className="text-center py-8" style={{ color: 'var(--color-text-secondary)' }}>
                 <svg className="h-12 w-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5V3.5C15 2.7 14.3 2 13.5 2H10.5C9.7 2 9 2.7 9 3.5V5.5L3 7V9H21ZM6 12V20C6 20.6 6.4 21 7 21H9V19H15V21H17C17.6 21 18 20.6 18 20V12L12 10L6 12Z" />
                 </svg>
-                <p>No workout data for this period</p>
+                <p>No hay datos de entreno para este período</p>
               </div>
+            ) : (
+              <AreaChart
+                data={chartData.map((d) => d.value)}
+                labels={chartData.map((d) => d.label)}
+                height={150}
+              />
             )}
           </div>
         </section>
 
         {/* Workout Types */}
-        <section className="p-4">
-          <h3 className="text-white text-lg font-bold mb-4">Workout Types</h3>
+        <section className="px-4">
+          <p
+            style={{
+              fontFamily: 'var(--font-lexend)',
+              fontWeight: 600,
+              fontSize: '0.75rem',
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: 'var(--color-text-tertiary)',
+              margin: '22px 4px 12px',
+            }}
+          >
+            Tipos de entreno
+          </p>
           <div className="card">
-            {routineStats.length > 0 ? (
+            {routineStats.some((r) => r.count > 0) ? (
               <div className="space-y-3">
                 {routineStats.map((routine) => (
-                  <div key={routine.name} className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 bg-accent rounded-full" />
-                      <span className="text-white font-medium">{routine.name}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-text-secondary text-sm">{routine.count} times</span>
-                      <div className="w-16 h-2 bg-border-primary rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-accent transition-all duration-500"
-                          style={{
-                            width: `${(routine.count / Math.max(...routineStats.map(r => r.count), 1)) * 100}%`
-                          }}
-                        />
-                      </div>
-                    </div>
+                  <div key={routine.name} className="flex items-center gap-3">
+                    <div className="dot dot-accent flex-shrink-0" />
+                    <span
+                      className="flex-1 min-w-0 truncate"
+                      style={{
+                        fontFamily: 'var(--font-lexend)',
+                        fontWeight: 500,
+                        fontSize: '0.8125rem',
+                        color: 'var(--color-text-primary)',
+                      }}
+                    >
+                      {routine.name}
+                    </span>
+                    <ProgressBar
+                      className="w-24 flex-shrink-0"
+                      value={(routine.count / maxRoutineCount) * 100}
+                    />
+                    <span
+                      className="flex-shrink-0 text-right"
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontWeight: 600,
+                        fontSize: '0.75rem',
+                        color: 'var(--color-text-secondary)',
+                        width: '1.125rem',
+                      }}
+                    >
+                      {routine.count}
+                    </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center text-text-secondary py-4">
-                <p>No workout data available</p>
+              <div className="text-center py-4" style={{ color: 'var(--color-text-secondary)' }}>
+                <p>No hay datos disponibles</p>
               </div>
             )}
           </div>
         </section>
 
-        {/* Recent Workouts */}
-        <section className="p-4">
-          <h3 className="text-white text-lg font-bold mb-4">Recent Workouts</h3>
-          <div className="space-y-3">
-            {recentWorkouts.length > 0 ? (
-              recentWorkouts.map((workout) => {
-                const routine = routines.find(r => r.id === workout.routineId);
-                const workoutDate = new Date(workout.date);
-                const today = new Date();
-                const isToday = workoutDate.toDateString() === today.toDateString();
-                const yesterday = new Date(today);
-                yesterday.setDate(yesterday.getDate() - 1);
-                const isYesterday = workoutDate.toDateString() === yesterday.toDateString();
-
-                let dateLabel = workoutDate.toLocaleDateString();
-                if (isToday) dateLabel = 'Today';
-                else if (isYesterday) dateLabel = 'Yesterday';
-
+        {/* Recent workouts */}
+        <section className="px-4">
+          <p
+            style={{
+              fontFamily: 'var(--font-lexend)',
+              fontWeight: 600,
+              fontSize: '0.75rem',
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: 'var(--color-text-tertiary)',
+              margin: '22px 4px 12px',
+            }}
+          >
+            Entrenos recientes
+          </p>
+          {recentWorkouts.length > 0 ? (
+            <div className="space-y-3">
+              {recentWorkouts.map((w) => {
+                const routine = allRoutines.find((r) => r.id === w.routineId);
                 return (
-                  <div key={workout.id} className="card">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 bg-accent rounded-full" />
-                        <div>
-                          <p className="text-white font-medium">{routine?.name || 'Unknown Workout'}</p>
-                          <p className="text-text-secondary text-sm">{dateLabel}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-white text-sm">
-                          {workout.duration ? formatDuration(workout.duration) : 'N/A'}
+                  <div key={w.id} className="card flex items-center justify-between">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <div className="dot dot-accent flex-shrink-0" />
+                      <div className="min-w-0">
+                        <p className="font-display truncate text-[0.875rem] font-semibold text-white">
+                          {routine?.name || 'Entreno'}
                         </p>
-                        <p className="text-text-secondary text-xs">duration</p>
+                        <p className="text-micro text-text-secondary">{dateLabel(w.date)}</p>
                       </div>
                     </div>
+                    <span className="font-display flex-shrink-0 text-[0.875rem] text-text-secondary">
+                      {fmtDur(w.duration)}
+                    </span>
                   </div>
                 );
-              })
-            ) : (
-              <div className="card text-center">
-                <svg className="h-12 w-12 text-text-secondary mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5V3.5C15 2.7 14.3 2 13.5 2H10.5C9.7 2 9 2.7 9 3.5V5.5L3 7V9H21ZM6 12V20C6 20.6 6.4 21 7 21H9V19H15V21H17C17.6 21 18 20.6 18 20V12L12 10L6 12Z" />
-                </svg>
-                <p className="text-text-secondary">No recent workouts</p>
-                <p className="text-text-secondary text-sm mt-1">Start your first workout to see progress here</p>
-              </div>
-            )}
-          </div>
+              })}
+            </div>
+          ) : (
+            <div className="card text-center text-text-secondary">
+              <p>Aún no hay entrenos completados</p>
+            </div>
+          )}
         </section>
 
         {/* Achievements */}
-        <section className="p-4">
-          <h3 className="text-white text-lg font-bold mb-4">Achievements</h3>
+        <section className="px-4">
+          <p
+            style={{
+              fontFamily: 'var(--font-lexend)',
+              fontWeight: 600,
+              fontSize: '0.75rem',
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: 'var(--color-text-tertiary)',
+              margin: '22px 4px 12px',
+            }}
+          >
+            Logros
+          </p>
           <div className="grid grid-cols-2 gap-3">
-            <div className={`card ${stats.totalWorkouts >= 1 ? 'border-accent' : 'border-border-primary'}`}>
-              <div className="flex items-center gap-2 mb-2">
-                <svg className={`h-5 w-5 ${stats.totalWorkouts >= 1 ? 'text-accent' : 'text-text-secondary'}`} fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5V3.5C15 2.7 14.3 2 13.5 2H10.5C9.7 2 9 2.7 9 3.5V5.5L3 7V9H21Z" />
-                </svg>
-                <span className={`text-sm font-medium ${stats.totalWorkouts >= 1 ? 'text-accent' : 'text-text-secondary'}`}>
-                  First Workout
-                </span>
+            {achievements.map((achievement) => (
+              <div
+                key={achievement.id}
+                className="card"
+                style={achievement.unlocked ? { borderColor: 'var(--color-accent)' } : undefined}
+              >
+                {/* Achievement glyph — accent only when unlocked */}
+                <div
+                  style={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: 10,
+                    display: 'grid',
+                    placeItems: 'center',
+                    background: 'var(--color-surface-raised)',
+                    border: '1px solid var(--color-border-primary)',
+                    color: achievement.unlocked
+                      ? 'var(--color-accent)'
+                      : 'var(--color-text-tertiary)',
+                    marginBottom: 10,
+                  }}
+                >
+                  {achievement.icon}
+                </div>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 600,
+                    fontSize: '0.8125rem',
+                    color: achievement.unlocked
+                      ? 'var(--color-text-primary)'
+                      : 'var(--color-text-secondary)',
+                  }}
+                >
+                  {achievement.label}
+                </p>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-lexend)',
+                    fontWeight: 400,
+                    fontSize: '0.6875rem',
+                    lineHeight: 1.4,
+                    color: 'var(--color-text-secondary)',
+                    marginTop: 3,
+                  }}
+                >
+                  {achievement.description}
+                </p>
               </div>
-              <p className={`text-xs ${stats.totalWorkouts >= 1 ? 'text-white' : 'text-text-secondary'}`}>
-                Complete your first workout session
-              </p>
-            </div>
-
-            <div className={`card ${stats.currentStreak >= 3 ? 'border-accent' : 'border-border-primary'}`}>
-              <div className="flex items-center gap-2 mb-2">
-                <svg className={`h-5 w-5 ${stats.currentStreak >= 3 ? 'text-accent' : 'text-text-secondary'}`} fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.5 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12.5 2z" />
-                </svg>
-                <span className={`text-sm font-medium ${stats.currentStreak >= 3 ? 'text-accent' : 'text-text-secondary'}`}>
-                  3-Day Streak
-                </span>
-              </div>
-              <p className={`text-xs ${stats.currentStreak >= 3 ? 'text-white' : 'text-text-secondary'}`}>
-                Maintain a 3-day workout streak
-              </p>
-            </div>
-
-            <div className={`card ${stats.totalWorkouts >= 10 ? 'border-accent' : 'border-border-primary'}`}>
-              <div className="flex items-center gap-2 mb-2">
-                <svg className={`h-5 w-5 ${stats.totalWorkouts >= 10 ? 'text-accent' : 'text-text-secondary'}`} fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                </svg>
-                <span className={`text-sm font-medium ${stats.totalWorkouts >= 10 ? 'text-accent' : 'text-text-secondary'}`}>
-                  10 Workouts
-                </span>
-              </div>
-              <p className={`text-xs ${stats.totalWorkouts >= 10 ? 'text-white' : 'text-text-secondary'}`}>
-                Complete 10 total workouts
-              </p>
-            </div>
-
-            <div className={`card ${stats.currentStreak >= 7 ? 'border-accent' : 'border-border-primary'}`}>
-              <div className="flex items-center gap-2 mb-2">
-                <svg className={`h-5 w-5 ${stats.currentStreak >= 7 ? 'text-accent' : 'text-text-secondary'}`} fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                </svg>
-                <span className={`text-sm font-medium ${stats.currentStreak >= 7 ? 'text-accent' : 'text-text-secondary'}`}>
-                  Week Warrior
-                </span>
-              </div>
-              <p className={`text-xs ${stats.currentStreak >= 7 ? 'text-white' : 'text-text-secondary'}`}>
-                Maintain a 7-day workout streak
-              </p>
-            </div>
+            ))}
           </div>
         </section>
       </div>
