@@ -147,3 +147,7 @@ vite.config.ts.timestamp-*
 agentdb.rvf
 agentdb.rvf.lock
 ruvector.db
+
+# Stray tool/session output artifacts (not part of the app)
+sessions/
+exercise_image_gen_v1.zip
