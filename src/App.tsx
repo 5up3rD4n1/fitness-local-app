@@ -24,7 +24,7 @@ function AppContent() {
   if (!currentUser) {
     return (
       <div className="relative flex h-full w-full flex-col app-aurora overflow-hidden font-lexend text-[var(--color-text-primary)]">
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto overscroll-contain">
           <LoginScreen />
         </div>
       </div>
@@ -54,7 +54,7 @@ function AppContent() {
 
   return (
     <div className="relative flex h-full w-full flex-col app-aurora overflow-hidden font-lexend text-[var(--color-text-primary)]">
-      <div className="flex-1 overflow-y-auto">{renderScreen()}</div>
+      <div className="flex-1 overflow-y-auto overscroll-contain">{renderScreen()}</div>
       {!HIDE_TABBAR.includes(currentScreen) && <Navigation />}
     </div>
   );

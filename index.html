@@ -16,7 +16,7 @@
     <title>Fitness Tracker</title>
     <!-- Fonts are inlined offline via Fontsource (see src/main.tsx): Space Grotesk Variable + Lexend Variable. No CDN. -->
     <style>
-      /* iOS viewport height fix */
+      /* iOS: lock the document so only the app's inner container scrolls (no page rubber-band). */
       html,
       body {
         margin: 0;
@@ -24,8 +24,13 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
+        /* kill page-level overscroll/bounce */
+        overscroll-behavior: none;
+      }
+      body {
         position: fixed;
-        -webkit-overflow-scrolling: touch;
+        inset: 0;
+        height: 100dvh; /* dynamic viewport — correct under the iOS URL bar */
       }
       #root {
         width: 100%;

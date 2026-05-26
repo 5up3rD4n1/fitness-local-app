@@ -1,0 +1,23 @@
+torch>=2.4.0
+torchvision>=0.19.0
+diffusers>=0.31.0
+transformers>=4.45.0
+accelerate>=1.0.0
+safetensors>=0.4.5
+huggingface-hub>=0.25.0
+controlnet-aux>=0.0.9
+pillow>=10.4.0
+numpy>=1.26.0
+opencv-python>=4.10.0
+mediapipe>=0.10.18
+ollama>=0.3.3
+requests>=2.32.0
+pyyaml>=6.0.2
+tqdm>=4.66.0
+einops>=0.8.0
+sentencepiece>=0.2.0
+# Optional for LoRA training:
+peft>=0.13.0
+bitsandbytes>=0.44.0
+# ComfyUI client
+websockets>=13.0

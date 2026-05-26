@@ -309,7 +309,9 @@
     align-items: center;
     justify-content: space-between;
     min-height: var(--layout-header-h);
-    padding: 1.125rem 1.25rem 0.75rem;
+    /* respect the notch / status bar (top) + landscape side insets */
+    padding: calc(env(safe-area-inset-top) + 1.125rem) calc(env(safe-area-inset-right) + 1.25rem)
+      0.75rem calc(env(safe-area-inset-left) + 1.25rem);
     background-color: var(--color-primary-bg);
     border-bottom: 1px solid var(--color-border-primary);
   }

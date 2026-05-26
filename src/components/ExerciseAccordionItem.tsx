@@ -124,7 +124,7 @@ const ExerciseAccordionItem: React.FC<ExerciseAccordionItemProps> = ({
         onClick={() => onToggle(flatIndex)}
         className="w-full flex items-center justify-between p-0"
       >
-        <div className="flex items-center gap-3 flex-1 text-left">
+        <div className="flex min-w-0 flex-1 items-center gap-3 text-left">
           {/* Step number, or accent check when complete (completion = the one emphasis) */}
           <div
             className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border font-display text-[13px] font-semibold"
@@ -154,7 +154,7 @@ const ExerciseAccordionItem: React.FC<ExerciseAccordionItemProps> = ({
           {/* Name + meta */}
           <div className="flex-1 min-w-0">
             <h3 className="truncate text-left font-medium text-white">{exercise.name}</h3>
-            <p className="text-caption text-text-secondary">
+            <p className="truncate text-caption text-text-secondary">
               {[
                 exercise.sets > 0 ? `${exercise.sets} series` : null,
                 `${exercise.reps} reps`,
