@@ -55,8 +55,9 @@ Workout content is **static**, loaded from `src/data/workoutData.json` (imported
 
 - A **`Program`** bundles its own `routines`, `exercises`, and meta (`id`, `name`, `description`, `safetyPrinciples[]`, `recommendedEquipment[]`). The active program is per-user (`activeProgramId`); `useApp()` exposes the active program's `routines`/`exercises`, plus `programs` (all) and `allRoutines` (flat, for resolving history across programs).
 - **IDs are program-prefixed** and globally unique: routine `<programId>-day-<n>`, exercise `<programId>-d<n>-<slug>`. `Routine`/`Exercise`/`WorkoutSession` all carry `programId`.
-- `Routine.exercises` is a `string[]` of **exercise IDs**, not nested objects.
-- `Exercise.reps`/`restTime` are **strings** (`"8-12"`, `"60s"`); `sets` is a number.
+- A **`Routine` is an ordered `blocks: RoutineBlock[]`** — `{ kind:'single', exerciseId }` or `{ kind:'circuit', id, label, rounds, restBetweenRounds, exerciseIds[] }`. `Routine.exercises: string[]` is kept as a **derived flat projection** of blocks (in order, circuits expanded) so all non-WorkoutScreen consumers (Home counts, Calendar, Progress, `getWorkoutProgress`) keep working unchanged. `WorkoutScreen` renders blocks via `RoutineBlocks` (singles → `ExerciseAccordionItem` grouped by section; circuits → `CircuitBlock`).
+- A **circuit** runs its members for N rounds; **members carry `sets = rounds`**, so "round R" == `setNumber R` on every member. The `CircuitBlock` round tracker reuses the existing `(exerciseId, setNumber)` progress model — no new schema. (`RoutineBlocks` falls back to all-single blocks if a stale persisted routine lacks `blocks`.)
+- `Exercise.reps`/`restTime` are **strings** (`"8-12"`, `"60s"`); `sets` is a number. Optional `durationSeconds?` (time-based moves) and `intensity?` (display-only, e.g. `"30% 1RM"`) — shown in the meta line; duration feeds the `Timer`.
 - Progress is **not** on exercises. `WorkoutSession.setsProgress[]` records completion keyed by `(exerciseId, setNumber)`.
 - Types are the source of truth: `src/types/index.ts`.
 
@@ -71,8 +72,8 @@ All localStorage access goes through `src/utils/localStorage.ts` (`LocalStorageS
 Each program folder contains:
 
 - `program.json` — `{ id, name, description, safetyPrinciples[], recommendedEquipment[] }`
-- `routines/*.csv` — one CSV per day; day number parsed from the filename (`... DIA 1 ...`). Same column format as the existing program.
-- `videos.json` — `{ "<localExerciseId>": "<youtubeUrl>" }`, keyed by the **unprefixed** local id (`d<day>-<slug>`); the converter maps it onto the prefixed id.
+- `routines/*.csv` — one CSV per day; day number from the filename (`... DIA 1 ...` / `DAY 1`). Columns: `name, sets, reps, rest, equipment, description, safety, intensity?`. Section headers (`WARM-UP`/`MAIN`/`CORE`/`CARDIO`/`CONDITIONING`, Spanish equivalents) are col0-only rows. **Circuits:** a `CIRCUIT,rounds=3,rest=90s,label=...` row opens a circuit; `ENDCIRCUIT` (or next section/CIRCUIT/EOF) closes it; member rows in between share the circuit and get `sets=rounds`. A reps cell like `40s`/`30''` → `durationSeconds`.
+- `videos.json` — `{ "<localExerciseId>": "<youtubeUrl>" }`, keyed by the **unprefixed** local id (`d<day>-<slug>`); the converter maps it onto the prefixed id. Use **embeddable** videos — verify with oEmbed (`/oembed?url=...` → 200 = embeddable, 404 = removed/embedding-disabled). Top-level `/embed/<id>` always shows "Error 153" (no-referrer artifact) — not a valid test.
 
 **To add a program:** create `docs/programs/<new-id>/` with those three pieces, then `npm run convert-data`. No code changes needed — it appears in the picker automatically.
 
@@ -80,7 +81,7 @@ Each program folder contains:
 
 - `Timer.tsx` — self-contained countdown with circular SVG progress and an `onComplete` callback; reused for rest and exercise timers. Default durations come from `settings`.
 - `VideoPreview.tsx` — parses a YouTube ID from the exercise URL, shows the thumbnail, and lazy-mounts the iframe only on click.
-- `ExerciseAccordion.tsx` — workout screen list; only one exercise expanded at a time, collapsed completed items show a checkmark.
+- `RoutineBlocks.tsx` — walks `routine.blocks`: section-grouped `ExerciseAccordionItem`s for singles, `CircuitBlock` cards for circuits. `CircuitBlock.tsx` — the "Circuit Set" card (label + rounds badge + rest + member list + a round tracker that marks `setNumber=round` across all members).
 
 ## Build & Deploy
 

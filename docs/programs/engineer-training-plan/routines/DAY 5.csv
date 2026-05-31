@@ -11,6 +11,8 @@ Farmers Walk,4,40 meters,90s,,Heavy carry. Posture traps and grip strength.,
 Dumbbell Pullover,3,12-15,60s,,Thoracic expansion. Serratus/Lat work.,
 Kettlebell Swings,4,20,60s,,Posterior chain power.,
 CORE
-Dead Bug,3,12/side,45s,,Deep core stabilizer.,
-CONDITIONING
-Battle Ropes (HIIT),5,30s on/30s off,,,Metabolic finisher. Max effort.,
+CIRCUIT,rounds=3,rest=90s,label=Core + Conditioning
+Dead Bug,,40s,20s,Bodyweight,Anti-extension: press the low back to the floor; opposite arm/leg.,,
+Pallof Press,,40s,20s,Cable / band,Anti-rotation: brace and press straight out; resist the pull.,,
+Battle Ropes (HIIT),,40s,20s,Battle ropes,Metabolic finisher: max-effort alternating waves.,,
+ENDCIRCUIT

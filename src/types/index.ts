@@ -13,7 +13,27 @@ export interface Exercise {
   equipment: string;
   description: string; // movement cues (Spanish)
   safetyNotes: string; // safety notes (Spanish)
+  /** Time-based moves (planks, carries, ropes): hold/work seconds. Drives the duration Timer. */
+  durationSeconds?: number;
+  /** Display-only effort label, e.g. "30% 1RM", "65% FCMax", "RPE 9". */
+  intensity?: string;
 }
+
+/**
+ * A routine is an ordered list of blocks. A `single` block is one exercise run on its own;
+ * a `circuit` block is a labeled group run for N rounds with a rest between rounds.
+ * Circuit members carry `sets = rounds`, so round R == setNumber R in WorkoutSession.setsProgress.
+ */
+export type RoutineBlock =
+  | { kind: 'single'; exerciseId: string }
+  | {
+      kind: 'circuit';
+      id: string;
+      label: string;
+      rounds: number;
+      restBetweenRounds: string;
+      exerciseIds: string[];
+    };
 
 export interface Routine {
   id: string;
@@ -22,7 +42,10 @@ export interface Routine {
   title: string; // Spanish day title, e.g. "DÍA 1 — GLÚTEO Y CADENA POSTERIOR"
   focus?: string; // Spanish focus / duration subtitle
   day: number;
-  exercises: string[]; // Array of exercise IDs
+  /** Canonical ordering (single | circuit). */
+  blocks: RoutineBlock[];
+  /** Derived flat projection of `blocks` (in order, circuits expanded). Exercise IDs. */
+  exercises: string[];
 }
 
 export interface SetProgress {

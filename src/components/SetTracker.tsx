@@ -87,7 +87,10 @@ const SetTracker: React.FC<SetTrackerProps> = ({ exercise, routineId, className 
           Series{exercise.sets > 0 ? ` · ${completedSets} / ${exercise.sets}` : ''}
         </p>
         <div className="flex items-center gap-3 text-caption text-text-secondary">
-          <span>{exercise.reps} reps</span>
+          <span>
+            {exercise.durationSeconds ? `${exercise.durationSeconds} s` : `${exercise.reps} reps`}
+          </span>
+          {exercise.intensity && <span>{exercise.intensity}</span>}
           <span>{exercise.restTime || '1min'} descanso</span>
         </div>
       </div>

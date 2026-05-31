@@ -35,6 +35,56 @@
           "title": "DAY 1 — POSTERIOR CHAIN & GLUTES",
           "focus": "glutes, hamstrings, posterior chain",
           "day": 1,
+          "blocks": [
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d1-warm-up-90-90-hip-switch"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d1-warm-up-world-s-greatest-stretch"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d1-romanian-deadlift-rdl"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d1-barbell-hip-thrust"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d1-lying-leg-curl"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d1-walking-lunges-long-stride"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d1-cable-pull-throughs"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d1-seated-calf-raise"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d1-glute-medius-kickback-cable"
+            },
+            {
+              "kind": "circuit",
+              "id": "engineer-training-plan-day-1-c1",
+              "label": "Core + Conditioning",
+              "rounds": 3,
+              "restBetweenRounds": "90s",
+              "exerciseIds": [
+                "engineer-training-plan-d1-pallof-press",
+                "engineer-training-plan-d1-side-plank",
+                "engineer-training-plan-d1-battling-ropes"
+              ]
+            }
+          ],
           "exercises": [
             "engineer-training-plan-d1-warm-up-90-90-hip-switch",
             "engineer-training-plan-d1-warm-up-world-s-greatest-stretch",
@@ -45,7 +95,9 @@
             "engineer-training-plan-d1-cable-pull-throughs",
             "engineer-training-plan-d1-seated-calf-raise",
             "engineer-training-plan-d1-glute-medius-kickback-cable",
-            "engineer-training-plan-d1-pallof-press"
+            "engineer-training-plan-d1-pallof-press",
+            "engineer-training-plan-d1-side-plank",
+            "engineer-training-plan-d1-battling-ropes"
           ]
         },
         {
@@ -55,6 +107,60 @@
           "title": "DAY 2 — PUSH · CHEST · SHOULDERS · TRICEPS",
           "focus": "chest, shoulders, triceps",
           "day": 2,
+          "blocks": [
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-warm-up-band-pull-aparts"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-warm-up-thoracic-extensions-foam-roller"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-incline-dumbbell-press"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-standing-overhead-press-barbell"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-weighted-dips"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-cable-crossovers-low-to-high"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-egyptian-lateral-raises-cable"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-tricep-rope-pushdown"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-overhead-tricep-extension-cable"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-face-pulls"
+            },
+            {
+              "kind": "circuit",
+              "id": "engineer-training-plan-day-2-c1",
+              "label": "Core + Conditioning",
+              "rounds": 3,
+              "restBetweenRounds": "90s",
+              "exerciseIds": [
+                "engineer-training-plan-d2-stability-ball-rollout",
+                "engineer-training-plan-d2-hanging-leg-raise",
+                "engineer-training-plan-d2-jump-rope"
+              ]
+            }
+          ],
           "exercises": [
             "engineer-training-plan-d2-warm-up-band-pull-aparts",
             "engineer-training-plan-d2-warm-up-thoracic-extensions-foam-roller",
@@ -65,7 +171,10 @@
             "engineer-training-plan-d2-egyptian-lateral-raises-cable",
             "engineer-training-plan-d2-tricep-rope-pushdown",
             "engineer-training-plan-d2-overhead-tricep-extension-cable",
-            "engineer-training-plan-d2-face-pulls"
+            "engineer-training-plan-d2-face-pulls",
+            "engineer-training-plan-d2-stability-ball-rollout",
+            "engineer-training-plan-d2-hanging-leg-raise",
+            "engineer-training-plan-d2-jump-rope"
           ]
         },
         {
@@ -75,6 +184,52 @@
           "title": "DAY 3 — QUADS & LEGS",
           "focus": "quads, adductors, calves",
           "day": 3,
+          "blocks": [
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d3-warm-up-couch-stretch"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d3-warm-up-tibialis-raises"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d3-atg-split-squat"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d3-front-squat-or-goblet-squat"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d3-leg-extension"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d3-sissy-squats-bodyweight-or-weighted"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d3-adductor-machine-inner-thigh"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d3-standing-calf-raises"
+            },
+            {
+              "kind": "circuit",
+              "id": "engineer-training-plan-day-3-c1",
+              "label": "Core + Conditioning",
+              "rounds": 3,
+              "restBetweenRounds": "90s",
+              "exerciseIds": [
+                "engineer-training-plan-d3-front-plank",
+                "engineer-training-plan-d3-cable-woodchoppers",
+                "engineer-training-plan-d3-mountain-climbers"
+              ]
+            }
+          ],
           "exercises": [
             "engineer-training-plan-d3-warm-up-couch-stretch",
             "engineer-training-plan-d3-warm-up-tibialis-raises",
@@ -84,8 +239,9 @@
             "engineer-training-plan-d3-sissy-squats-bodyweight-or-weighted",
             "engineer-training-plan-d3-adductor-machine-inner-thigh",
             "engineer-training-plan-d3-standing-calf-raises",
-            "engineer-training-plan-d3-hanging-knee-leg-raises",
-            "engineer-training-plan-d3-cable-woodchoppers"
+            "engineer-training-plan-d3-front-plank",
+            "engineer-training-plan-d3-cable-woodchoppers",
+            "engineer-training-plan-d3-mountain-climbers"
           ]
         },
         {
@@ -95,6 +251,60 @@
           "title": "DAY 4 — PULL · BACK & BICEPS",
           "focus": "back, rear delts, biceps",
           "day": 4,
+          "blocks": [
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d4-warm-up-dead-hang"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d4-warm-up-scapular-pull-ups"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d4-pull-ups-weighted-if-possible"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d4-chest-supported-row-t-bar"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d4-single-arm-cable-row-lat-bias"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d4-straight-arm-lat-pulldown"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d4-reverse-pec-deck-rear-delts"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d4-kelso-shrugs-incline-bench"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d4-incline-dumbbell-curls"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d4-hammer-curls"
+            },
+            {
+              "kind": "circuit",
+              "id": "engineer-training-plan-day-4-c1",
+              "label": "Core + Conditioning",
+              "rounds": 3,
+              "restBetweenRounds": "90s",
+              "exerciseIds": [
+                "engineer-training-plan-d4-side-plank",
+                "engineer-training-plan-d4-russian-twist",
+                "engineer-training-plan-d4-kettlebell-swing"
+              ]
+            }
+          ],
           "exercises": [
             "engineer-training-plan-d4-warm-up-dead-hang",
             "engineer-training-plan-d4-warm-up-scapular-pull-ups",
@@ -105,7 +315,10 @@
             "engineer-training-plan-d4-reverse-pec-deck-rear-delts",
             "engineer-training-plan-d4-kelso-shrugs-incline-bench",
             "engineer-training-plan-d4-incline-dumbbell-curls",
-            "engineer-training-plan-d4-hammer-curls"
+            "engineer-training-plan-d4-hammer-curls",
+            "engineer-training-plan-d4-side-plank",
+            "engineer-training-plan-d4-russian-twist",
+            "engineer-training-plan-d4-kettlebell-swing"
           ]
         },
         {
@@ -115,6 +328,52 @@
           "title": "DAY 5 — FULL BODY & CONDITIONING",
           "focus": "full body, power, core, conditioning",
           "day": 5,
+          "blocks": [
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d5-warm-up-cat-cow-flow"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d5-turkish-get-up"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d5-hex-bar-deadlift"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d5-arnold-press"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d5-bulgarian-split-squat"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d5-farmers-walk"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d5-dumbbell-pullover"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d5-kettlebell-swings"
+            },
+            {
+              "kind": "circuit",
+              "id": "engineer-training-plan-day-5-c1",
+              "label": "Core + Conditioning",
+              "rounds": 3,
+              "restBetweenRounds": "90s",
+              "exerciseIds": [
+                "engineer-training-plan-d5-dead-bug",
+                "engineer-training-plan-d5-pallof-press",
+                "engineer-training-plan-d5-battle-ropes-hiit"
+              ]
+            }
+          ],
           "exercises": [
             "engineer-training-plan-d5-warm-up-cat-cow-flow",
             "engineer-training-plan-d5-turkish-get-up",
@@ -125,6 +384,7 @@
             "engineer-training-plan-d5-dumbbell-pullover",
             "engineer-training-plan-d5-kettlebell-swings",
             "engineer-training-plan-d5-dead-bug",
+            "engineer-training-plan-d5-pallof-press",
             "engineer-training-plan-d5-battle-ropes-hiit"
           ]
         }
@@ -261,14 +521,45 @@
           "programId": "engineer-training-plan",
           "name": "Pallof Press",
           "sets": 3,
-          "reps": "12/side",
-          "restTime": "60s",
+          "reps": "40s",
+          "restTime": "20s",
           "videoUrl": "https://www.youtube.com/watch?v=5aZ0IhJS8O8",
           "day": 1,
           "section": "core",
-          "equipment": "",
-          "description": "Anti-rotation core work. Stabilizes spine without compression.",
-          "safetyNotes": ""
+          "equipment": "Cable / band",
+          "description": "Anti-rotation: brace and press straight out; resist the pull.",
+          "safetyNotes": "",
+          "durationSeconds": 40
+        },
+        {
+          "id": "engineer-training-plan-d1-side-plank",
+          "programId": "engineer-training-plan",
+          "name": "Side Plank",
+          "sets": 3,
+          "reps": "40s",
+          "restTime": "20s",
+          "videoUrl": "https://www.youtube.com/watch?v=BFOyHDlY2UE",
+          "day": 1,
+          "section": "core",
+          "equipment": "Bodyweight",
+          "description": "Anti-lateral-flexion: stack hips in a straight line head to heel.",
+          "safetyNotes": "Alternate sides each round.",
+          "durationSeconds": 40
+        },
+        {
+          "id": "engineer-training-plan-d1-battling-ropes",
+          "programId": "engineer-training-plan",
+          "name": "Battling Ropes",
+          "sets": 3,
+          "reps": "40s",
+          "restTime": "20s",
+          "videoUrl": "https://www.youtube.com/watch?v=X5g7P_M8Wo4",
+          "day": 1,
+          "section": "core",
+          "equipment": "Battle ropes",
+          "description": "Metabolic finisher: alternating waves; keep core braced.",
+          "safetyNotes": "",
+          "durationSeconds": 40
         },
         {
           "id": "engineer-training-plan-d2-warm-up-band-pull-aparts",
@@ -411,6 +702,51 @@
           "safetyNotes": ""
         },
         {
+          "id": "engineer-training-plan-d2-stability-ball-rollout",
+          "programId": "engineer-training-plan",
+          "name": "Stability Ball Rollout",
+          "sets": 3,
+          "reps": "40s",
+          "restTime": "20s",
+          "videoUrl": "https://www.youtube.com/watch?v=SG755ZrVmhE",
+          "day": 2,
+          "section": "core",
+          "equipment": "Stability ball",
+          "description": "Anti-extension: roll out only as far as you can keep ribs down.",
+          "safetyNotes": "Stop before the lower back arches.",
+          "durationSeconds": 40
+        },
+        {
+          "id": "engineer-training-plan-d2-hanging-leg-raise",
+          "programId": "engineer-training-plan",
+          "name": "Hanging Leg Raise",
+          "sets": 3,
+          "reps": "40s",
+          "restTime": "20s",
+          "videoUrl": "https://www.youtube.com/watch?v=2n4UqRIJyk4",
+          "day": 2,
+          "section": "core",
+          "equipment": "Pull-up bar",
+          "description": "Hip & trunk flexion: control the descent; no swinging.",
+          "safetyNotes": "",
+          "durationSeconds": 40
+        },
+        {
+          "id": "engineer-training-plan-d2-jump-rope",
+          "programId": "engineer-training-plan",
+          "name": "Jump Rope",
+          "sets": 3,
+          "reps": "40s",
+          "restTime": "20s",
+          "videoUrl": "https://www.youtube.com/watch?v=VLC6YO9w5iU",
+          "day": 2,
+          "section": "core",
+          "equipment": "Jump rope",
+          "description": "Metabolic finisher: light bounce on the balls of the feet.",
+          "safetyNotes": "",
+          "durationSeconds": 40
+        },
+        {
           "id": "engineer-training-plan-d3-warm-up-couch-stretch",
           "programId": "engineer-training-plan",
           "name": "Warm-up: Couch Stretch",
@@ -523,32 +859,49 @@
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d3-hanging-knee-leg-raises",
+          "id": "engineer-training-plan-d3-front-plank",
           "programId": "engineer-training-plan",
-          "name": "Hanging Knee/Leg Raises",
+          "name": "Front Plank",
           "sets": 3,
-          "reps": "10-15",
-          "restTime": "60s",
-          "videoUrl": "https://www.youtube.com/watch?v=7FwGZ8qY5OU",
+          "reps": "40s",
+          "restTime": "20s",
+          "videoUrl": "https://www.youtube.com/watch?v=v25dawSzRTM",
           "day": 3,
           "section": "core",
-          "equipment": "",
-          "description": "Spinal decompression + hip flexor strength.",
-          "safetyNotes": ""
+          "equipment": "Bodyweight",
+          "description": "Anti-extension: squeeze glutes; ribs down; neutral neck.",
+          "safetyNotes": "",
+          "durationSeconds": 40
         },
         {
           "id": "engineer-training-plan-d3-cable-woodchoppers",
           "programId": "engineer-training-plan",
           "name": "Cable Woodchoppers",
           "sets": 3,
-          "reps": "12/side",
-          "restTime": "60s",
+          "reps": "40s",
+          "restTime": "20s",
           "videoUrl": "https://www.youtube.com/watch?v=90Qh5XG6mqs",
           "day": 3,
           "section": "core",
-          "equipment": "",
-          "description": "Rotational core power. Mimics BJJ torque patterns.",
-          "safetyNotes": ""
+          "equipment": "Cable",
+          "description": "Rotation: rotate from the trunk; let the hips follow.",
+          "safetyNotes": "Alternate sides each round.",
+          "durationSeconds": 40
+        },
+        {
+          "id": "engineer-training-plan-d3-mountain-climbers",
+          "programId": "engineer-training-plan",
+          "name": "Mountain Climbers",
+          "sets": 3,
+          "reps": "40s",
+          "restTime": "20s",
+          "videoUrl": "https://www.youtube.com/watch?v=hZb6jTbCLeE",
+          "day": 3,
+          "section": "core",
+          "equipment": "Bodyweight",
+          "description": "Metabolic finisher: drive the knees; keep hips low and stable.",
+          "safetyNotes": "",
+          "durationSeconds": 40
         },
         {
           "id": "engineer-training-plan-d4-warm-up-dead-hang",
@@ -691,6 +1044,51 @@
           "safetyNotes": ""
         },
         {
+          "id": "engineer-training-plan-d4-side-plank",
+          "programId": "engineer-training-plan",
+          "name": "Side Plank",
+          "sets": 3,
+          "reps": "40s",
+          "restTime": "20s",
+          "videoUrl": "https://www.youtube.com/watch?v=BFOyHDlY2UE",
+          "day": 4,
+          "section": "core",
+          "equipment": "Bodyweight",
+          "description": "Anti-lateral-flexion: stack hips; straight line head to heel.",
+          "safetyNotes": "Alternate sides each round.",
+          "durationSeconds": 40
+        },
+        {
+          "id": "engineer-training-plan-d4-russian-twist",
+          "programId": "engineer-training-plan",
+          "name": "Russian Twist",
+          "sets": 3,
+          "reps": "40s",
+          "restTime": "20s",
+          "videoUrl": "https://www.youtube.com/watch?v=-BzNffL_6YE",
+          "day": 4,
+          "section": "core",
+          "equipment": "Medicine ball / plate",
+          "description": "Rotation: rotate from the ribcage; keep the chest tall.",
+          "safetyNotes": "",
+          "durationSeconds": 40
+        },
+        {
+          "id": "engineer-training-plan-d4-kettlebell-swing",
+          "programId": "engineer-training-plan",
+          "name": "Kettlebell Swing",
+          "sets": 3,
+          "reps": "40s",
+          "restTime": "20s",
+          "videoUrl": "https://www.youtube.com/watch?v=n1df4ASFeZU",
+          "day": 4,
+          "section": "core",
+          "equipment": "Kettlebell",
+          "description": "Metabolic finisher: hip-hinge snap; glutes drive the bell.",
+          "safetyNotes": "",
+          "durationSeconds": 40
+        },
+        {
           "id": "engineer-training-plan-d5-warm-up-cat-cow-flow",
           "programId": "engineer-training-plan",
           "name": "Warm-up: Cat-Cow Flow",
@@ -702,7 +1100,8 @@
           "section": "activation",
           "equipment": "",
           "description": "Spinal lubrication.",
-          "safetyNotes": ""
+          "safetyNotes": "",
+          "durationSeconds": 60
         },
         {
           "id": "engineer-training-plan-d5-turkish-get-up",
@@ -807,28 +1206,45 @@
           "programId": "engineer-training-plan",
           "name": "Dead Bug",
           "sets": 3,
-          "reps": "12/side",
-          "restTime": "45s",
+          "reps": "40s",
+          "restTime": "20s",
           "videoUrl": "https://www.youtube.com/watch?v=Aoipu_fl3HA",
           "day": 5,
           "section": "core",
-          "equipment": "",
-          "description": "Deep core stabilizer.",
-          "safetyNotes": ""
+          "equipment": "Bodyweight",
+          "description": "Anti-extension: press the low back to the floor; opposite arm/leg.",
+          "safetyNotes": "",
+          "durationSeconds": 40
+        },
+        {
+          "id": "engineer-training-plan-d5-pallof-press",
+          "programId": "engineer-training-plan",
+          "name": "Pallof Press",
+          "sets": 3,
+          "reps": "40s",
+          "restTime": "20s",
+          "videoUrl": "https://www.youtube.com/watch?v=5aZ0IhJS8O8",
+          "day": 5,
+          "section": "core",
+          "equipment": "Cable / band",
+          "description": "Anti-rotation: brace and press straight out; resist the pull.",
+          "safetyNotes": "",
+          "durationSeconds": 40
         },
         {
           "id": "engineer-training-plan-d5-battle-ropes-hiit",
           "programId": "engineer-training-plan",
           "name": "Battle Ropes (HIIT)",
-          "sets": 5,
-          "reps": "30s on/30s off",
-          "restTime": "",
+          "sets": 3,
+          "reps": "40s",
+          "restTime": "20s",
           "videoUrl": "https://www.youtube.com/watch?v=X5g7P_M8Wo4",
           "day": 5,
-          "section": "cardio",
-          "equipment": "",
-          "description": "Metabolic finisher. Max effort.",
-          "safetyNotes": ""
+          "section": "core",
+          "equipment": "Battle ropes",
+          "description": "Metabolic finisher: max-effort alternating waves.",
+          "safetyNotes": "",
+          "durationSeconds": 40
         }
       ]
     },
@@ -867,6 +1283,48 @@
           "title": "DÍA 1 — GLÚTEO Y CADENA POSTERIOR",
           "focus": "glúteo mayor, isquiotibiales, aductores · Duración estimada: 60-70 min",
           "day": 1,
+          "blocks": [
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d1-movilidad-de-muneca-y-hombro"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d1-puente-de-gluteo-con-banda"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d1-clamshell-con-banda"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d1-hip-thrust-en-maquina-con-respaldo"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d1-peso-muerto-rumano-con-barra-straps"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d1-prensa-declinada-de-pierna"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d1-curl-femoral-tumbado-en-maquina"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d1-abduccion-de-cadera-en-maquina"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d1-patada-de-gluteo-en-polea-baja"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d1-hiit-en-caminadora"
+            }
+          ],
           "exercises": [
             "hpt-ganglion-d1-movilidad-de-muneca-y-hombro",
             "hpt-ganglion-d1-puente-de-gluteo-con-banda",
@@ -887,6 +1345,48 @@
           "title": "DÍA 2 — ESPALDA Y BÍCEPS",
           "focus": "dorsal ancho, romboides, trapecio medio, bíceps · Lifting straps en TODOS los ejercicios de tracción",
           "day": 2,
+          "blocks": [
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d2-movilidad-de-muneca-y-hombro"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d2-activacion-escapular-en-polea-con-straps"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d2-face-pull-ligero-con-cuerda"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d2-jalon-en-polea-con-straps-agarre-neutro"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d2-remo-en-maquina-hammer-paralelo-con-straps"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d2-pull-over-en-polea-con-barra-recta-straps"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d2-remo-unilateral-en-polea-baja-con-strap"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d2-curl-de-biceps-en-maquina"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d2-curl-biceps-con-barra-ez-en-polea-straps"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d2-25-min-en-bici-reclinada-o-eliptica"
+            }
+          ],
           "exercises": [
             "hpt-ganglion-d2-movilidad-de-muneca-y-hombro",
             "hpt-ganglion-d2-activacion-escapular-en-polea-con-straps",
@@ -907,6 +1407,48 @@
           "title": "DÍA 3 — CUÁDRICEPS Y GLÚTEO",
           "focus": "cuádriceps, glúteo mayor, aductores · Sin agarre prolongado de mancuernas",
           "day": 3,
+          "blocks": [
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d3-movilidad-de-muneca-y-tobillo"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d3-sentadilla-en-aire-air-squat"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d3-monster-walk-con-banda"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d3-sentadilla-en-multipower-smith"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d3-zancadas-en-multipower-estaticas"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d3-extension-de-cuadriceps-en-maquina"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d3-hip-thrust-con-pausa-arriba-maquina"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d3-step-ups-con-chaleco-lastrado"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d3-aduccion-de-cadera-en-maquina"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d3-eliptica-hiit-15-min"
+            }
+          ],
           "exercises": [
             "hpt-ganglion-d3-movilidad-de-muneca-y-tobillo",
             "hpt-ganglion-d3-sentadilla-en-aire-air-squat",
@@ -927,6 +1469,48 @@
           "title": "DÍA 4 — PECHO Y TRÍCEPS",
           "focus": "pectoral mayor, deltoides anterior, tríceps · TODOS los press en agarre paralelo",
           "day": 4,
+          "blocks": [
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d4-movilidad-de-muneca-y-hombro"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d4-banda-pull-apart-apertura-horizontal"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d4-push-up-isometrico-en-banco-manos-en-empunaduras-o-antebrazos"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d4-press-inclinado-en-maquina-hammer-agarre-paralelo"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d4-press-plano-en-maquina-hammer-agarre-paralelo"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d4-press-declinado-en-maquina-hammer-agarre-paralelo"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d4-pec-deck-contractor-de-pecho"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d4-extension-de-triceps-en-maquina"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d4-press-cerrado-en-maquina-sustituye-fondos"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d4-circuito-assault-bike-jumping-jacks"
+            }
+          ],
           "exercises": [
             "hpt-ganglion-d4-movilidad-de-muneca-y-hombro",
             "hpt-ganglion-d4-banda-pull-apart-apertura-horizontal",
@@ -947,6 +1531,52 @@
           "title": "DÍA 5 — HOMBRO Y CORE",
           "focus": "deltoides (los 3 fascículos), trapecio, core · Plancha SIEMPRE en antebrazos",
           "day": 5,
+          "blocks": [
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d5-movilidad-de-muneca-y-hombro"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d5-rotacion-externa-con-banda"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d5-banda-pull-apart-en-y"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d5-press-de-hombro-en-maquina-agarre-paralelo"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d5-elevacion-lateral-en-polea-con-strap-proximal"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d5-face-pull-con-straps-dobles"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d5-elevacion-frontal-en-polea-con-strap-proximal"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d5-elevacion-de-piernas-en-silla-romana"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d5-bicicleta-para-abdomen"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d5-plancha-en-antebrazos"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "hpt-ganglion-d5-caminadora-20-min-inclinacion-10"
+            }
+          ],
           "exercises": [
             "hpt-ganglion-d5-movilidad-de-muneca-y-hombro",
             "hpt-ganglion-d5-rotacion-externa-con-banda",
@@ -1241,7 +1871,8 @@
           "section": "cardio",
           "equipment": "Bici reclinada (recumbent) o elíptica",
           "description": "Ritmo moderado, 60-70% del esfuerzo máximo, FC objetivo zona 2-3. En bici reclinada: manos sueltas o apoyadas sin agarre. En elíptica: manos sueltas en los manillares centrales o sin tocar.",
-          "safetyNotes": "SUSTITUYE bici spinning del original. La bici tradicional con manillar mantiene muñeca en extensión bajo carga 25 min seguidos — es el patrón exacto que el ganglión bombea (mecanismo de Angelides). La reclinada o elíptica eliminan este factor."
+          "safetyNotes": "SUSTITUYE bici spinning del original. La bici tradicional con manillar mantiene muñeca en extensión bajo carga 25 min seguidos — es el patrón exacto que el ganglión bombea (mecanismo de Angelides). La reclinada o elíptica eliminan este factor.",
+          "durationSeconds": 1500
         },
         {
           "id": "hpt-ganglion-d3-movilidad-de-muneca-y-tobillo",
@@ -1255,7 +1886,8 @@
           "section": "activation",
           "equipment": "Sin equipo",
           "description": "Muñecas: igual a Día 1 (1 min). Tobillos: 30s de círculos cada lado + 30s de dorsiflexión asistida contra pared (rodilla hacia pared con talón apoyado).",
-          "safetyNotes": "Indoloro siempre. La movilidad de tobillo influye en la profundidad y seguridad de la sentadilla."
+          "safetyNotes": "Indoloro siempre. La movilidad de tobillo influye en la profundidad y seguridad de la sentadilla.",
+          "durationSeconds": 120
         },
         {
           "id": "hpt-ganglion-d3-sentadilla-en-aire-air-squat",
@@ -1395,7 +2027,8 @@
           "section": "activation",
           "equipment": "Sin equipo",
           "description": "Muñecas (1 min). Hombros: 30s círculos amplios + 30s aperturas en T con dedos pegados a la pared (para movilizar pectoral).",
-          "safetyNotes": "Sin carga. Movimiento amplio y lento. Pectoral en estiramiento suave."
+          "safetyNotes": "Sin carga. Movimiento amplio y lento. Pectoral en estiramiento suave.",
+          "durationSeconds": 120
         },
         {
           "id": "hpt-ganglion-d4-banda-pull-apart-apertura-horizontal",
@@ -1535,7 +2168,8 @@
           "section": "activation",
           "equipment": "Sin equipo",
           "description": "Muñecas (1 min). Hombros: 30s círculos amplios + 30s rotaciones externas con codo pegado al cuerpo + 30s wall slides (espalda contra pared, brazos en W subiendo a Y).",
-          "safetyNotes": "Indoloro siempre. Los wall slides preparan la elevación lateral."
+          "safetyNotes": "Indoloro siempre. Los wall slides preparan la elevación lateral.",
+          "durationSeconds": 120
         },
         {
           "id": "hpt-ganglion-d5-rotacion-externa-con-banda",
@@ -1661,7 +2295,8 @@
           "section": "core",
           "equipment": "Esterilla",
           "description": "APOYO EN ANTEBRAZOS, no manos. Codos directamente bajo hombros. Cuerpo en línea recta desde tobillos hasta cabeza. Mantener glúteo y abdomen apretados todo el tiempo.",
-          "safetyNotes": "NUNCA EN MANOS — la plancha en manos carga peso corporal sobre muñeca extendida a 90°, exactamente el patrón doloroso. La activación del transverso del abdomen es equivalente o superior en antebrazos (Schoenfeld 2014)."
+          "safetyNotes": "NUNCA EN MANOS — la plancha en manos carga peso corporal sobre muñeca extendida a 90°, exactamente el patrón doloroso. La activación del transverso del abdomen es equivalente o superior en antebrazos (Schoenfeld 2014).",
+          "durationSeconds": 60
         },
         {
           "id": "hpt-ganglion-d5-caminadora-20-min-inclinacion-10",
@@ -1675,7 +2310,8 @@
           "section": "cardio",
           "equipment": "Caminadora",
           "description": "Caminar a paso vivo (4.5-6 km/h según tolerancia) con inclinación al 10%. Mantener tronco erguido, no inclinarse hacia delante agarrando barandilla.",
-          "safetyNotes": "Manos sueltas o solo apoyadas suaves en barandilla. Cero agarre con fuerza. Si requiere agarrarse para sostenerse, bajar inclinación."
+          "safetyNotes": "Manos sueltas o solo apoyadas suaves en barandilla. Cero agarre con fuerza. Si requiere agarrarse para sostenerse, bajar inclinación.",
+          "durationSeconds": 1200
         }
       ]
     }

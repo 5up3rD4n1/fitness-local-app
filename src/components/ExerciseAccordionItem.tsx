@@ -157,7 +157,10 @@ const ExerciseAccordionItem: React.FC<ExerciseAccordionItemProps> = ({
             <p className="truncate text-caption text-text-secondary">
               {[
                 exercise.sets > 0 ? `${exercise.sets} series` : null,
-                `${exercise.reps} reps`,
+                exercise.durationSeconds
+                  ? `${exercise.durationSeconds} s`
+                  : `${exercise.reps} reps`,
+                exercise.intensity || null,
                 `${exercise.restTime || '1min'} descanso`,
               ]
                 .filter(Boolean)

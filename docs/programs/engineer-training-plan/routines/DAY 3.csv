@@ -11,5 +11,8 @@ Sissy Squats (Bodyweight or Weighted),3,Failure,60s,,Extreme quad stretch. Use s
 Adductor Machine (Inner Thigh),3,15-20,60s,,Crucial for pelvic stability and often weak in men.,
 Standing Calf Raises,4,10-12,45s,,Targets Gastrocnemius (upper calf). Heavy weight.,
 CORE
-Hanging Knee/Leg Raises,3,10-15,60s,,Spinal decompression + hip flexor strength.,
-Cable Woodchoppers,3,12/side,60s,,Rotational core power. Mimics BJJ torque patterns.,
+CIRCUIT,rounds=3,rest=90s,label=Core + Conditioning
+Front Plank,,40s,20s,Bodyweight,Anti-extension: squeeze glutes; ribs down; neutral neck.,,
+Cable Woodchoppers,,40s,20s,Cable,Rotation: rotate from the trunk; let the hips follow.,Alternate sides each round.,
+Mountain Climbers,,40s,20s,Bodyweight,Metabolic finisher: drive the knees; keep hips low and stable.,,
+ENDCIRCUIT

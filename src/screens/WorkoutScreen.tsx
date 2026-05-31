@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../contexts/AppContext';
-import SectionedExerciseList from '../components/SectionedExerciseList';
+import RoutineBlocks from '../components/RoutineBlocks';
 import RestTimerSheet from '../components/RestTimerSheet';
 import WorkoutEmptyState from '../components/WorkoutEmptyState';
 import ConfirmDialog from '../components/ConfirmDialog';
@@ -334,9 +334,13 @@ const WorkoutScreen: React.FC = () => {
           <ProgressBar value={workoutProgress} />
         </div>
 
-        {/* Sectioned Exercise List */}
+        {/* Routine blocks (singles grouped by section + circuit cards) */}
         <div className="p-4">
-          <SectionedExerciseList exercises={workoutExercises} routineId={currentRoutine.id} />
+          <RoutineBlocks
+            routine={currentRoutine}
+            exercises={exercises}
+            routineId={currentRoutine.id}
+          />
         </div>
 
         {/* Finish Workout panel — only for active routine */}

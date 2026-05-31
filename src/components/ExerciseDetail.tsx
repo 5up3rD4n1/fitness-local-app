@@ -7,6 +7,8 @@ import { SafetyCallout, EquipmentTags } from './ui';
 interface ExerciseDetailProps {
   exercise: Exercise;
   routineId?: string;
+  /** Hide the per-exercise set grid (circuit members track completion via the round tracker). */
+  showSetTracker?: boolean;
 }
 
 /**
@@ -19,7 +21,11 @@ interface ExerciseDetailProps {
  *
  * The "Complete Exercise" button lives in ExerciseAccordionItem, not here.
  */
-const ExerciseDetail: React.FC<ExerciseDetailProps> = ({ exercise, routineId }) => {
+const ExerciseDetail: React.FC<ExerciseDetailProps> = ({
+  exercise,
+  routineId,
+  showSetTracker = true,
+}) => {
   return (
     <div className="space-y-4">
       {/* (a) Video */}
@@ -72,8 +78,8 @@ const ExerciseDetail: React.FC<ExerciseDetailProps> = ({ exercise, routineId }) 
         <SafetyCallout text={exercise.safetyNotes} variant="warning" />
       )}
 
-      {/* (e) Set tracker */}
-      <SetTracker exercise={exercise} routineId={routineId} />
+      {/* (e) Set tracker — omitted for circuit members (round tracker owns completion) */}
+      {showSetTracker && <SetTracker exercise={exercise} routineId={routineId} />}
     </div>
   );
 };
