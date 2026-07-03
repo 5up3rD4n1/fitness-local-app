@@ -1,9 +1,10 @@
 {
   "id": "engineer-training-plan",
   "name": "Engineer Training Plan",
-  "description": "5-day hypertrophy & strength split: posterior chain & glutes, push, quads, pull, and a full-body conditioning day. Each session opens with mobility warm-ups and closes with core/stability work.",
+  "description": "5-day hypertrophy & strength split, fully home-based on the Force USA C10 setup: posterior chain & glutes, push, quads, pull, and a full-body conditioning day. Each session opens with mobility warm-ups and closes with core/stability work.",
   "safetyPrinciples": [
     "Warm up fully before loading — never skip the mobility work at the start of each day.",
+    "You train alone: barbell press/squat inside the rack with the safety spotters set, or use the Smith machine.",
     "Keep a neutral spine on all hinges (RDL, hip thrust, deadlift) and brace your core before lifting.",
     "Control the eccentric (lowering) phase; avoid bouncing or using momentum.",
     "Leave 1–2 reps in reserve on most sets (RPE 8–9) unless a set explicitly says Failure.",
@@ -11,18 +12,12 @@
     "Progress gradually — add small weight or reps week to week, not all at once."
   ],
   "recommendedEquipment": [
-    "Barbell + plates",
-    "Dumbbells",
-    "Cable machine",
-    "Pull-up bar",
-    "Hex / trap bar",
-    "Leg curl & leg extension machines",
-    "Adductor machine",
-    "Reverse pec deck",
-    "Hip thrust bench / pad",
-    "Kettlebell",
-    "Battle ropes",
-    "Foam roller",
-    "Resistance band"
+    "Force USA C10 (Smith machine, power rack, cable stations, pull-up bar, landmine, dip belt)",
+    "Sliding Bench + leg press / hack squat / leg curl-extension attachments",
+    "Olympic barbell 20 kg + 120 kg plate set",
+    "Kettlebell 20 kg",
+    "Dumbbells 4 / 6 / 8 kg",
+    "Resistance bands",
+    "Step platform"
   ]
 }

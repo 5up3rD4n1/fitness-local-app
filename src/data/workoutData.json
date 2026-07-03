@@ -3,9 +3,10 @@
     {
       "id": "engineer-training-plan",
       "name": "Engineer Training Plan",
-      "description": "5-day hypertrophy & strength split: posterior chain & glutes, push, quads, pull, and a full-body conditioning day. Each session opens with mobility warm-ups and closes with core/stability work.",
+      "description": "5-day hypertrophy & strength split, fully home-based on the Force USA C10 setup: posterior chain & glutes, push, quads, pull, and a full-body conditioning day. Each session opens with mobility warm-ups and closes with core/stability work.",
       "safetyPrinciples": [
         "Warm up fully before loading — never skip the mobility work at the start of each day.",
+        "You train alone: barbell press/squat inside the rack with the safety spotters set, or use the Smith machine.",
         "Keep a neutral spine on all hinges (RDL, hip thrust, deadlift) and brace your core before lifting.",
         "Control the eccentric (lowering) phase; avoid bouncing or using momentum.",
         "Leave 1–2 reps in reserve on most sets (RPE 8–9) unless a set explicitly says Failure.",
@@ -13,19 +14,13 @@
         "Progress gradually — add small weight or reps week to week, not all at once."
       ],
       "recommendedEquipment": [
-        "Barbell + plates",
-        "Dumbbells",
-        "Cable machine",
-        "Pull-up bar",
-        "Hex / trap bar",
-        "Leg curl & leg extension machines",
-        "Adductor machine",
-        "Reverse pec deck",
-        "Hip thrust bench / pad",
-        "Kettlebell",
-        "Battle ropes",
-        "Foam roller",
-        "Resistance band"
+        "Force USA C10 (Smith machine, power rack, cable stations, pull-up bar, landmine, dip belt)",
+        "Sliding Bench + leg press / hack squat / leg curl-extension attachments",
+        "Olympic barbell 20 kg + 120 kg plate set",
+        "Kettlebell 20 kg",
+        "Dumbbells 4 / 6 / 8 kg",
+        "Resistance bands",
+        "Step platform"
       ],
       "routines": [
         {
@@ -54,11 +49,11 @@
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d1-lying-leg-curl"
+              "exerciseId": "engineer-training-plan-d1-leg-curl-sliding-bench"
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d1-walking-lunges-long-stride"
+              "exerciseId": "engineer-training-plan-d1-reverse-lunges-barbell"
             },
             {
               "kind": "single",
@@ -81,7 +76,7 @@
               "exerciseIds": [
                 "engineer-training-plan-d1-pallof-press",
                 "engineer-training-plan-d1-side-plank",
-                "engineer-training-plan-d1-battling-ropes"
+                "engineer-training-plan-d1-kettlebell-swings"
               ]
             }
           ],
@@ -90,14 +85,14 @@
             "engineer-training-plan-d1-warm-up-world-s-greatest-stretch",
             "engineer-training-plan-d1-romanian-deadlift-rdl",
             "engineer-training-plan-d1-barbell-hip-thrust",
-            "engineer-training-plan-d1-lying-leg-curl",
-            "engineer-training-plan-d1-walking-lunges-long-stride",
+            "engineer-training-plan-d1-leg-curl-sliding-bench",
+            "engineer-training-plan-d1-reverse-lunges-barbell",
             "engineer-training-plan-d1-cable-pull-throughs",
             "engineer-training-plan-d1-seated-calf-raise",
             "engineer-training-plan-d1-glute-medius-kickback-cable",
             "engineer-training-plan-d1-pallof-press",
             "engineer-training-plan-d1-side-plank",
-            "engineer-training-plan-d1-battling-ropes"
+            "engineer-training-plan-d1-kettlebell-swings"
           ]
         },
         {
@@ -114,11 +109,11 @@
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d2-warm-up-thoracic-extensions-foam-roller"
+              "exerciseId": "engineer-training-plan-d2-warm-up-thoracic-extensions-bench"
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d2-incline-dumbbell-press"
+              "exerciseId": "engineer-training-plan-d2-incline-press-smith-machine"
             },
             {
               "kind": "single",
@@ -126,7 +121,7 @@
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d2-weighted-dips"
+              "exerciseId": "engineer-training-plan-d2-close-grip-bench-press-smith"
             },
             {
               "kind": "single",
@@ -155,26 +150,26 @@
               "rounds": 3,
               "restBetweenRounds": "90s",
               "exerciseIds": [
-                "engineer-training-plan-d2-stability-ball-rollout",
+                "engineer-training-plan-d2-barbell-rollout",
                 "engineer-training-plan-d2-hanging-leg-raise",
-                "engineer-training-plan-d2-jump-rope"
+                "engineer-training-plan-d2-fast-step-ups"
               ]
             }
           ],
           "exercises": [
             "engineer-training-plan-d2-warm-up-band-pull-aparts",
-            "engineer-training-plan-d2-warm-up-thoracic-extensions-foam-roller",
-            "engineer-training-plan-d2-incline-dumbbell-press",
+            "engineer-training-plan-d2-warm-up-thoracic-extensions-bench",
+            "engineer-training-plan-d2-incline-press-smith-machine",
             "engineer-training-plan-d2-standing-overhead-press-barbell",
-            "engineer-training-plan-d2-weighted-dips",
+            "engineer-training-plan-d2-close-grip-bench-press-smith",
             "engineer-training-plan-d2-cable-crossovers-low-to-high",
             "engineer-training-plan-d2-egyptian-lateral-raises-cable",
             "engineer-training-plan-d2-tricep-rope-pushdown",
             "engineer-training-plan-d2-overhead-tricep-extension-cable",
             "engineer-training-plan-d2-face-pulls",
-            "engineer-training-plan-d2-stability-ball-rollout",
+            "engineer-training-plan-d2-barbell-rollout",
             "engineer-training-plan-d2-hanging-leg-raise",
-            "engineer-training-plan-d2-jump-rope"
+            "engineer-training-plan-d2-fast-step-ups"
           ]
         },
         {
@@ -199,7 +194,11 @@
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d3-front-squat-or-goblet-squat"
+              "exerciseId": "engineer-training-plan-d3-front-squat-or-hack-squat"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d3-seated-leg-press-sliding-bench"
             },
             {
               "kind": "single",
@@ -211,7 +210,7 @@
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d3-adductor-machine-inner-thigh"
+              "exerciseId": "engineer-training-plan-d3-cable-hip-adduction"
             },
             {
               "kind": "single",
@@ -234,10 +233,11 @@
             "engineer-training-plan-d3-warm-up-couch-stretch",
             "engineer-training-plan-d3-warm-up-tibialis-raises",
             "engineer-training-plan-d3-atg-split-squat",
-            "engineer-training-plan-d3-front-squat-or-goblet-squat",
+            "engineer-training-plan-d3-front-squat-or-hack-squat",
+            "engineer-training-plan-d3-seated-leg-press-sliding-bench",
             "engineer-training-plan-d3-leg-extension",
             "engineer-training-plan-d3-sissy-squats-bodyweight-or-weighted",
-            "engineer-training-plan-d3-adductor-machine-inner-thigh",
+            "engineer-training-plan-d3-cable-hip-adduction",
             "engineer-training-plan-d3-standing-calf-raises",
             "engineer-training-plan-d3-front-plank",
             "engineer-training-plan-d3-cable-woodchoppers",
@@ -266,7 +266,7 @@
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d4-chest-supported-row-t-bar"
+              "exerciseId": "engineer-training-plan-d4-landmine-t-bar-row"
             },
             {
               "kind": "single",
@@ -278,19 +278,19 @@
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d4-reverse-pec-deck-rear-delts"
+              "exerciseId": "engineer-training-plan-d4-reverse-cable-crossover"
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d4-kelso-shrugs-incline-bench"
+              "exerciseId": "engineer-training-plan-d4-chest-supported-cable-shrug"
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d4-incline-dumbbell-curls"
+              "exerciseId": "engineer-training-plan-d4-bayesian-cable-curl"
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d4-hammer-curls"
+              "exerciseId": "engineer-training-plan-d4-rope-hammer-curls-cable"
             },
             {
               "kind": "circuit",
@@ -309,13 +309,13 @@
             "engineer-training-plan-d4-warm-up-dead-hang",
             "engineer-training-plan-d4-warm-up-scapular-pull-ups",
             "engineer-training-plan-d4-pull-ups-weighted-if-possible",
-            "engineer-training-plan-d4-chest-supported-row-t-bar",
+            "engineer-training-plan-d4-landmine-t-bar-row",
             "engineer-training-plan-d4-single-arm-cable-row-lat-bias",
             "engineer-training-plan-d4-straight-arm-lat-pulldown",
-            "engineer-training-plan-d4-reverse-pec-deck-rear-delts",
-            "engineer-training-plan-d4-kelso-shrugs-incline-bench",
-            "engineer-training-plan-d4-incline-dumbbell-curls",
-            "engineer-training-plan-d4-hammer-curls",
+            "engineer-training-plan-d4-reverse-cable-crossover",
+            "engineer-training-plan-d4-chest-supported-cable-shrug",
+            "engineer-training-plan-d4-bayesian-cable-curl",
+            "engineer-training-plan-d4-rope-hammer-curls-cable",
             "engineer-training-plan-d4-side-plank",
             "engineer-training-plan-d4-russian-twist",
             "engineer-training-plan-d4-kettlebell-swing"
@@ -339,11 +339,11 @@
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d5-hex-bar-deadlift"
+              "exerciseId": "engineer-training-plan-d5-barbell-deadlift"
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d5-arnold-press"
+              "exerciseId": "engineer-training-plan-d5-landmine-press-single-arm"
             },
             {
               "kind": "single",
@@ -351,11 +351,11 @@
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d5-farmers-walk"
+              "exerciseId": "engineer-training-plan-d5-suitcase-carry-kettlebell"
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d5-dumbbell-pullover"
+              "exerciseId": "engineer-training-plan-d5-kettlebell-pullover"
             },
             {
               "kind": "single",
@@ -370,22 +370,22 @@
               "exerciseIds": [
                 "engineer-training-plan-d5-dead-bug",
                 "engineer-training-plan-d5-pallof-press",
-                "engineer-training-plan-d5-battle-ropes-hiit"
+                "engineer-training-plan-d5-burpees"
               ]
             }
           ],
           "exercises": [
             "engineer-training-plan-d5-warm-up-cat-cow-flow",
             "engineer-training-plan-d5-turkish-get-up",
-            "engineer-training-plan-d5-hex-bar-deadlift",
-            "engineer-training-plan-d5-arnold-press",
+            "engineer-training-plan-d5-barbell-deadlift",
+            "engineer-training-plan-d5-landmine-press-single-arm",
             "engineer-training-plan-d5-bulgarian-split-squat",
-            "engineer-training-plan-d5-farmers-walk",
-            "engineer-training-plan-d5-dumbbell-pullover",
+            "engineer-training-plan-d5-suitcase-carry-kettlebell",
+            "engineer-training-plan-d5-kettlebell-pullover",
             "engineer-training-plan-d5-kettlebell-swings",
             "engineer-training-plan-d5-dead-bug",
             "engineer-training-plan-d5-pallof-press",
-            "engineer-training-plan-d5-battle-ropes-hiit"
+            "engineer-training-plan-d5-burpees"
           ]
         }
       ],
@@ -428,8 +428,8 @@
           "videoUrl": "https://www.youtube.com/watch?v=5zmlnbWb-g4",
           "day": 1,
           "section": "main",
-          "equipment": "",
-          "description": "Primary mass builder. Hinge movement. Keep neutral spine.",
+          "equipment": "Barbell",
+          "description": "Primary mass builder. Hinge movement. Keep neutral spine. Set J-hooks at thigh height to unrack.",
           "safetyNotes": ""
         },
         {
@@ -442,36 +442,36 @@
           "videoUrl": "https://www.youtube.com/watch?v=W86oVlnLqY4",
           "day": 1,
           "section": "main",
-          "equipment": "",
-          "description": "Isolates the glute max at peak contraction. Hold top for 1s.",
+          "equipment": "Barbell + Sliding Bench",
+          "description": "Shoulders on the bench with the Smith foam pad on the bar. Isolates the glute max at peak contraction. Hold top for 1s.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d1-lying-leg-curl",
+          "id": "engineer-training-plan-d1-leg-curl-sliding-bench",
           "programId": "engineer-training-plan",
-          "name": "Lying Leg Curl",
+          "name": "Leg Curl (Sliding Bench)",
           "sets": 3,
           "reps": "12-15",
           "restTime": "60s",
-          "videoUrl": "https://www.youtube.com/watch?v=FMCq0hT3KRU",
+          "videoUrl": "https://www.youtube.com/watch?v=bGBRbp0buLU",
           "day": 1,
           "section": "main",
-          "equipment": "",
+          "equipment": "Sliding Bench leg curl attachment",
           "description": "Full hamstring flexion. Control the eccentric (lowering) for 3s.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d1-walking-lunges-long-stride",
+          "id": "engineer-training-plan-d1-reverse-lunges-barbell",
           "programId": "engineer-training-plan",
-          "name": "Walking Lunges (Long Stride)",
+          "name": "Reverse Lunges (Barbell)",
           "sets": 3,
-          "reps": "20 steps",
+          "reps": "10/leg",
           "restTime": "90s",
-          "videoUrl": "https://www.youtube.com/watch?v=r49nFlyDvTc",
+          "videoUrl": "https://www.youtube.com/watch?v=wCU6Rdkr2Fo",
           "day": 1,
           "section": "main",
-          "equipment": "",
-          "description": "Long stride biases glutes/hams over quads.",
+          "equipment": "Barbell",
+          "description": "Step back into a long stride to bias glutes/hams over quads. Done in place — no walking space needed.",
           "safetyNotes": ""
         },
         {
@@ -484,7 +484,7 @@
           "videoUrl": "https://www.youtube.com/watch?v=A8nFGuY77CE",
           "day": 1,
           "section": "main",
-          "equipment": "",
+          "equipment": "Cable (low pulley) + triceps rope",
           "description": "Pure hinge pattern with constant tension. Builds lower back resilience.",
           "safetyNotes": ""
         },
@@ -498,8 +498,8 @@
           "videoUrl": "https://www.youtube.com/watch?v=BxfKOyI8sUg",
           "day": 1,
           "section": "main",
-          "equipment": "",
-          "description": "Targets the Soleus muscle essential for stabilizing the knee.",
+          "equipment": "Smith machine + step",
+          "description": "Sit on the bench with toes on the step and the padded Smith bar across your knees. Targets the Soleus muscle essential for stabilizing the knee.",
           "safetyNotes": ""
         },
         {
@@ -512,7 +512,7 @@
           "videoUrl": "https://www.youtube.com/watch?v=EV-Ttej7beQ",
           "day": 1,
           "section": "main",
-          "equipment": "",
+          "equipment": "Cable (low pulley) + ankle strap",
           "description": "Targets upper glute shelf. Stabilizes pelvis laterally.",
           "safetyNotes": ""
         },
@@ -547,17 +547,17 @@
           "durationSeconds": 40
         },
         {
-          "id": "engineer-training-plan-d1-battling-ropes",
+          "id": "engineer-training-plan-d1-kettlebell-swings",
           "programId": "engineer-training-plan",
-          "name": "Battling Ropes",
+          "name": "Kettlebell Swings",
           "sets": 3,
           "reps": "40s",
           "restTime": "20s",
-          "videoUrl": "https://www.youtube.com/watch?v=X5g7P_M8Wo4",
+          "videoUrl": "https://www.youtube.com/watch?v=n1df4ASFeZU",
           "day": 1,
           "section": "core",
-          "equipment": "Battle ropes",
-          "description": "Metabolic finisher: alternating waves; keep core braced.",
+          "equipment": "Kettlebell 20 kg",
+          "description": "Metabolic finisher: hip-hinge snap; glutes drive the bell.",
           "safetyNotes": "",
           "durationSeconds": 40
         },
@@ -571,36 +571,36 @@
           "videoUrl": "https://www.youtube.com/watch?v=SuvO4TBwSu4",
           "day": 2,
           "section": "activation",
-          "equipment": "",
+          "equipment": "Resistance band",
           "description": "Activates rear delts/rhomboids to set scapula.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d2-warm-up-thoracic-extensions-foam-roller",
+          "id": "engineer-training-plan-d2-warm-up-thoracic-extensions-bench",
           "programId": "engineer-training-plan",
-          "name": "Warm-up: Thoracic Extensions (Foam Roller)",
+          "name": "Warm-up: Thoracic Extensions (Bench)",
           "sets": 2,
-          "reps": "10 passes",
+          "reps": "10 reps",
           "restTime": "",
-          "videoUrl": "https://www.youtube.com/watch?v=uWIJ3TJJwbQ",
+          "videoUrl": "https://www.youtube.com/watch?v=xE5ZaEKAx1g",
           "day": 2,
           "section": "activation",
-          "equipment": "",
-          "description": "Mobilizes upper back vertebrae.",
+          "equipment": "Sliding Bench",
+          "description": "Hands behind head with the mid-back on the bench edge; extend over it to mobilize the upper back vertebrae.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d2-incline-dumbbell-press",
+          "id": "engineer-training-plan-d2-incline-press-smith-machine",
           "programId": "engineer-training-plan",
-          "name": "Incline Dumbbell Press",
+          "name": "Incline Press (Smith Machine)",
           "sets": 4,
           "reps": "8-10",
           "restTime": "120s",
-          "videoUrl": "https://www.youtube.com/watch?v=8iPEnn-ltC8",
+          "videoUrl": "https://www.youtube.com/watch?v=VXaBbUYMfIs",
           "day": 2,
           "section": "main",
-          "equipment": "",
-          "description": "Upper pec focus. 15-30 degree incline.",
+          "equipment": "Smith machine + Sliding Bench",
+          "description": "Upper pec focus. 15-30 degree incline. The Smith bar path makes heavy solo pressing safe.",
           "safetyNotes": ""
         },
         {
@@ -613,23 +613,23 @@
           "videoUrl": "https://www.youtube.com/watch?v=2yjwXTZQDDI",
           "day": 2,
           "section": "main",
-          "equipment": "",
-          "description": "Core/Glute stability required. Do not arch back.",
+          "equipment": "Barbell",
+          "description": "Core/Glute stability required. Do not arch back. Unrack from the J-hooks at shoulder height.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d2-weighted-dips",
+          "id": "engineer-training-plan-d2-close-grip-bench-press-smith",
           "programId": "engineer-training-plan",
-          "name": "Weighted Dips",
+          "name": "Close-Grip Bench Press (Smith)",
           "sets": 3,
-          "reps": "RPE 9",
+          "reps": "8-12",
           "restTime": "90s",
-          "videoUrl": "https://www.youtube.com/watch?v=yN6Q1UI_xkE",
+          "videoUrl": "https://www.youtube.com/watch?v=LDpX61vrvK4",
           "day": 2,
           "section": "main",
-          "equipment": "",
-          "description": "Leaning forward for chest. Add weight belt if bodyweight >12 reps.",
-          "safetyNotes": ""
+          "equipment": "Smith machine + Sliding Bench",
+          "description": "Chest and triceps compound replacing dips. Hands just inside shoulder width; tuck elbows ~45 degrees.",
+          "safetyNotes": "No spotter needed — rotate the Smith bar to rack it anytime."
         },
         {
           "id": "engineer-training-plan-d2-cable-crossovers-low-to-high",
@@ -641,7 +641,7 @@
           "videoUrl": "https://www.youtube.com/watch?v=CS6_F3IZGno",
           "day": 2,
           "section": "main",
-          "equipment": "",
+          "equipment": "Cables (low pulleys) + D-handles",
           "description": "Targets upper chest shelf. Constant tension.",
           "safetyNotes": ""
         },
@@ -655,8 +655,8 @@
           "videoUrl": "https://www.youtube.com/watch?v=Ghm3u9nMDBg",
           "day": 2,
           "section": "main",
-          "equipment": "",
-          "description": "Unilateral delt work. Constant tension throughout ROM.",
+          "equipment": "Cable (low pulley) + D-handle",
+          "description": "Unilateral delt work. Constant tension throughout ROM. Lean away holding an upright.",
           "safetyNotes": ""
         },
         {
@@ -669,7 +669,7 @@
           "videoUrl": "https://www.youtube.com/watch?v=vB5OHsJ3EME",
           "day": 2,
           "section": "main",
-          "equipment": "",
+          "equipment": "Cable (high pulley) + triceps rope",
           "description": "Focus on locking out and spreading the rope at bottom.",
           "safetyNotes": ""
         },
@@ -683,7 +683,7 @@
           "videoUrl": "https://www.youtube.com/watch?v=b5le--KkyH0",
           "day": 2,
           "section": "main",
-          "equipment": "",
+          "equipment": "Cable (low pulley) + triceps rope",
           "description": "Stretches the long head of the tricep. Essential for arm size.",
           "safetyNotes": ""
         },
@@ -697,22 +697,22 @@
           "videoUrl": "https://www.youtube.com/watch?v=HSoHeSjvIdY",
           "day": 2,
           "section": "main",
-          "equipment": "",
+          "equipment": "Cable (high pulley) + triceps rope",
           "description": "External rotation for rotator cuff health.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d2-stability-ball-rollout",
+          "id": "engineer-training-plan-d2-barbell-rollout",
           "programId": "engineer-training-plan",
-          "name": "Stability Ball Rollout",
+          "name": "Barbell Rollout",
           "sets": 3,
           "reps": "40s",
           "restTime": "20s",
-          "videoUrl": "https://www.youtube.com/watch?v=SG755ZrVmhE",
+          "videoUrl": "https://www.youtube.com/watch?v=lpXOnRMBp5A",
           "day": 2,
           "section": "core",
-          "equipment": "Stability ball",
-          "description": "Anti-extension: roll out only as far as you can keep ribs down.",
+          "equipment": "Barbell + plates",
+          "description": "Anti-extension: kneel and roll the bar out only as far as you can keep ribs down.",
           "safetyNotes": "Stop before the lower back arches.",
           "durationSeconds": 40
         },
@@ -732,17 +732,17 @@
           "durationSeconds": 40
         },
         {
-          "id": "engineer-training-plan-d2-jump-rope",
+          "id": "engineer-training-plan-d2-fast-step-ups",
           "programId": "engineer-training-plan",
-          "name": "Jump Rope",
+          "name": "Fast Step-Ups",
           "sets": 3,
           "reps": "40s",
           "restTime": "20s",
-          "videoUrl": "https://www.youtube.com/watch?v=VLC6YO9w5iU",
+          "videoUrl": "https://www.youtube.com/watch?v=AiP9Cv0gkl8",
           "day": 2,
           "section": "core",
-          "equipment": "Jump rope",
-          "description": "Metabolic finisher: light bounce on the balls of the feet.",
+          "equipment": "Step platform",
+          "description": "Metabolic finisher: quick alternating step-ups; full foot on the step.",
           "safetyNotes": "",
           "durationSeconds": 40
         },
@@ -771,7 +771,7 @@
           "day": 3,
           "section": "activation",
           "equipment": "",
-          "description": "Strengthens shin muscles prevents knee pain.",
+          "description": "Strengthens shin muscles prevents knee pain. Lean on an upright with heels forward.",
           "safetyNotes": ""
         },
         {
@@ -784,23 +784,37 @@
           "videoUrl": "https://www.youtube.com/watch?v=7ZCp6u8mMvQ",
           "day": 3,
           "section": "main",
-          "equipment": "",
+          "equipment": "Bodyweight / kettlebell",
           "description": "Loads quad while stretching psoas of rear leg. Knee over toe is safe here.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d3-front-squat-or-goblet-squat",
+          "id": "engineer-training-plan-d3-front-squat-or-hack-squat",
           "programId": "engineer-training-plan",
-          "name": "Front Squat (or Goblet Squat)",
+          "name": "Front Squat (or Hack Squat)",
           "sets": 4,
           "reps": "6-8",
           "restTime": "120s",
           "videoUrl": "https://www.youtube.com/watch?v=_qv0m3tPd3s",
           "day": 3,
           "section": "main",
-          "equipment": "",
-          "description": "Upright torso. Core heavy.",
-          "safetyNotes": ""
+          "equipment": "Barbell / Sliding Bench hack squat",
+          "description": "Upright torso. Core heavy. Alternate: hack squat on the Sliding Bench with shoulder pads for the same quad bias without the rack work.",
+          "safetyNotes": "Squat inside the rack with safety spotters set."
+        },
+        {
+          "id": "engineer-training-plan-d3-seated-leg-press-sliding-bench",
+          "programId": "engineer-training-plan",
+          "name": "Seated Leg Press (Sliding Bench)",
+          "sets": 3,
+          "reps": "10-12",
+          "restTime": "90s",
+          "videoUrl": "https://www.youtube.com/watch?v=4DYx1f6Fo6k",
+          "day": 3,
+          "section": "main",
+          "equipment": "Sliding Bench leg press plate",
+          "description": "Heavy quad volume with zero spinal load. Full foot on the plate; do not let the knees cave in.",
+          "safetyNotes": "Do not lock the knees hard at the top."
         },
         {
           "id": "engineer-training-plan-d3-leg-extension",
@@ -812,7 +826,7 @@
           "videoUrl": "https://www.youtube.com/watch?v=ljO4jkwv8wQ",
           "day": 3,
           "section": "main",
-          "equipment": "",
+          "equipment": "Sliding Bench leg extension attachment",
           "description": "Rectus Femoris isolation. Squeeze hard at top.",
           "safetyNotes": ""
         },
@@ -826,22 +840,22 @@
           "videoUrl": "https://www.youtube.com/watch?v=AYN-U5nZieY",
           "day": 3,
           "section": "main",
-          "equipment": "",
-          "description": "Extreme quad stretch. Use support if needed.",
+          "equipment": "Bodyweight / plate",
+          "description": "Extreme quad stretch. Use support if needed — hold an upright of the rack.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d3-adductor-machine-inner-thigh",
+          "id": "engineer-training-plan-d3-cable-hip-adduction",
           "programId": "engineer-training-plan",
-          "name": "Adductor Machine (Inner Thigh)",
+          "name": "Cable Hip Adduction",
           "sets": 3,
-          "reps": "15-20",
+          "reps": "15-20/side",
           "restTime": "60s",
-          "videoUrl": "https://www.youtube.com/watch?v=fwpMYCWdUNY",
+          "videoUrl": "https://www.youtube.com/watch?v=gdXIIVY8wIY",
           "day": 3,
           "section": "main",
-          "equipment": "",
-          "description": "Crucial for pelvic stability and often weak in men.",
+          "equipment": "Cable (low pulley) + ankle strap",
+          "description": "Inner thigh work replacing the adductor machine. Crucial for pelvic stability and often weak in men.",
           "safetyNotes": ""
         },
         {
@@ -854,8 +868,8 @@
           "videoUrl": "https://www.youtube.com/watch?v=-M4-G8p8fmc",
           "day": 3,
           "section": "main",
-          "equipment": "",
-          "description": "Targets Gastrocnemius (upper calf). Heavy weight.",
+          "equipment": "Smith machine + step",
+          "description": "Toes on the step under the padded Smith bar. Targets Gastrocnemius (upper calf). Heavy weight.",
           "safetyNotes": ""
         },
         {
@@ -910,10 +924,10 @@
           "sets": 2,
           "reps": "45 sec",
           "restTime": "30s",
-          "videoUrl": "",
+          "videoUrl": "https://www.youtube.com/watch?v=dOCQjaasbGs",
           "day": 4,
           "section": "activation",
-          "equipment": "",
+          "equipment": "Pull-up bar",
           "description": "Spinal decompression.",
           "safetyNotes": ""
         },
@@ -927,7 +941,7 @@
           "videoUrl": "https://www.youtube.com/watch?v=9M8ylnbriB0",
           "day": 4,
           "section": "activation",
-          "equipment": "",
+          "equipment": "Pull-up bar",
           "description": "Isolation of the initial pull movement.",
           "safetyNotes": ""
         },
@@ -941,23 +955,23 @@
           "videoUrl": "https://www.youtube.com/watch?v=eGo4IYlbE5g",
           "day": 4,
           "section": "main",
-          "equipment": "",
-          "description": "Primary vertical pull. Drive elbows down.",
+          "equipment": "Pull-up bar + dip belt",
+          "description": "Primary vertical pull. Drive elbows down. Load with plates on the dip belt once bodyweight exceeds 10 reps.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d4-chest-supported-row-t-bar",
+          "id": "engineer-training-plan-d4-landmine-t-bar-row",
           "programId": "engineer-training-plan",
-          "name": "Chest-Supported Row (T-Bar)",
+          "name": "Landmine T-Bar Row",
           "sets": 4,
           "reps": "10-12",
           "restTime": "90s",
-          "videoUrl": "https://www.youtube.com/watch?v=0UBRfiO4zDs",
+          "videoUrl": "https://www.youtube.com/watch?v=hYo72r8Ivso",
           "day": 4,
           "section": "main",
-          "equipment": "",
-          "description": "Heavy horizontal pull. Saves lower back.",
-          "safetyNotes": ""
+          "equipment": "Landmine + barbell + close-grip handle",
+          "description": "Heavy horizontal pull replacing the T-bar machine. Straddle the bar with the V-handle under the sleeve; hinge and keep the spine neutral.",
+          "safetyNotes": "Brace hard — this version is not chest-supported."
         },
         {
           "id": "engineer-training-plan-d4-single-arm-cable-row-lat-bias",
@@ -969,7 +983,7 @@
           "videoUrl": "https://www.youtube.com/watch?v=yIvvQc2Z6uM",
           "day": 4,
           "section": "main",
-          "equipment": "",
+          "equipment": "Cable (low pulley) + D-handle",
           "description": "Pull to hip. Deep stretch at the front.",
           "safetyNotes": ""
         },
@@ -983,64 +997,64 @@
           "videoUrl": "https://www.youtube.com/watch?v=hAMcfubonDc",
           "day": 4,
           "section": "main",
-          "equipment": "",
+          "equipment": "Cable (high pulley) + straight bar",
           "description": "Lat isolation without bicep involvement.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d4-reverse-pec-deck-rear-delts",
+          "id": "engineer-training-plan-d4-reverse-cable-crossover",
           "programId": "engineer-training-plan",
-          "name": "Reverse Pec Deck (Rear Delts)",
+          "name": "Reverse Cable Crossover",
           "sets": 3,
           "reps": "15-20",
           "restTime": "60s",
-          "videoUrl": "https://www.youtube.com/watch?v=-TKqxK7-ehc",
+          "videoUrl": "https://www.youtube.com/watch?v=cGXBVOc5xIk",
           "day": 4,
           "section": "main",
-          "equipment": "",
-          "description": "Posture corrector.",
+          "equipment": "Cables (high pulleys)",
+          "description": "Rear-delt fly with constant tension replacing the pec deck. Cross the cables and pull out and back.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d4-kelso-shrugs-incline-bench",
+          "id": "engineer-training-plan-d4-chest-supported-cable-shrug",
           "programId": "engineer-training-plan",
-          "name": "Kelso Shrugs (Incline Bench)",
+          "name": "Chest-Supported Cable Shrug",
           "sets": 3,
           "reps": "15",
           "restTime": "60s",
-          "videoUrl": "https://www.youtube.com/watch?v=YD694ATJ8sg",
+          "videoUrl": "https://www.youtube.com/watch?v=GrglvBfGeP4",
           "day": 4,
           "section": "main",
-          "equipment": "",
-          "description": "Focus on mid-trap retraction not just elevation.",
+          "equipment": "Cables (low pulleys) + Sliding Bench incline",
+          "description": "Lie prone on the incline bench between the low pulleys with D-handles. Focus on mid-trap retraction not just elevation.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d4-incline-dumbbell-curls",
+          "id": "engineer-training-plan-d4-bayesian-cable-curl",
           "programId": "engineer-training-plan",
-          "name": "Incline Dumbbell Curls",
+          "name": "Bayesian Cable Curl",
           "sets": 3,
-          "reps": "10-12",
+          "reps": "10-12/side",
           "restTime": "60s",
-          "videoUrl": "https://www.youtube.com/watch?v=soxrZlIl35U",
+          "videoUrl": "https://www.youtube.com/watch?v=w3sXATQzGvc",
           "day": 4,
           "section": "main",
-          "equipment": "",
-          "description": "Stretches the long head of bicep.",
+          "equipment": "Cable (low pulley) + D-handle",
+          "description": "Face away from the pulley with the arm behind the body. Stretches the long head of bicep like an incline curl.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d4-hammer-curls",
+          "id": "engineer-training-plan-d4-rope-hammer-curls-cable",
           "programId": "engineer-training-plan",
-          "name": "Hammer Curls",
+          "name": "Rope Hammer Curls (Cable)",
           "sets": 3,
           "reps": "10-12",
           "restTime": "60s",
-          "videoUrl": "https://www.youtube.com/watch?v=VuEclXR7sZY",
+          "videoUrl": "https://www.youtube.com/watch?v=HTtd5uMFVz8",
           "day": 4,
           "section": "main",
-          "equipment": "",
-          "description": "Brachialis and forearm focus.",
+          "equipment": "Cable (low pulley) + triceps rope",
+          "description": "Neutral grip on the rope. Brachialis and forearm focus.",
           "safetyNotes": ""
         },
         {
@@ -1068,7 +1082,7 @@
           "videoUrl": "https://www.youtube.com/watch?v=-BzNffL_6YE",
           "day": 4,
           "section": "core",
-          "equipment": "Medicine ball / plate",
+          "equipment": "Plate 5-10 kg",
           "description": "Rotation: rotate from the ribcage; keep the chest tall.",
           "safetyNotes": "",
           "durationSeconds": 40
@@ -1083,7 +1097,7 @@
           "videoUrl": "https://www.youtube.com/watch?v=n1df4ASFeZU",
           "day": 4,
           "section": "core",
-          "equipment": "Kettlebell",
+          "equipment": "Kettlebell 20 kg",
           "description": "Metabolic finisher: hip-hinge snap; glutes drive the bell.",
           "safetyNotes": "",
           "durationSeconds": 40
@@ -1113,36 +1127,36 @@
           "videoUrl": "https://www.youtube.com/watch?v=g5dwOlGGfmU",
           "day": 5,
           "section": "main",
-          "equipment": "",
-          "description": "Total body stability/mobility. BJJ specific.",
+          "equipment": "Kettlebell 20 kg / dumbbell",
+          "description": "Total body stability/mobility. BJJ specific. Learn the pattern with an 8 kg dumbbell before the 20 kg bell.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d5-hex-bar-deadlift",
+          "id": "engineer-training-plan-d5-barbell-deadlift",
           "programId": "engineer-training-plan",
-          "name": "Hex Bar Deadlift",
+          "name": "Barbell Deadlift",
           "sets": 4,
           "reps": "6-8",
           "restTime": "120s",
-          "videoUrl": "https://www.youtube.com/watch?v=v-SrIcAp3vM",
+          "videoUrl": "https://www.youtube.com/watch?v=ZaTM37cfiDs",
           "day": 5,
           "section": "main",
-          "equipment": "",
-          "description": "Safer lumbar mechanics than straight bar. Go Heavy.",
-          "safetyNotes": ""
+          "equipment": "Barbell",
+          "description": "Conventional pull replacing the hex bar. Bar against the shins; brace and push the floor away.",
+          "safetyNotes": "Keep a neutral spine — never round under load. Max home load is 140 kg."
         },
         {
-          "id": "engineer-training-plan-d5-arnold-press",
+          "id": "engineer-training-plan-d5-landmine-press-single-arm",
           "programId": "engineer-training-plan",
-          "name": "Arnold Press",
+          "name": "Landmine Press (Single-Arm)",
           "sets": 3,
-          "reps": "10-12",
+          "reps": "10-12/side",
           "restTime": "90s",
-          "videoUrl": "https://www.youtube.com/watch?v=6K_N9AGhItQ",
+          "videoUrl": "https://www.youtube.com/watch?v=SmEm6HGLin4",
           "day": 5,
           "section": "main",
-          "equipment": "",
-          "description": "Shoulder press with rotation. Hits all 3 delt heads.",
+          "equipment": "Landmine + barbell",
+          "description": "Press up and forward along the bar arc. Shoulder-friendly and hits all 3 delt heads with real load.",
           "safetyNotes": ""
         },
         {
@@ -1155,36 +1169,36 @@
           "videoUrl": "https://www.youtube.com/watch?v=2C-uNgKwPLE",
           "day": 5,
           "section": "main",
-          "equipment": "",
-          "description": "Lighter weight continuous tension.",
+          "equipment": "Kettlebell / barbell + Sliding Bench",
+          "description": "Rear foot on the bench or step. Lighter weight continuous tension.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d5-farmers-walk",
+          "id": "engineer-training-plan-d5-suitcase-carry-kettlebell",
           "programId": "engineer-training-plan",
-          "name": "Farmers Walk",
+          "name": "Suitcase Carry (Kettlebell)",
           "sets": 4,
-          "reps": "40 meters",
+          "reps": "30-40 meters",
           "restTime": "90s",
-          "videoUrl": "https://www.youtube.com/watch?v=r1R61tOQleA",
+          "videoUrl": "https://www.youtube.com/watch?v=w76_JnzMfXM",
           "day": 5,
           "section": "main",
-          "equipment": "",
-          "description": "Heavy carry. Posture traps and grip strength.",
+          "equipment": "Kettlebell 20 kg",
+          "description": "One-sided heavy carry replacing the farmers walk. Anti-lateral-flexion core work plus grip. Walk laps and switch hands each length.",
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d5-dumbbell-pullover",
+          "id": "engineer-training-plan-d5-kettlebell-pullover",
           "programId": "engineer-training-plan",
-          "name": "Dumbbell Pullover",
+          "name": "Kettlebell Pullover",
           "sets": 3,
           "reps": "12-15",
           "restTime": "60s",
-          "videoUrl": "https://www.youtube.com/watch?v=Datv2L6t3-4",
+          "videoUrl": "https://www.youtube.com/watch?v=jXO0pdYecmo",
           "day": 5,
           "section": "main",
-          "equipment": "",
-          "description": "Thoracic expansion. Serratus/Lat work.",
+          "equipment": "Kettlebell 20 kg + Sliding Bench",
+          "description": "Thoracic expansion. Serratus/Lat work. Hold the bell by the horns over the chest.",
           "safetyNotes": ""
         },
         {
@@ -1197,7 +1211,7 @@
           "videoUrl": "https://www.youtube.com/watch?v=n1df4ASFeZU",
           "day": 5,
           "section": "main",
-          "equipment": "",
+          "equipment": "Kettlebell 20 kg",
           "description": "Posterior chain power.",
           "safetyNotes": ""
         },
@@ -1232,17 +1246,17 @@
           "durationSeconds": 40
         },
         {
-          "id": "engineer-training-plan-d5-battle-ropes-hiit",
+          "id": "engineer-training-plan-d5-burpees",
           "programId": "engineer-training-plan",
-          "name": "Battle Ropes (HIIT)",
+          "name": "Burpees",
           "sets": 3,
           "reps": "40s",
           "restTime": "20s",
-          "videoUrl": "https://www.youtube.com/watch?v=X5g7P_M8Wo4",
+          "videoUrl": "https://www.youtube.com/watch?v=G2hv_NYhM-A",
           "day": 5,
           "section": "core",
-          "equipment": "Battle ropes",
-          "description": "Metabolic finisher: max-effort alternating waves.",
+          "equipment": "Bodyweight",
+          "description": "Metabolic finisher: max-effort full-body reps; step back instead of jumping if form breaks.",
           "safetyNotes": "",
           "durationSeconds": 40
         }
