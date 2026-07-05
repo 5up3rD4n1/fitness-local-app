@@ -133,11 +133,11 @@
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d2-tricep-rope-pushdown"
+              "exerciseId": "engineer-training-plan-d2-overhead-tricep-extension-cable"
             },
             {
               "kind": "single",
-              "exerciseId": "engineer-training-plan-d2-overhead-tricep-extension-cable"
+              "exerciseId": "engineer-training-plan-d2-cross-body-tricep-extension-cable"
             },
             {
               "kind": "single",
@@ -164,8 +164,8 @@
             "engineer-training-plan-d2-close-grip-bench-press-smith",
             "engineer-training-plan-d2-cable-crossovers-low-to-high",
             "engineer-training-plan-d2-egyptian-lateral-raises-cable",
-            "engineer-training-plan-d2-tricep-rope-pushdown",
             "engineer-training-plan-d2-overhead-tricep-extension-cable",
+            "engineer-training-plan-d2-cross-body-tricep-extension-cable",
             "engineer-training-plan-d2-face-pulls",
             "engineer-training-plan-d2-barbell-rollout",
             "engineer-training-plan-d2-hanging-leg-raise",
@@ -422,28 +422,28 @@
           "id": "engineer-training-plan-d1-romanian-deadlift-rdl",
           "programId": "engineer-training-plan",
           "name": "Romanian Deadlift (RDL)",
-          "sets": 4,
+          "sets": 5,
           "reps": "8-10",
           "restTime": "120s",
           "videoUrl": "https://www.youtube.com/watch?v=5zmlnbWb-g4",
           "day": 1,
           "section": "main",
           "equipment": "Barbell",
-          "description": "Primary mass builder. Hinge movement. Keep neutral spine. Set J-hooks at thigh height to unrack.",
+          "description": "Primary mass builder — loads hamstrings/glutes deep in the stretch where growth is greatest. Keep neutral spine. Set J-hooks at thigh height to unrack.",
           "safetyNotes": ""
         },
         {
           "id": "engineer-training-plan-d1-barbell-hip-thrust",
           "programId": "engineer-training-plan",
           "name": "Barbell Hip Thrust",
-          "sets": 4,
+          "sets": 3,
           "reps": "10-12",
           "restTime": "90s",
           "videoUrl": "https://www.youtube.com/watch?v=W86oVlnLqY4",
           "day": 1,
           "section": "main",
           "equipment": "Barbell + Sliding Bench",
-          "description": "Shoulders on the bench with the Smith foam pad on the bar. Isolates the glute max at peak contraction. Hold top for 1s.",
+          "description": "Shoulders on the bench with the Smith foam pad on the bar. Peak-contraction work that complements the RDL's stretch. Hold top for 1s.",
           "safetyNotes": ""
         },
         {
@@ -457,7 +457,7 @@
           "day": 1,
           "section": "main",
           "equipment": "Sliding Bench leg curl attachment",
-          "description": "Full hamstring flexion. Control the eccentric (lowering) for 3s.",
+          "description": "Sit upright and lean the torso forward over the thighs — hip flexion lengthens the hamstrings and roughly 1.5x the growth vs lying. Control the eccentric for 3s.",
           "safetyNotes": ""
         },
         {
@@ -642,7 +642,7 @@
           "day": 2,
           "section": "main",
           "equipment": "Cables (low pulleys) + D-handles",
-          "description": "Targets upper chest shelf. Constant tension.",
+          "description": "Step into a staggered stance and let the hands travel behind the chest plane for a deep pec stretch before sweeping up. Last set: stretched-position partials after failure.",
           "safetyNotes": ""
         },
         {
@@ -656,35 +656,35 @@
           "day": 2,
           "section": "main",
           "equipment": "Cable (low pulley) + D-handle",
-          "description": "Unilateral delt work. Constant tension throughout ROM. Lean away holding an upright.",
-          "safetyNotes": ""
-        },
-        {
-          "id": "engineer-training-plan-d2-tricep-rope-pushdown",
-          "programId": "engineer-training-plan",
-          "name": "Tricep Rope Pushdown",
-          "sets": 4,
-          "reps": "12-15",
-          "restTime": "60s",
-          "videoUrl": "https://www.youtube.com/watch?v=vB5OHsJ3EME",
-          "day": 2,
-          "section": "main",
-          "equipment": "Cable (high pulley) + triceps rope",
-          "description": "Focus on locking out and spreading the rope at bottom.",
+          "description": "Unilateral delt work with tension in the stretched bottom position dumbbells can't give. Lean away holding an upright. Last set: bottom-half partials after failure.",
           "safetyNotes": ""
         },
         {
           "id": "engineer-training-plan-d2-overhead-tricep-extension-cable",
           "programId": "engineer-training-plan",
           "name": "Overhead Tricep Extension (Cable)",
-          "sets": 3,
+          "sets": 4,
           "reps": "12-15",
           "restTime": "60s",
           "videoUrl": "https://www.youtube.com/watch?v=b5le--KkyH0",
           "day": 2,
           "section": "main",
           "equipment": "Cable (low pulley) + triceps rope",
-          "description": "Stretches the long head of the tricep. Essential for arm size.",
+          "description": "Primary triceps move — the overhead stretch grows the long head ~1.4x more than pushdowns. Last set: stretched-position partials after failure.",
+          "safetyNotes": ""
+        },
+        {
+          "id": "engineer-training-plan-d2-cross-body-tricep-extension-cable",
+          "programId": "engineer-training-plan",
+          "name": "Cross-Body Tricep Extension (Cable)",
+          "sets": 3,
+          "reps": "12-15/side",
+          "restTime": "60s",
+          "videoUrl": "https://www.youtube.com/watch?v=g3StsziVaUg",
+          "day": 2,
+          "section": "main",
+          "equipment": "Cable (high pulley) + D-handle",
+          "description": "Single-arm extension pulling across the body. Constant tension through the full range with a hard lockout squeeze.",
           "safetyNotes": ""
         },
         {
@@ -827,7 +827,7 @@
           "day": 3,
           "section": "main",
           "equipment": "Sliding Bench leg extension attachment",
-          "description": "Rectus Femoris isolation. Squeeze hard at top.",
+          "description": "Recline the torso back to lengthen the rectus femoris. Squeeze at top — but the stretched bottom half drives the most growth. Last set: bottom-half partials after failure.",
           "safetyNotes": ""
         },
         {
@@ -1040,7 +1040,7 @@
           "day": 4,
           "section": "main",
           "equipment": "Cable (low pulley) + D-handle",
-          "description": "Face away from the pulley with the arm behind the body. Stretches the long head of bicep like an incline curl.",
+          "description": "Face away from the pulley with the arm behind the body — the biceps loaded at maximal length with constant cable tension. Last set: stretched-position partials after failure.",
           "safetyNotes": ""
         },
         {
