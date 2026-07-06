@@ -8,6 +8,8 @@
         "Warm up fully before loading — never skip the mobility work at the start of each day.",
         "You train alone: barbell press/squat inside the rack with the safety spotters set, or use the Smith machine.",
         "Keep a neutral spine on all hinges (RDL, hip thrust, deadlift) and brace your core before lifting.",
+        "Spine care (L5-S1 fusion, L4-L5 facet): no end-range back extension or loaded twisting; finish every hinge at neutral, never leaning back; heavy pulls stay at RPE 7-8. If the next morning's nerve signals are worse, reduce spinal load that week.",
+        "Never load the spine heavily within the first hour after waking.",
         "Control the eccentric (lowering) phase; avoid bouncing or using momentum.",
         "Leave 1–2 reps in reserve on most sets (RPE 8–9) unless a set explicitly says Failure.",
         "Stop any exercise that causes joint pain (not muscle burn); reduce range or load.",
@@ -422,29 +424,29 @@
           "id": "engineer-training-plan-d1-romanian-deadlift-rdl",
           "programId": "engineer-training-plan",
           "name": "Romanian Deadlift (RDL)",
-          "sets": 5,
+          "sets": 4,
           "reps": "8-10",
           "restTime": "120s",
           "videoUrl": "https://www.youtube.com/watch?v=5zmlnbWb-g4",
           "day": 1,
           "section": "main",
           "equipment": "Barbell",
-          "description": "Primary mass builder — loads hamstrings/glutes deep in the stretch where growth is greatest. Keep neutral spine. Set J-hooks at thigh height to unrack.",
-          "safetyNotes": ""
+          "description": "Primary mass builder — loads hamstrings/glutes deep in the stretch where growth is greatest. Set J-hooks at thigh height to unrack.",
+          "safetyNotes": "Neutral spine throughout; stop at neutral at lockout — no lean-back."
         },
         {
           "id": "engineer-training-plan-d1-barbell-hip-thrust",
           "programId": "engineer-training-plan",
           "name": "Barbell Hip Thrust",
-          "sets": 3,
+          "sets": 4,
           "reps": "10-12",
           "restTime": "90s",
           "videoUrl": "https://www.youtube.com/watch?v=W86oVlnLqY4",
           "day": 1,
           "section": "main",
           "equipment": "Barbell + Sliding Bench",
-          "description": "Shoulders on the bench with the Smith foam pad on the bar. Peak-contraction work that complements the RDL's stretch. Hold top for 1s.",
-          "safetyNotes": ""
+          "description": "Shoulders on the bench with the Smith foam pad on the bar. Heavy glute work with zero axial spine load — ideal with the L5-S1 fusion. Hold top for 1s.",
+          "safetyNotes": "Finish at neutral: chin tucked and ribs down — never arch the lower back at the top."
         },
         {
           "id": "engineer-training-plan-d1-leg-curl-sliding-bench",
@@ -1143,7 +1145,7 @@
           "section": "main",
           "equipment": "Barbell",
           "description": "Conventional pull replacing the hex bar. Bar against the shins; brace and push the floor away.",
-          "safetyNotes": "Keep a neutral spine — never round under load. Max home load is 140 kg."
+          "safetyNotes": "Neutral spine — never round or lean back at lockout. Stay at RPE 7-8; never grind or test maxes. On a symptomatic week swap for the Sliding Bench leg press."
         },
         {
           "id": "engineer-training-plan-d5-landmine-press-single-arm",
