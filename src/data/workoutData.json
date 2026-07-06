@@ -6,6 +6,7 @@
       "description": "5-day hypertrophy & strength split, fully home-based on the Force USA C10 setup: posterior chain & glutes, push, quads, pull, and a full-body conditioning day. Each session opens with mobility warm-ups and closes with core/stability work.",
       "safetyPrinciples": [
         "Warm up fully before loading — never skip the mobility work at the start of each day.",
+        "The shoulder warm-up block (dislocates, external rotations, cuff isometrics) is mandatory before any chest, press or overhead work — never press with a cold rotator cuff.",
         "You train alone: barbell press/squat inside the rack with the safety spotters set, or use the Smith machine.",
         "Keep a neutral spine on all hinges (RDL, hip thrust, deadlift) and brace your core before lifting.",
         "Spine care (L5-S1 fusion, L4-L5 facet): no end-range back extension or loaded twisting; finish every hinge at neutral, never leaning back; heavy pulls stay at RPE 7-8. If the next morning's nerve signals are worse, reduce spinal load that week.",
@@ -111,6 +112,18 @@
             },
             {
               "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-warm-up-band-shoulder-dislocates"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-warm-up-band-external-rotations"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d2-warm-up-cuff-isometric-hold-cable"
+            },
+            {
+              "kind": "single",
               "exerciseId": "engineer-training-plan-d2-warm-up-thoracic-extensions-bench"
             },
             {
@@ -160,6 +173,9 @@
           ],
           "exercises": [
             "engineer-training-plan-d2-warm-up-band-pull-aparts",
+            "engineer-training-plan-d2-warm-up-band-shoulder-dislocates",
+            "engineer-training-plan-d2-warm-up-band-external-rotations",
+            "engineer-training-plan-d2-warm-up-cuff-isometric-hold-cable",
             "engineer-training-plan-d2-warm-up-thoracic-extensions-bench",
             "engineer-training-plan-d2-incline-press-smith-machine",
             "engineer-training-plan-d2-standing-overhead-press-barbell",
@@ -337,6 +353,14 @@
             },
             {
               "kind": "single",
+              "exerciseId": "engineer-training-plan-d5-warm-up-band-shoulder-dislocates"
+            },
+            {
+              "kind": "single",
+              "exerciseId": "engineer-training-plan-d5-warm-up-band-external-rotations"
+            },
+            {
+              "kind": "single",
               "exerciseId": "engineer-training-plan-d5-turkish-get-up"
             },
             {
@@ -378,6 +402,8 @@
           ],
           "exercises": [
             "engineer-training-plan-d5-warm-up-cat-cow-flow",
+            "engineer-training-plan-d5-warm-up-band-shoulder-dislocates",
+            "engineer-training-plan-d5-warm-up-band-external-rotations",
             "engineer-training-plan-d5-turkish-get-up",
             "engineer-training-plan-d5-barbell-deadlift",
             "engineer-training-plan-d5-landmine-press-single-arm",
@@ -576,6 +602,48 @@
           "equipment": "Resistance band",
           "description": "Activates rear delts/rhomboids to set scapula.",
           "safetyNotes": ""
+        },
+        {
+          "id": "engineer-training-plan-d2-warm-up-band-shoulder-dislocates",
+          "programId": "engineer-training-plan",
+          "name": "Warm-up: Band Shoulder Dislocates",
+          "sets": 2,
+          "reps": "10-12",
+          "restTime": "",
+          "videoUrl": "https://www.youtube.com/watch?v=glbMneDm6Q4",
+          "day": 2,
+          "section": "activation",
+          "equipment": "Resistance band",
+          "description": "Wide grip; pass the band overhead and behind in one smooth arc. Opens the shoulders through full range before any pressing.",
+          "safetyNotes": "Widen the grip if it pinches — never force the pass-over."
+        },
+        {
+          "id": "engineer-training-plan-d2-warm-up-band-external-rotations",
+          "programId": "engineer-training-plan",
+          "name": "Warm-up: Band External Rotations",
+          "sets": 2,
+          "reps": "15/side",
+          "restTime": "",
+          "videoUrl": "https://www.youtube.com/watch?v=dS9ORQCnWsE",
+          "day": 2,
+          "section": "activation",
+          "equipment": "Resistance band",
+          "description": "Rotator cuff activation: elbow pinned to the side at 90 degrees; rotate the hand out slowly and control the return.",
+          "safetyNotes": ""
+        },
+        {
+          "id": "engineer-training-plan-d2-warm-up-cuff-isometric-hold-cable",
+          "programId": "engineer-training-plan",
+          "name": "Warm-up: Cuff Isometric Hold (Cable)",
+          "sets": 2,
+          "reps": "20s/side",
+          "restTime": "30s",
+          "videoUrl": "https://www.youtube.com/watch?v=fwiE-IpoPq4",
+          "day": 2,
+          "section": "activation",
+          "equipment": "Cable (low pulley) + D-handle",
+          "description": "Isometric external-rotation hold at 90/90 against light cable tension. Builds cuff tendon resilience and primes shoulder stability under load.",
+          "safetyNotes": "Light weight — a steady hold with no shaking."
         },
         {
           "id": "engineer-training-plan-d2-warm-up-thoracic-extensions-bench",
@@ -1118,6 +1186,34 @@
           "description": "Spinal lubrication.",
           "safetyNotes": "",
           "durationSeconds": 60
+        },
+        {
+          "id": "engineer-training-plan-d5-warm-up-band-shoulder-dislocates",
+          "programId": "engineer-training-plan",
+          "name": "Warm-up: Band Shoulder Dislocates",
+          "sets": 2,
+          "reps": "10-12",
+          "restTime": "",
+          "videoUrl": "https://www.youtube.com/watch?v=glbMneDm6Q4",
+          "day": 5,
+          "section": "activation",
+          "equipment": "Resistance band",
+          "description": "Wide grip; pass the band overhead and behind in one smooth arc. Prepares the shoulders for the get-ups and landmine pressing.",
+          "safetyNotes": "Widen the grip if it pinches — never force the pass-over."
+        },
+        {
+          "id": "engineer-training-plan-d5-warm-up-band-external-rotations",
+          "programId": "engineer-training-plan",
+          "name": "Warm-up: Band External Rotations",
+          "sets": 2,
+          "reps": "15/side",
+          "restTime": "",
+          "videoUrl": "https://www.youtube.com/watch?v=dS9ORQCnWsE",
+          "day": 5,
+          "section": "activation",
+          "equipment": "Resistance band",
+          "description": "Rotator cuff activation before overhead work: elbow pinned to the side at 90 degrees; rotate out slowly.",
+          "safetyNotes": ""
         },
         {
           "id": "engineer-training-plan-d5-turkish-get-up",
