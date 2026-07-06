@@ -75,7 +75,7 @@
               "restBetweenRounds": "90s",
               "exerciseIds": [
                 "engineer-training-plan-d1-pallof-press",
-                "engineer-training-plan-d1-side-plank",
+                "engineer-training-plan-d1-side-plank-top-leg-raise",
                 "engineer-training-plan-d1-kettlebell-swings"
               ]
             }
@@ -91,7 +91,7 @@
             "engineer-training-plan-d1-seated-calf-raise",
             "engineer-training-plan-d1-glute-medius-kickback-cable",
             "engineer-training-plan-d1-pallof-press",
-            "engineer-training-plan-d1-side-plank",
+            "engineer-training-plan-d1-side-plank-top-leg-raise",
             "engineer-training-plan-d1-kettlebell-swings"
           ]
         },
@@ -223,7 +223,7 @@
               "rounds": 3,
               "restBetweenRounds": "90s",
               "exerciseIds": [
-                "engineer-training-plan-d3-front-plank",
+                "engineer-training-plan-d3-copenhagen-plank-sliding-bench",
                 "engineer-training-plan-d3-cable-woodchoppers",
                 "engineer-training-plan-d3-mountain-climbers"
               ]
@@ -239,7 +239,7 @@
             "engineer-training-plan-d3-sissy-squats-bodyweight-or-weighted",
             "engineer-training-plan-d3-cable-hip-adduction",
             "engineer-training-plan-d3-standing-calf-raises",
-            "engineer-training-plan-d3-front-plank",
+            "engineer-training-plan-d3-copenhagen-plank-sliding-bench",
             "engineer-training-plan-d3-cable-woodchoppers",
             "engineer-training-plan-d3-mountain-climbers"
           ]
@@ -300,7 +300,7 @@
               "restBetweenRounds": "90s",
               "exerciseIds": [
                 "engineer-training-plan-d4-side-plank",
-                "engineer-training-plan-d4-russian-twist",
+                "engineer-training-plan-d4-bird-dog",
                 "engineer-training-plan-d4-kettlebell-swing"
               ]
             }
@@ -317,7 +317,7 @@
             "engineer-training-plan-d4-bayesian-cable-curl",
             "engineer-training-plan-d4-rope-hammer-curls-cable",
             "engineer-training-plan-d4-side-plank",
-            "engineer-training-plan-d4-russian-twist",
+            "engineer-training-plan-d4-bird-dog",
             "engineer-training-plan-d4-kettlebell-swing"
           ]
         },
@@ -532,17 +532,17 @@
           "durationSeconds": 40
         },
         {
-          "id": "engineer-training-plan-d1-side-plank",
+          "id": "engineer-training-plan-d1-side-plank-top-leg-raise",
           "programId": "engineer-training-plan",
-          "name": "Side Plank",
+          "name": "Side Plank + Top-Leg Raise",
           "sets": 3,
           "reps": "40s",
           "restTime": "20s",
-          "videoUrl": "https://www.youtube.com/watch?v=BFOyHDlY2UE",
+          "videoUrl": "https://www.youtube.com/watch?v=SHtaNOS6TTo",
           "day": 1,
           "section": "core",
           "equipment": "Bodyweight",
-          "description": "Anti-lateral-flexion: stack hips in a straight line head to heel.",
+          "description": "Anti-lateral-flexion plus glute medius: hold the plank stacked head to heel and slowly raise-lower the top leg.",
           "safetyNotes": "Alternate sides each round.",
           "durationSeconds": 40
         },
@@ -873,18 +873,18 @@
           "safetyNotes": ""
         },
         {
-          "id": "engineer-training-plan-d3-front-plank",
+          "id": "engineer-training-plan-d3-copenhagen-plank-sliding-bench",
           "programId": "engineer-training-plan",
-          "name": "Front Plank",
+          "name": "Copenhagen Plank (Sliding Bench)",
           "sets": 3,
           "reps": "40s",
           "restTime": "20s",
-          "videoUrl": "https://www.youtube.com/watch?v=v25dawSzRTM",
+          "videoUrl": "https://www.youtube.com/watch?v=5Hs7AfiMXgs",
           "day": 3,
           "section": "core",
-          "equipment": "Bodyweight",
-          "description": "Anti-extension: squeeze glutes; ribs down; neutral neck.",
-          "safetyNotes": "",
+          "equipment": "Sliding Bench + bodyweight",
+          "description": "Side plank with the top leg on the bench — loads the adductors/groin under core tension; proven to cut groin problems by ~41% in athletes.",
+          "safetyNotes": "Start short-lever (knee on the bench); alternate sides each round; stop if sharp groin pain.",
           "durationSeconds": 40
         },
         {
@@ -1073,18 +1073,18 @@
           "durationSeconds": 40
         },
         {
-          "id": "engineer-training-plan-d4-russian-twist",
+          "id": "engineer-training-plan-d4-bird-dog",
           "programId": "engineer-training-plan",
-          "name": "Russian Twist",
+          "name": "Bird Dog",
           "sets": 3,
           "reps": "40s",
           "restTime": "20s",
-          "videoUrl": "https://www.youtube.com/watch?v=-BzNffL_6YE",
+          "videoUrl": "https://www.youtube.com/watch?v=Xj1z9NqwuM8",
           "day": 4,
           "section": "core",
-          "equipment": "Plate 5-10 kg",
-          "description": "Rotation: rotate from the ribcage; keep the chest tall.",
-          "safetyNotes": "",
+          "equipment": "Bodyweight",
+          "description": "Anti-rotation: extend opposite arm/leg slowly with hips level and ribs down. Builds the deep spinal stabilizers (multifidus).",
+          "safetyNotes": "Reach long not high — no arching the lower back.",
           "durationSeconds": 40
         },
         {
